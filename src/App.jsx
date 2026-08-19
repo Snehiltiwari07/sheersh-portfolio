@@ -31,6 +31,7 @@ function AppShell() {
           <Hero onOpenHireDrawer={() => setDrawerOpen(true)} />
           <ServicesValueProp />
           <TechStack />
+          <ChatEngine />
           <ArchitectureDiagram />
           <Achievements />
           <SkillOrbit />
@@ -38,7 +39,6 @@ function AppShell() {
           <Playground />
           <ProjectStats />
           <Reviews />
-          <ChatEngine />
           <Footer onOpenHireDrawer={() => setDrawerOpen(true)} />
         </div>
 

@@ -155,41 +155,6 @@ export const techCategories = [
   }
 ];
 
-export const chatChipSuggestions = [
-  "What's your hourly rate?",
-  'Tell me about the 15-min → 6-sec optimization',
-  'What awards have you won?',
-  "What's your tech stack?",
-  'Are you available for US clients?',
-];
-
-export const chatIntents = [
-  {
-    key: 'hire',
-    keywords: ['hire', 'rate', 'rates', 'price', 'pricing', 'cost', 'budget', 'freelance', 'available', 'availability', 'contract', 'retainer', 'hourly', 'consulting'],
-    response: "I'm available 15–20 hrs/week with live US night-shift overlap or IST hours. Rates: $20–25/hr, or fixed retainer options. Expertise covers Java/Python backends, SQL performance rescue, and React frontend builds.",
-    cta: true,
-  },
-  {
-    key: 'sql',
-    keywords: ['sql', 'query', 'queries', 'optimiz', 'database', 'index', 'indexing', '15 min', '6 sec', 'execution plan', 'performance', 'slow'],
-    response: "Cross-module search across 200M+ records was cut from 15 minutes to 6 seconds using composite indexing, execution plan analysis, and Stored Procedure optimizations — achieving ~92% CPU load reduction.",
-    cta: false,
-  },
-  {
-    key: 'career',
-    keywords: ['award', 'awards', 'honor', 'beacon', 'employee of the year', 'cloudlims', 'experience'],
-    response: "4+ years as Full Stack Developer at CloudLIMS. Won 'The Beacon — Employee of the Year 2024' for critical database optimizations, QuickBooks API integration, and system downtime reduction.",
-    cta: false,
-  },
-  {
-    key: 'stack',
-    keywords: ['stack', 'skill', 'skills', 'tech', 'technology', 'aws', 'docker', 'kafka', 'spring', 'react', 'python', 'java'],
-    response: "Java, Spring Boot, Python, React, Tailwind CSS, PostgreSQL, MySQL, AWS, Docker, Kafka, REST APIs, and SQL tuning.",
-    cta: false,
-  },
-];
-
 export const keyAchievements = [
   {
     id: "amex-resy-integration",
@@ -346,24 +311,11 @@ export const architectureNodes = [
   }
 ];
 
-export function classifyQuery(text) {
-  const t = text.toLowerCase();
-  let best = null;
-  let bestScore = 0;
-  chatIntents.forEach((intent) => {
-    let score = 0;
-    intent.keywords.forEach((kw) => {
-      if (t.includes(kw)) score += kw.length;
-    });
-    if (score > bestScore) {
-      bestScore = score;
-      best = intent;
-    }
-  });
-  return best;
-}
-
-export const fallbackResponse = {
-  text: "Sheersh is a Full-Stack Developer (Spring Boot, Python, React, AWS, SQL Optimization) with 4+ years experience. Feel free to send a direct message or open the freelance inquiry drawer!",
-  cta: true,
-};
+export const chatChipSuggestions = [
+  "Hi! Who are you?",
+  "What's your hourly rate?",
+  "Tell me about your 200M+ SQL optimization",
+  "Are you available for US timezones?",
+  "What integrations have you built?",
+  "What is your full tech stack?"
+];
