@@ -29,8 +29,8 @@ function AppShell() {
         <div className="relative z-10">
           <Navbar />
           <Hero onOpenHireDrawer={() => setDrawerOpen(true)} />
-          <ServicesValueProp />
           <TechStack />
+          <ServicesValueProp />
           <ChatEngine />
           <ArchitectureDiagram />
           <Achievements />

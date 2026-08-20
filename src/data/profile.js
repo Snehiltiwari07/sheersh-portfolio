@@ -113,44 +113,60 @@ export const clientReviews = [
     year: '2022'
   }
 ];
-
 export const techCategories = [
   {
-    title: "Backend & Microservices",
+    title: "Backend & Systems Architecture",
     techs: [
-      { name: "Java", level: "Expert", icon: "https://cdn.jsdelivr.net/gh/devicons/devicon/icons/java/java-original.svg" },
-      { name: "Spring Boot", level: "Expert", icon: "https://cdn.jsdelivr.net/gh/devicons/devicon/icons/spring/spring-original.svg" },
-      { name: "Python", level: "Advanced", icon: "https://cdn.jsdelivr.net/gh/devicons/devicon/icons/python/python-original.svg" },
-      { name: "Node.js", level: "Advanced", icon: "https://cdn.jsdelivr.net/gh/devicons/devicon/icons/nodejs/nodejs-original.svg" },
-      { name: "REST APIs", level: "Expert", icon: "https://cdn.jsdelivr.net/gh/devicons/devicon/icons/fastapi/fastapi-original.svg" },
+      { name: "Java (Spring Boot)", level: "Advanced", icon: "https://cdn.jsdelivr.net/gh/devicons/devicon/icons/java/java-original.svg" },
+      { name: "Python (FastAPI/ETL)", level: "Advanced", icon: "https://cdn.jsdelivr.net/gh/devicons/devicon/icons/python/python-original.svg" },
+      { name: "Microservices", level: "Expert", icon: "https://cdn.jsdelivr.net/gh/devicons/devicon/icons/spring/spring-original.svg" },
+      { name: "REST & GraphQL APIs", level: "Advanced", icon: "https://cdn.jsdelivr.net/gh/devicons/devicon/icons/graphql/graphql-plain.svg" },
+      { name: "Apache Kafka", level: "Proficient", icon: "https://cdn.jsdelivr.net/gh/devicons/devicon/icons/apachekafka/apachekafka-original.svg" },
+      { name: "Redis Caching", level: "Proficient", icon: "https://cdn.jsdelivr.net/gh/devicons/devicon/icons/redis/redis-original.svg" }
     ]
   },
   {
-    title: "Databases & Performance Tuning",
+    title: "AI, LLMs & Intelligent Automation",
     techs: [
-      { name: "PostgreSQL", level: "Specialist", icon: "https://cdn.jsdelivr.net/gh/devicons/devicon/icons/postgresql/postgresql-original.svg" },
-      { name: "MySQL", level: "Expert", icon: "https://cdn.jsdelivr.net/gh/devicons/devicon/icons/mysql/mysql-original.svg" },
-      { name: "Oracle SQL", level: "Advanced", icon: "https://cdn.jsdelivr.net/gh/devicons/devicon/icons/oracle/oracle-original.svg" },
-      { name: "SQL Indexing", level: "Specialist", icon: "https://cdn.jsdelivr.net/gh/devicons/devicon/icons/sqldeveloper/sqldeveloper-original.svg" },
-      { name: "Kafka", level: "Intermediate", icon: "https://cdn.jsdelivr.net/gh/devicons/devicon/icons/apachekafka/apachekafka-original.svg" },
+      { name: "Prompt Engineering", level: "Advanced", icon: "https://api.dicebear.com/7.x/bottts/svg?seed=PromptEng&backgroundColor=0f172a" },
+      { name: "Ollama Local LLMs", level: "Advanced", icon: "https://api.dicebear.com/7.x/bottts/svg?seed=Ollama&backgroundColor=0f172a" },
+      { name: "Groq LPU API Integration", level: "Expert", icon: "https://api.dicebear.com/7.x/bottts/svg?seed=GroqLPU&backgroundColor=0f172a" },
+      { name: "OpenAI & GPT-OSS", level: "Advanced", icon: "https://api.dicebear.com/7.x/bottts/svg?seed=OpenAI&backgroundColor=0f172a" },
+      { name: "RAG & Vector Search", level: "Proficient", icon: "https://api.dicebear.com/7.x/bottts/svg?seed=RAGVector&backgroundColor=0f172a" },
+      { name: "AI Agent Workflows", level: "Advanced", icon: "https://api.dicebear.com/7.x/bottts/svg?seed=AIAgents&backgroundColor=0f172a" }
     ]
   },
   {
-    title: "Frontend & UI Systems",
+    title: "Database Architecture & Optimization",
     techs: [
-      { name: "React", level: "Expert", icon: "https://cdn.jsdelivr.net/gh/devicons/devicon/icons/react/react-original.svg" },
-      { name: "JavaScript", level: "Expert", icon: "https://cdn.jsdelivr.net/gh/devicons/devicon/icons/javascript/javascript-original.svg" },
+      { name: "PostgreSQL", level: "Advanced", icon: "https://cdn.jsdelivr.net/gh/devicons/devicon/icons/postgresql/postgresql-original.svg" },
+      { name: "MySQL", level: "Advanced", icon: "https://cdn.jsdelivr.net/gh/devicons/devicon/icons/mysql/mysql-original.svg" },
+      { name: "200M+ SQL Tuning", level: "Expert", icon: "https://cdn.jsdelivr.net/gh/devicons/devicon/icons/sqldeveloper/sqldeveloper-original.svg" },
+      { name: "Indexing & Query Stored Procedures", level: "Expert", icon: "https://cdn.jsdelivr.net/gh/devicons/devicon/icons/oracle/oracle-original.svg" },
+      { name: "MongoDB", level: "Proficient", icon: "https://cdn.jsdelivr.net/gh/devicons/devicon/icons/mongodb/mongodb-original.svg" },
+      { name: "ETL & Pipeline Sync", level: "Advanced", icon: "https://cdn.jsdelivr.net/gh/devicons/devicon/icons/pandas/pandas-original.svg" }
+    ]
+  },
+  {
+    title: "Frontend & Mobile UX",
+    techs: [
+      { name: "React.js", level: "Advanced", icon: "https://cdn.jsdelivr.net/gh/devicons/devicon/icons/react/react-original.svg" },
+      { name: "JavaScript (ES6+)", level: "Advanced", icon: "https://cdn.jsdelivr.net/gh/devicons/devicon/icons/javascript/javascript-original.svg" },
       { name: "Tailwind CSS", level: "Advanced", icon: "https://cdn.jsdelivr.net/gh/devicons/devicon/icons/tailwindcss/tailwindcss-original.svg" },
-      { name: "HTML5 / CSS3", level: "Expert", icon: "https://cdn.jsdelivr.net/gh/devicons/devicon/icons/html5/html5-original.svg" },
+      { name: "HTML5 Canvas Arcade", level: "Proficient", icon: "https://cdn.jsdelivr.net/gh/devicons/devicon/icons/html5/html5-original.svg" },
+      { name: "Vite & Build Tools", level: "Advanced", icon: "https://cdn.jsdelivr.net/gh/devicons/devicon/icons/vitejs/vitejs-original.svg" },
+      { name: "Framer Motion", level: "Advanced", icon: "https://cdn.jsdelivr.net/gh/devicons/devicon/icons/framermotion/framermotion-original.svg" }
     ]
   },
   {
-    title: "Cloud & DevOps Ecosystem",
+    title: "Cloud Infrastructure & DevOps",
     techs: [
-      { name: "AWS", level: "Advanced", icon: "https://cdn.jsdelivr.net/gh/devicons/devicon/icons/amazonwebservices/amazonwebservices-original-wordmark.svg" },
-      { name: "Docker", level: "Advanced", icon: "https://cdn.jsdelivr.net/gh/devicons/devicon/icons/docker/docker-original.svg" },
-      { name: "Git & GitHub", level: "Expert", icon: "https://cdn.jsdelivr.net/gh/devicons/devicon/icons/git/git-original.svg" },
-      { name: "Jenkins", level: "Intermediate", icon: "https://cdn.jsdelivr.net/gh/devicons/devicon/icons/jenkins/jenkins-original.svg" },
+      { name: "AWS (EC2/RDS/S3)", level: "Advanced", icon: "https://cdn.jsdelivr.net/gh/devicons/devicon/icons/amazonwebservices/amazonwebservices-original-wordmark.svg" },
+      { name: "Docker Containerization", level: "Proficient", icon: "https://cdn.jsdelivr.net/gh/devicons/devicon/icons/docker/docker-original.svg" },
+      { name: "Git & GitHub CI/CD", level: "Advanced", icon: "https://cdn.jsdelivr.net/gh/devicons/devicon/icons/github/github-original.svg" },
+      { name: "Linux & Shell Scripting", level: "Advanced", icon: "https://cdn.jsdelivr.net/gh/devicons/devicon/icons/linux/linux-original.svg" },
+      { name: "Postman & API Testing", level: "Advanced", icon: "https://cdn.jsdelivr.net/gh/devicons/devicon/icons/postman/postman-original.svg" },
+      { name: "Vercel Deployment", level: "Advanced", icon: "https://cdn.jsdelivr.net/gh/devicons/devicon/icons/vercel/vercel-original.svg" }
     ]
   }
 ];
@@ -318,4 +334,79 @@ export const chatChipSuggestions = [
   "Are you available for US timezones?",
   "What integrations have you built?",
   "What is your full tech stack?"
+];
+
+export const careerRoadmap = [
+  {
+    era: "2024 – 2026",
+    title: "AI Systems, Agentic Workflows & LLM Engineering",
+    role: "Full-Stack & AI Systems Specialist",
+    highlight: "Groq LPU & Local Ollama Infrastructure",
+    paragraphs: [
+      "Pivoted into applied AI engineering by integrating sub-second LLM inference into production web apps. Mastered building low-latency AI assistants powered by Groq LPU hardware and local privacy-first Ollama models.",
+      "Engineered Retrieval-Augmented Generation (RAG) pipelines, context-aware prompt templates, and custom agent workflows capable of off-topic redirects and structured JSON tool calls."
+    ],
+    techs: [
+      { name: "Groq LPU Engine", level: "Expert", icon: "https://api.dicebear.com/7.x/bottts/svg?seed=GroqLPU" },
+      { name: "Ollama Local LLMs", level: "Advanced", icon: "https://api.dicebear.com/7.x/bottts/svg?seed=Ollama" },
+      { name: "Prompt Engineering", level: "Expert", icon: "https://api.dicebear.com/7.x/bottts/svg?seed=Prompts" },
+      { name: "OpenAI & GPT-OSS", level: "Advanced", icon: "https://api.dicebear.com/7.x/bottts/svg?seed=OpenAI" },
+      { name: "RAG & Vector Search", level: "Proficient", icon: "https://api.dicebear.com/7.x/bottts/svg?seed=Vector" },
+      { name: "AI Agent Workflows", level: "Advanced", icon: "https://api.dicebear.com/7.x/bottts/svg?seed=Agents" }
+    ]
+  },
+  {
+    era: "2022 – 2024",
+    title: "SQL Query Optimization & High-Scale Systems",
+    role: "Senior Backend & Database Engineer",
+    highlight: "Reduced 200M+ SQL Record Latency from 15m to 6s",
+    paragraphs: [
+      "Focused heavily on database refactoring, SQL query tuning, and distributed backend scaling. Redesigned legacy execution plans across a 200M+ record dataset, slashing execution times from 15 minutes to 6 seconds and lowering CPU load by 92%.",
+      "Recognized with 'The Beacon — Employee of the Year 2024' executive award at CloudLIMS for high-impact backend optimizations, automated Python ETL pipelines, and AWS RDS database maintenance."
+    ],
+    techs: [
+      { name: "200M+ SQL Tuning", level: "Expert", icon: "https://cdn.jsdelivr.net/gh/devicons/devicon/icons/mysql/mysql-original.svg" },
+      { name: "Python (FastAPI/ETL)", level: "Advanced", icon: "https://cdn.jsdelivr.net/gh/devicons/devicon/icons/python/python-original.svg" },
+      { name: "AWS (EC2/RDS/S3)", level: "Advanced", icon: "https://cdn.jsdelivr.net/gh/devicons/devicon/icons/amazonwebservices/amazonwebservices-original-wordmark.svg" },
+      { name: "Apache Kafka", level: "Proficient", icon: "https://cdn.jsdelivr.net/gh/devicons/devicon/icons/apachekafka/apachekafka-original.svg" },
+      { name: "Docker Containers", level: "Advanced", icon: "https://cdn.jsdelivr.net/gh/devicons/devicon/icons/docker/docker-original.svg" },
+      { name: "Redis Caching", level: "Proficient", icon: "https://cdn.jsdelivr.net/gh/devicons/devicon/icons/redis/redis-original.svg" }
+    ]
+  },
+  {
+    era: "2020 – 2022",
+    title: "Full-Stack Microservices & Integration APIs",
+    role: "Full-Stack Engineer",
+    highlight: "Spring Boot Microservices & Real-Time Sync",
+    paragraphs: [
+      "Built resilient enterprise backend microservices using Java Spring Boot paired with dynamic React frontends. Designed RESTful and GraphQL APIs designed to process high-throughput transaction loads reliably.",
+      "Engineered real-time third-party integrations, syncing reservation and financial data between systems like Amex/Resy VIP bookings, Google Sheets pipelines, and QuickBooks."
+    ],
+    techs: [
+      { name: "Java (Spring Boot)", level: "Expert", icon: "https://cdn.jsdelivr.net/gh/devicons/devicon/icons/spring/spring-original.svg" },
+      { name: "React.js", level: "Advanced", icon: "https://cdn.jsdelivr.net/gh/devicons/devicon/icons/react/react-original.svg" },
+      { name: "PostgreSQL", level: "Advanced", icon: "https://cdn.jsdelivr.net/gh/devicons/devicon/icons/postgresql/postgresql-original.svg" },
+      { name: "REST & GraphQL APIs", level: "Advanced", icon: "https://cdn.jsdelivr.net/gh/devicons/devicon/icons/graphql/graphql-plain.svg" },
+      { name: "Tailwind CSS", level: "Advanced", icon: "https://cdn.jsdelivr.net/gh/devicons/devicon/icons/tailwindcss/tailwindcss-original.svg" },
+      { name: "Git & GitHub CI/CD", level: "Advanced", icon: "https://cdn.jsdelivr.net/gh/devicons/devicon/icons/git/git-original.svg" }
+    ]
+  },
+  {
+    era: "2018 – 2020",
+    title: "Software Engineering Core & Algorithmic Logic",
+    role: "Computer Science Foundations",
+    highlight: "Data Structures, OOP & Schema Design",
+    paragraphs: [
+      "Established core software engineering principles, diving deep into Object-Oriented Programming (OOP), Data Structures & Algorithms (DSA), and relational database modeling.",
+      "Developed command-line tools, relational SQL schemas, and native JavaScript interfaces, forming the technical foundation for scalable full-stack system architecture."
+    ],
+    techs: [
+      { name: "Core Java", level: "Expert", icon: "https://cdn.jsdelivr.net/gh/devicons/devicon/icons/java/java-original.svg" },
+      { name: "Relational SQL", level: "Advanced", icon: "https://cdn.jsdelivr.net/gh/devicons/devicon/icons/sqldeveloper/sqldeveloper-original.svg" },
+      { name: "DSA & OOP Principles", level: "Expert", icon: "https://cdn.jsdelivr.net/gh/devicons/devicon/icons/cplusplus/cplusplus-original.svg" },
+      { name: "JavaScript ES6+", level: "Advanced", icon: "https://cdn.jsdelivr.net/gh/devicons/devicon/icons/javascript/javascript-original.svg" },
+      { name: "HTML5 & CSS3", level: "Advanced", icon: "https://cdn.jsdelivr.net/gh/devicons/devicon/icons/html5/html5-original.svg" },
+      { name: "Linux & Terminal", level: "Proficient", icon: "https://cdn.jsdelivr.net/gh/devicons/devicon/icons/linux/linux-original.svg" }
+    ]
+  }
 ];
