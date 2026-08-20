@@ -1,58 +1,51 @@
 import { useState } from 'react';
-import { ThemeProvider } from './context/ThemeContext';
-import SecurityGuard from './components/SecurityGuard';
-import InteractiveField from './components/InteractiveField';
-import CustomCursor from './components/CustomCursor';
 import Navbar from './components/Navbar';
 import Hero from './components/Hero';
-import ServicesValueProp from './components/ServicesValueProp';
 import TechStack from './components/TechStack';
-import ArchitectureDiagram from './components/ArchitectureDiagram';
-import Achievements from './components/Achievements';
 import SkillOrbit from './components/SkillOrbit';
-import BeyondTheCode from './components/BeyondTheCode';
+import LocalLLMRunner from './components/LocalLLMRunner';
 import Playground from './components/Playground';
-import ProjectStats from './components/ProjectStats';
 import Reviews from './components/Reviews';
 import ChatEngine from './components/ChatEngine';
-import Footer from './components/Footer';
 import HireDrawer, { FloatingHireButton } from './components/HireDrawer';
 
-function AppShell() {
-  const [drawerOpen, setDrawerOpen] = useState(false);
-
-  return (
-    <SecurityGuard>
-      <div className="relative min-h-screen text-ink">
-        <CustomCursor />
-        <InteractiveField />
-        <div className="relative z-10">
-          <Navbar />
-          <Hero onOpenHireDrawer={() => setDrawerOpen(true)} />
-          <TechStack />
-          <ServicesValueProp />
-          <ChatEngine />
-          <ArchitectureDiagram />
-          <Achievements />
-          <SkillOrbit />
-          <BeyondTheCode />
-          <Playground />
-          <ProjectStats />
-          <Reviews />
-          <Footer onOpenHireDrawer={() => setDrawerOpen(true)} />
-        </div>
-
-        <FloatingHireButton onClick={() => setDrawerOpen(true)} />
-        <HireDrawer open={drawerOpen} onClose={() => setDrawerOpen(false)} />
-      </div>
-    </SecurityGuard>
-  );
-}
-
 export default function App() {
+  const [isHireDrawerOpen, setIsHireDrawerOpen] = useState(false);
+
   return (
-    <ThemeProvider>
-      <AppShell />
-    </ThemeProvider>
+    <div className="min-h-screen bg-slate-950 text-slate-100 selection:bg-orange-500 selection:text-white">
+      {/* Top Fixed Navigation Bar */}
+      <Navbar onOpenHireDrawer={() => setIsHireDrawerOpen(true)} />
+
+      <main className="space-y-12">
+        {/* Hero Section */}
+        <Hero onOpenHireDrawer={() => setIsHireDrawerOpen(true)} />
+
+        {/* Tech Stack Timeline & Skill Matrix */}
+        <TechStack />
+        <SkillOrbit />
+
+        {/* Client-Side WebGPU AI Showcase */}
+        <LocalLLMRunner />
+
+        {/* Interactive Game Playground */}
+        <Playground />
+
+        {/* Client Recommendations */}
+        <Reviews />
+      </main>
+
+      {/* Floating "Ask ST" AI Chat Assistant */}
+      <ChatEngine />
+
+      {/* Floating Project Cost Estimator Button */}
+      <FloatingHireButton onClick={() => setIsHireDrawerOpen(true)} />
+
+      {/* Interactive Scope & Cost Estimator Drawer */}
+      <HireDrawer
+        open={isHireDrawerOpen}
+        onClose={() => setIsHireDrawerOpen(false)}
+      />
+    </div>
   );
 }
