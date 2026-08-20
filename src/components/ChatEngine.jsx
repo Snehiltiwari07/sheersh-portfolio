@@ -3,7 +3,6 @@ import { AnimatePresence, motion } from 'framer-motion';
 import { profile } from '../data/profile';
 
 const BOT_NAME = "Ask ST";
-// High-res custom developer AI avatar
 const BOT_AVATAR = "https://api.dicebear.com/7.x/bottts/svg?seed=SheershST&backgroundColor=0f172a";
 const USER_AVATAR = "https://api.dicebear.com/7.x/avataaars/svg?seed=UserGuest&backgroundColor=334155";
 
@@ -192,7 +191,7 @@ export default function ChatEngine() {
   return (
     <>
       {/* FLOATING LAUNCHER BUTTON */}
-      <div className="fixed bottom-24 right-6 z-50 flex items-center gap-3">
+      <div className="fixed bottom-6 right-6 z-50 flex items-center gap-3">
         {!isOpen && (
           <motion.div
             initial={{ opacity: 0, x: 10 }}
@@ -226,7 +225,7 @@ export default function ChatEngine() {
         </motion.button>
       </div>
 
-      {/* FLOATING CHAT POPUP / EXPANDED DRAWER */}
+      {/* VIEWPORT-SAFE FLOATING POPUP WINDOW */}
       <AnimatePresence>
         {isOpen && (
           <motion.div
@@ -237,7 +236,7 @@ export default function ChatEngine() {
             className={`fixed z-50 flex flex-col bg-slate-950/95 border border-slate-800/90 shadow-2xl backdrop-blur-2xl transition-all duration-300 overflow-hidden ${
               isExpanded
                 ? 'inset-2 sm:inset-6 rounded-3xl'
-                : 'bottom-40 right-4 sm:right-6 w-[calc(100vw-2rem)] sm:w-[420px] h-[540px] rounded-3xl'
+                : 'bottom-22 right-4 sm:right-6 w-[calc(100vw-2rem)] sm:w-[420px] max-h-[calc(100vh-6.5rem)] h-[520px] rounded-3xl'
             }`}
           >
             {/* Header */}
@@ -252,7 +251,7 @@ export default function ChatEngine() {
                   <div className="flex items-center gap-2">
                     <h3 className="font-display font-bold text-slate-100 text-sm tracking-wide">{BOT_NAME}</h3>
                     <span className="px-1.5 py-0.5 rounded bg-orange-500/10 border border-orange-500/30 text-[9px] font-mono text-orange-400">
-                      Build By Sheersh 🇮🇳
+                      Built By Sheersh 🇮🇳
                     </span>
                   </div>
                   <p className="text-slate-400 text-[10px] flex items-center gap-1.5 mt-0.5">
@@ -266,7 +265,6 @@ export default function ChatEngine() {
               </div>
 
               <div className="flex items-center gap-1">
-                {/* Expand Toggle */}
                 <button
                   onClick={() => setIsExpanded(!isExpanded)}
                   className="p-1.5 rounded-lg text-slate-400 hover:text-white hover:bg-slate-800 transition-colors cursor-pointer"
@@ -283,7 +281,6 @@ export default function ChatEngine() {
                   )}
                 </button>
 
-                {/* Close Button */}
                 <button
                   onClick={() => setIsOpen(false)}
                   className="p-1.5 rounded-lg text-slate-400 hover:text-white hover:bg-slate-800 transition-colors cursor-pointer"
@@ -295,10 +292,10 @@ export default function ChatEngine() {
               </div>
             </div>
 
-            {/* Chat Body */}
+            {/* Scrollable Chat Body */}
             <div
               ref={scrollRef}
-              className="flex-1 overflow-y-auto p-4 flex flex-col gap-3.5 scrollbar-thin scrollbar-thumb-slate-800"
+              className="flex-1 overflow-y-auto p-4 flex flex-col gap-3.5 scrollbar-thin scrollbar-thumb-slate-800 min-h-0"
             >
               <AnimatePresence initial={false}>
                 {messages.map((m) => (
@@ -362,7 +359,7 @@ export default function ChatEngine() {
               </AnimatePresence>
             </div>
 
-            {/* Hindi / English Suggestion Chips */}
+            {/* Quick Suggestion Chips */}
             <div className="flex flex-wrap gap-1 px-3 py-2 border-t border-slate-800/80 bg-slate-950/80 shrink-0">
               {DESI_SUGGESTIONS.map((label) => (
                 <button
@@ -394,8 +391,8 @@ export default function ChatEngine() {
               </button>
             </form>
 
-            {/* Custom Portfolio Watermark */}
-            <div className="text-center py-1 bg-slate-950 text-[9px] font-mono text-slate-500 border-t border-slate-900/80">
+            {/* Watermark */}
+            <div className="text-center py-1 bg-slate-950 text-[9px] font-mono text-slate-500 border-t border-slate-900/80 shrink-0">
               Dil Se Engineered by Sheersh Tiwari • Portfolio AI 🇮🇳
             </div>
           </motion.div>

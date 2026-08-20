@@ -8,7 +8,8 @@ import Playground from './components/Playground';
 import Reviews from './components/Reviews';
 import ChatEngine from './components/ChatEngine';
 import HireDrawer, { FloatingHireButton } from './components/HireDrawer';
-import Footer from './components/Footer'; // Import Footer
+import Footer from './components/Footer';
+import BeyondTheCode from './components/BeyondTheCode';
 
 export default function App() {
   const [isHireDrawerOpen, setIsHireDrawerOpen] = useState(false);
@@ -22,6 +23,7 @@ export default function App() {
         <Hero onOpenHireDrawer={() => setIsHireDrawerOpen(true)} />
         <TechStack />
         <SkillOrbit />
+        <BeyondTheCode />
         <LocalLLMRunner />
         <Playground />
         <Reviews />

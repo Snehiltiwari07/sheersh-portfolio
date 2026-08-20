@@ -254,11 +254,25 @@ export default function HireDrawer({ open, onClose }) {
 
 export function FloatingHireButton({ onClick }) {
   return (
-    <button
-      onClick={onClick}
-      className="fixed bottom-6 right-6 z-30 px-5 py-3.5 rounded-full font-mono text-xs font-bold text-white grad-bg shadow-xl flex items-center gap-2 hover:scale-105 transition-all cursor-pointer"
-    >
-      💼 Estimate Project Cost
-    </button>
+    <div className="fixed bottom-6 left-6 z-40">
+      <button
+        onClick={onClick}
+        className="relative group flex items-center gap-2.5 px-4 py-3 rounded-full font-mono text-xs font-bold text-white bg-slate-950/90 border border-violet-500/40 hover:border-violet-400 shadow-2xl backdrop-blur-xl hover:scale-105 active:scale-95 transition-all cursor-pointer overflow-hidden"
+      >
+        {/* Glow Aura */}
+        <span className="absolute -inset-1 rounded-full bg-gradient-to-r from-violet-600 to-orange-500 opacity-30 blur-md group-hover:opacity-70 transition-opacity" />
+
+        {/* Live Indicator */}
+        <span className="relative flex h-2 w-2 shrink-0">
+          <span className="animate-ping absolute inline-flex h-full w-full rounded-full bg-emerald-400 opacity-75" />
+          <span className="relative inline-flex rounded-full h-2 w-2 bg-emerald-400" />
+        </span>
+
+        {/* Text */}
+        <span className="relative z-10 text-slate-100 group-hover:text-violet-300 transition-colors">
+          💼 Estimate Project Cost
+        </span>
+      </button>
+    </div>
   );
 }
