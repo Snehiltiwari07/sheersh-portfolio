@@ -120,3 +120,23 @@ body {
   transform: translate3d(0, 0, 0);
   will-change: transform;
 }
+
+@layer utilities {
+  /* Prevent horizontal bouncing on mobile WebKit */
+  html, body {
+    overflow-x: hidden;
+    touch-action: manipulation;
+    -webkit-tap-highlight-color: transparent;
+  }
+
+  /* Safe Area Inset for notched devices */
+  .pb-safe {
+    padding-bottom: env(safe-area-inset-bottom, 1rem);
+  }
+
+  /* Minimum 44px touch target for mobile accessibility */
+  .touch-target {
+    min-height: 44px;
+    min-width: 44px;
+  }
+}

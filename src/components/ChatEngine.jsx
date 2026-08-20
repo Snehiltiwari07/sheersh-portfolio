@@ -1,18 +1,35 @@
 import { useEffect, useRef, useState } from 'react';
 import { AnimatePresence, motion } from 'framer-motion';
-import { chatChipSuggestions, profile } from '../data/profile';
+import { profile } from '../data/profile';
+
+const BOT_NAME = "Ask ST";
+// High-res custom developer AI avatar
+const BOT_AVATAR = "https://api.dicebear.com/7.x/bottts/svg?seed=SheershST&backgroundColor=0f172a";
+const USER_AVATAR = "https://api.dicebear.com/7.x/avataaars/svg?seed=UserGuest&backgroundColor=334155";
+
+const DESI_SUGGESTIONS = [
+  "Namaste! Sheersh ka tech stack kya hai? 💻",
+  "Freelance hourly rate batao 💸",
+  "200M+ SQL Query speedup kaise kiya? ⚡",
+  "How to book a call with Sheersh? 📅"
+];
 
 const SYSTEM_PROMPT = `
-You are Sheersh Tiwari's personal AI Assistant on his engineering portfolio website.
+You are "Ask ST", the official intelligent virtual assistant custom-engineered by Sheersh Tiwari exclusively for his personal portfolio website.
+
+LANGUAGE & TONE INSTRUCTIONS:
+- You understand English, Hindi, and Hinglish queries seamlessly.
+- Respond in polite, concise Hinglish/English with a warm, friendly Desi touch (e.g., using "Namaste!", "Bilkul!", "Aap").
+- Keep answers professional, crisp, and under 3 sentences.
 
 BEHAVIOR RULES:
-1. OFF-TOPIC QUESTIONS (e.g., Bengal tigers, recipes, general trivia, weather, sports, movies):
-   - ALWAYS answer the user's question accurately in 1 to 2 concise sentences first.
-   - Immediately follow your answer with a blank line and this exact redirect statement:
-     "\n\n*(As Sheersh's professional portfolio assistant, my main focus is on his software engineering, database optimizations, and project availability. How can I help with your technical or hiring needs?)*"
+1. OFF-TOPIC QUESTIONS (general trivia, recipes, tigers, sports, weather, movies):
+   - Answer the question accurately in 1 short sentence first.
+   - Follow immediately with this exact redirect line:
+     "\n\n*(Waise main Sheersh ka virtual assistant hoon! Sheersh ki software engineering, SQL optimization, ya freelance projects ke baare me poochhein?)*"
 
 2. ON-TOPIC QUESTIONS (Sheersh's freelance rates, tech stack, experience, contact details, 200M+ SQL tuning):
-   - Answer directly, professionally, and concisely in 2 to 3 sentences max.
+   - Answer directly and professionally in 2 to 3 sentences max.
 
 SHEERSH'S PROFILE DATA:
 - Role: Full-Stack & SQL Optimization Engineer (4+ years experience)
@@ -21,12 +38,10 @@ SHEERSH'S PROFILE DATA:
 - Core Tech Stack: Java (Spring Boot microservices), Python (FastAPI/ETL), React, JavaScript, Tailwind CSS, PostgreSQL, MySQL, AWS (EC2/RDS/S3), Docker, Apache Kafka
 - Key Win: Reduced search query execution across a 200M+ record SQL dataset from 15 minutes down to 6 seconds (92% CPU load reduction via composite indexing and stored procedure refactoring)
 - Recognition: Winner of "The Beacon — Employee of the Year 2024" executive award at CloudLIMS
-- Integrations: Amex & Resy VIP booking sync, Google Sheets real-time DB data pipelines, QuickBooks financial sync
 - Location: Indore, Madhya Pradesh, India (Available globally for remote work)
 - Contact Info: Email (er.sheershtiwari@gmail.com) | Phone/WhatsApp (+91 7389323262)
 `;
 
-// Active Groq Production Models
 const PRODUCTION_GROQ_MODELS = [
   'openai/gpt-oss-20b',
   'openai/gpt-oss-120b',
@@ -35,8 +50,7 @@ const PRODUCTION_GROQ_MODELS = [
 
 const nextId = () => `msg-${Date.now()}-${Math.random().toString(36).substring(2, 7)}`;
 
-// Official-Style Groq Icon Component
-function GroqLogo({ className = "w-4 h-4" }) {
+function GroqLogo({ className = "w-3.5 h-3.5" }) {
   return (
     <svg className={className} viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
       <rect width="24" height="24" rx="5" fill="#F05223" />
@@ -66,11 +80,13 @@ function TypedText({ text }) {
 }
 
 export default function ChatEngine() {
+  const [isOpen, setIsOpen] = useState(false);
+  const [isExpanded, setIsExpanded] = useState(false);
   const [messages, setMessages] = useState([
     {
       id: nextId(),
       from: 'bot',
-      text: "Hello! 👋 I'm Sheersh's AI Assistant running on ultra-fast Groq LPU inference. Ask me anything about his freelance rates, 200M+ SQL query speedups, tech stack, or project availability!",
+      text: `Namaste! 🙏 Main hoon ${BOT_NAME}, Sheersh Tiwari ka custom AI assistant built with Groq LPU engine.\n\nAap Sheersh ke freelance rates, 200M+ SQL optimizations, tech stack, ya booking ke baare me kuch bhi pooch sakte hain!`,
       cta: false
     },
   ]);
@@ -82,7 +98,18 @@ export default function ChatEngine() {
     if (scrollRef.current) {
       scrollRef.current.scrollTop = scrollRef.current.scrollHeight;
     }
-  }, [messages, loading]);
+  }, [messages, loading, isOpen, isExpanded]);
+
+  useEffect(() => {
+    const handleKeyDown = (e) => {
+      if (e.key === 'Escape') {
+        if (isExpanded) setIsExpanded(false);
+        else if (isOpen) setIsOpen(false);
+      }
+    };
+    window.addEventListener('keydown', handleKeyDown);
+    return () => window.removeEventListener('keydown', handleKeyDown);
+  }, [isOpen, isExpanded]);
 
   const respond = async (userText) => {
     if (!userText || !userText.trim() || loading) return;
@@ -147,7 +174,7 @@ export default function ChatEngine() {
         {
           id: nextId(),
           from: 'bot',
-          text: "Unable to connect to the Groq AI server right now. Please verify VITE_GROQ_API_KEY in your .env file or message Sheersh directly via WhatsApp or Email below!",
+          text: "Aray! Groq AI server connect nahi ho pa raha hai. Aap direct Sheersh se WhatsApp ya Email pe baat kar sakte hain!",
           cta: true
         }
       ]);
@@ -163,130 +190,217 @@ export default function ChatEngine() {
   };
 
   return (
-    <section id="ai-assistant" className="max-w-3xl mx-auto px-4 sm:px-6 py-16 relative">
-      {/* Background Ambient Glow */}
-      <div className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-3/4 h-3/4 bg-orange-600/10 rounded-full blur-[120px] pointer-events-none -z-10" />
-
-      {/* Header Bar */}
-      <div className="text-center space-y-3 mb-6">
-        <div className="inline-flex items-center gap-2 px-3.5 py-1.5 rounded-full bg-slate-900/90 border border-slate-800 text-[11px] font-mono text-slate-200 shadow-lg backdrop-blur-md">
-          <span className="w-2 h-2 rounded-full bg-emerald-400 animate-pulse" />
-          <GroqLogo className="w-4 h-4" />
-          <span>Powered by <strong className="text-orange-400 font-semibold">Groq AI Engine</strong></span>
-        </div>
-
-        <h2 className="font-display font-bold text-2xl sm:text-3xl text-slate-100 tracking-tight">
-          Interactive AI Portfolio Assistant
-        </h2>
-        <p className="text-slate-400 text-xs sm:text-sm max-w-md mx-auto">
-          Lightning-fast answers about Sheersh's freelance rates, 200M+ SQL tuning, tech stack, or booking a call.
-        </p>
-      </div>
-
-      {/* Sleek Dark Chat Window */}
-      <div className="rounded-3xl bg-slate-950/85 border border-slate-800/80 shadow-2xl overflow-hidden p-4 sm:p-6 backdrop-blur-xl relative">
-        
-        {/* Messages Container */}
-        <div
-          ref={scrollRef}
-          className="min-h-[280px] max-h-[400px] overflow-y-auto flex flex-col gap-4 pr-1 scrollbar-thin scrollbar-thumb-slate-800"
-        >
-          <AnimatePresence initial={false}>
-            {messages.map((m) => (
-              <motion.div
-                key={m.id}
-                initial={{ opacity: 0, scale: 0.98, y: 8 }}
-                animate={{ opacity: 1, scale: 1, y: 0 }}
-                transition={{ duration: 0.15 }}
-                className={`flex gap-3 ${m.from === 'user' ? 'justify-end' : 'justify-start'}`}
-              >
-                {m.from === 'bot' && (
-                  <div className="w-8 h-8 rounded-xl flex items-center justify-center shrink-0 font-mono text-xs font-bold text-white bg-slate-800 border border-slate-700 shadow-md">
-                    ST
-                  </div>
-                )}
-
-                <div className="max-w-[85%] sm:max-w-[80%]">
-                  <div
-                    className={
-                      m.from === 'user'
-                        ? 'rounded-2xl rounded-tr-xs px-4 py-3 text-xs sm:text-sm text-white bg-gradient-to-r from-violet-600 to-indigo-600 shadow-md'
-                        : 'rounded-2xl rounded-tl-xs px-4 py-3 text-xs sm:text-sm text-slate-200 bg-slate-900/90 border border-slate-800/90 shadow-inner leading-relaxed'
-                    }
-                  >
-                    {m.from === 'bot' ? <TypedText text={m.text} /> : m.text}
-                  </div>
-
-                  {m.from === 'bot' && m.cta && (
-                    <div className="flex gap-2 mt-2.5 flex-wrap">
-                      <a
-                        href={profile.whatsappUrl}
-                        target="_blank"
-                        rel="noreferrer"
-                        className="px-3.5 py-1.5 rounded-lg text-xs font-mono text-emerald-400 bg-emerald-950/40 border border-emerald-800/60 hover:bg-emerald-900/50 transition-all flex items-center gap-1.5 shadow-sm"
-                      >
-                        💬 WhatsApp Sheersh
-                      </a>
-                      <a
-                        href={`mailto:${profile.email}?subject=Project%20Inquiry`}
-                        className="px-3.5 py-1.5 rounded-lg text-xs font-mono text-cyan-400 bg-cyan-950/40 border border-cyan-800/60 hover:bg-cyan-900/50 transition-all flex items-center gap-1.5 shadow-sm"
-                      >
-                        ✉️ Send Email
-                      </a>
-                    </div>
-                  )}
-                </div>
-              </motion.div>
-            ))}
-
-            {/* Groq LPU Thinking Indicator */}
-            {loading && (
-              <motion.div initial={{ opacity: 0 }} animate={{ opacity: 1 }} className="flex gap-3 items-center">
-                <div className="w-8 h-8 rounded-xl flex items-center justify-center font-mono text-xs font-bold text-white bg-slate-800 border border-slate-700">
-                  ST
-                </div>
-                <div className="rounded-2xl rounded-tl-xs px-4 py-3 text-xs text-slate-400 bg-slate-900/90 border border-slate-800 flex items-center gap-2.5">
-                  <GroqLogo className="w-3.5 h-3.5 animate-spin" />
-                  <span className="font-mono text-[11px] text-slate-300">Groq LPU is generating response...</span>
-                </div>
-              </motion.div>
-            )}
-          </AnimatePresence>
-        </div>
-
-        {/* Quick Chip Suggestions */}
-        <div className="flex flex-wrap gap-1.5 mt-5 pt-3.5 border-t border-slate-800/80">
-          {chatChipSuggestions.map((label) => (
-            <button
-              key={label}
-              type="button"
-              onClick={() => respond(label)}
-              className="px-3 py-1.5 rounded-lg text-xs font-mono text-slate-400 bg-slate-900 border border-slate-800 hover:text-orange-400 hover:border-slate-700 transition-all cursor-pointer active:scale-95 shadow-xs"
-            >
-              {label}
-            </button>
-          ))}
-        </div>
-
-        {/* Input Form */}
-        <form onSubmit={handleSubmit} className="flex gap-2 mt-3.5">
-          <input
-            value={input}
-            onChange={(e) => setInput(e.target.value)}
-            type="text"
-            placeholder="Ask Groq AI anything about Sheersh..."
-            className="flex-1 bg-slate-900/90 rounded-xl px-4 py-3 text-xs sm:text-sm outline-none text-slate-100 placeholder:text-slate-500 border border-slate-800 focus:border-orange-500/50 transition-colors shadow-inner"
-          />
-          <button
-            type="submit"
-            disabled={loading}
-            className="px-5 py-3 rounded-xl font-mono text-xs sm:text-sm font-semibold text-white bg-gradient-to-r from-orange-600 to-amber-600 hover:opacity-90 transition-all cursor-pointer shadow-md disabled:opacity-50 flex items-center gap-1.5"
+    <>
+      {/* FLOATING LAUNCHER BUTTON */}
+      <div className="fixed bottom-24 right-6 z-50 flex items-center gap-3">
+        {!isOpen && (
+          <motion.div
+            initial={{ opacity: 0, x: 10 }}
+            animate={{ opacity: 1, x: 0 }}
+            className="hidden sm:flex items-center gap-2 px-3.5 py-2 rounded-full bg-slate-900/95 border border-slate-700/80 text-slate-100 text-xs font-mono shadow-2xl backdrop-blur-md cursor-pointer hover:border-orange-500/60 transition-all group"
+            onClick={() => setIsOpen(true)}
           >
-            {loading ? 'Thinking...' : 'Send ➔'}
-          </button>
-        </form>
+            <span className="w-2.5 h-2.5 rounded-full bg-emerald-400 animate-pulse" />
+            <span className="group-hover:text-orange-400 transition-colors">Poochho <strong>Ask ST</strong> 🤖</span>
+          </motion.div>
+        )}
 
+        <motion.button
+          whileHover={{ scale: 1.08 }}
+          whileTap={{ scale: 0.92 }}
+          onClick={() => setIsOpen(!isOpen)}
+          className="relative w-14 h-14 rounded-2xl bg-gradient-to-tr from-orange-600 via-amber-500 to-violet-600 p-[2px] shadow-2xl cursor-pointer focus:outline-none"
+        >
+          <div className="w-full h-full bg-slate-950 rounded-[14px] flex items-center justify-center text-white hover:bg-slate-900 transition-colors relative overflow-hidden">
+            {isOpen ? (
+              <svg className="w-6 h-6 text-slate-300" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M6 18L18 6M6 6l12 12" />
+              </svg>
+            ) : (
+              <div className="relative flex items-center justify-center">
+                <img src={BOT_AVATAR} alt="Ask ST AI Avatar" className="w-9 h-9 rounded-lg" />
+                <span className="absolute -top-1 -right-1 w-3 h-3 bg-emerald-400 rounded-full border-2 border-slate-950 animate-pulse" />
+              </div>
+            )}
+          </div>
+        </motion.button>
       </div>
-    </section>
+
+      {/* FLOATING CHAT POPUP / EXPANDED DRAWER */}
+      <AnimatePresence>
+        {isOpen && (
+          <motion.div
+            initial={{ opacity: 0, y: 20, scale: 0.95 }}
+            animate={{ opacity: 1, y: 0, scale: 1 }}
+            exit={{ opacity: 0, y: 20, scale: 0.95 }}
+            transition={{ duration: 0.2 }}
+            className={`fixed z-50 flex flex-col bg-slate-950/95 border border-slate-800/90 shadow-2xl backdrop-blur-2xl transition-all duration-300 overflow-hidden ${
+              isExpanded
+                ? 'inset-2 sm:inset-6 rounded-3xl'
+                : 'bottom-40 right-4 sm:right-6 w-[calc(100vw-2rem)] sm:w-[420px] h-[540px] rounded-3xl'
+            }`}
+          >
+            {/* Header */}
+            <div className="flex items-center justify-between px-4 py-3 border-b border-slate-800/90 bg-gradient-to-r from-slate-900/90 via-slate-900/60 to-slate-950 shrink-0">
+              <div className="flex items-center gap-3">
+                <div className="relative">
+                  <img src={BOT_AVATAR} alt="Ask ST" className="w-10 h-10 rounded-xl bg-slate-900 border border-slate-700 p-0.5 shadow-md" />
+                  <span className="w-2.5 h-2.5 rounded-full bg-emerald-400 border-2 border-slate-950 absolute -bottom-0.5 -right-0.5 animate-pulse" />
+                </div>
+
+                <div>
+                  <div className="flex items-center gap-2">
+                    <h3 className="font-display font-bold text-slate-100 text-sm tracking-wide">{BOT_NAME}</h3>
+                    <span className="px-1.5 py-0.5 rounded bg-orange-500/10 border border-orange-500/30 text-[9px] font-mono text-orange-400">
+                      Build By Sheersh 🇮🇳
+                    </span>
+                  </div>
+                  <p className="text-slate-400 text-[10px] flex items-center gap-1.5 mt-0.5">
+                    <span>Virtual AI Assistant</span>
+                    <span>•</span>
+                    <span className="inline-flex items-center gap-1 text-slate-300">
+                      <GroqLogo /> Groq LPU
+                    </span>
+                  </p>
+                </div>
+              </div>
+
+              <div className="flex items-center gap-1">
+                {/* Expand Toggle */}
+                <button
+                  onClick={() => setIsExpanded(!isExpanded)}
+                  className="p-1.5 rounded-lg text-slate-400 hover:text-white hover:bg-slate-800 transition-colors cursor-pointer"
+                  title={isExpanded ? "Minimize view" : "Fullscreen view"}
+                >
+                  {isExpanded ? (
+                    <svg className="w-4 h-4" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                      <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M9 15L4 20m0 0h4m-4 0v-4m11 4l5-5m-5 5v-4m0 4h4M9 9L4 4m0 0h4m-4 0v4m11-4l5 5m-5-5v4m0-4h4" />
+                    </svg>
+                  ) : (
+                    <svg className="w-4 h-4" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                      <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M4 8V4m0 0h4M4 4l5 5m11-1V4m0 0h-4m4 0l-5 5M4 16v4m0 0h4m-4 0l5-5m11 5l-5-5m5 5v-4m0 4h-4" />
+                    </svg>
+                  )}
+                </button>
+
+                {/* Close Button */}
+                <button
+                  onClick={() => setIsOpen(false)}
+                  className="p-1.5 rounded-lg text-slate-400 hover:text-white hover:bg-slate-800 transition-colors cursor-pointer"
+                >
+                  <svg className="w-4 h-4" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                    <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M6 18L18 6M6 6l12 12" />
+                  </svg>
+                </button>
+              </div>
+            </div>
+
+            {/* Chat Body */}
+            <div
+              ref={scrollRef}
+              className="flex-1 overflow-y-auto p-4 flex flex-col gap-3.5 scrollbar-thin scrollbar-thumb-slate-800"
+            >
+              <AnimatePresence initial={false}>
+                {messages.map((m) => (
+                  <motion.div
+                    key={m.id}
+                    initial={{ opacity: 0, y: 6 }}
+                    animate={{ opacity: 1, y: 0 }}
+                    transition={{ duration: 0.15 }}
+                    className={`flex gap-2.5 ${m.from === 'user' ? 'justify-end' : 'justify-start'}`}
+                  >
+                    {m.from === 'bot' && (
+                      <img src={BOT_AVATAR} alt="Bot" className="w-7 h-7 rounded-lg border border-slate-700 bg-slate-900 shrink-0 self-end mb-1" />
+                    )}
+
+                    <div className="max-w-[85%]">
+                      <div
+                        className={
+                          m.from === 'user'
+                            ? 'rounded-2xl rounded-tr-xs px-3.5 py-2.5 text-xs text-white bg-gradient-to-r from-violet-600 to-indigo-600 shadow-md'
+                            : 'rounded-2xl rounded-tl-xs px-3.5 py-2.5 text-xs text-slate-200 bg-slate-900/90 border border-slate-800/90 leading-relaxed shadow-sm'
+                        }
+                      >
+                        {m.from === 'bot' ? <TypedText text={m.text} /> : m.text}
+                      </div>
+
+                      {m.from === 'bot' && m.cta && (
+                        <div className="flex gap-1.5 mt-2 flex-wrap">
+                          <a
+                            href={profile.whatsappUrl}
+                            target="_blank"
+                            rel="noreferrer"
+                            className="px-2.5 py-1 rounded-md text-[11px] font-mono text-emerald-400 bg-emerald-950/40 border border-emerald-800/60 hover:bg-emerald-900/50 transition-colors"
+                          >
+                            💬 WhatsApp Sheersh
+                          </a>
+                          <a
+                            href={`mailto:${profile.email}?subject=Project%20Inquiry`}
+                            className="px-2.5 py-1 rounded-md text-[11px] font-mono text-cyan-400 bg-cyan-950/40 border border-cyan-800/60 hover:bg-cyan-900/50 transition-colors"
+                          >
+                            ✉️ Email Him
+                          </a>
+                        </div>
+                      )}
+                    </div>
+
+                    {m.from === 'user' && (
+                      <img src={USER_AVATAR} alt="User" className="w-7 h-7 rounded-lg border border-slate-700 bg-slate-800 shrink-0 self-end mb-1" />
+                    )}
+                  </motion.div>
+                ))}
+
+                {loading && (
+                  <motion.div initial={{ opacity: 0 }} animate={{ opacity: 1 }} className="flex gap-2 items-center">
+                    <img src={BOT_AVATAR} alt="Thinking" className="w-7 h-7 rounded-lg border border-slate-700 bg-slate-900 shrink-0" />
+                    <div className="rounded-xl px-3 py-1.5 text-xs text-slate-400 bg-slate-900/90 border border-slate-800 flex items-center gap-2">
+                      <GroqLogo />
+                      <span className="font-mono text-[10px] text-slate-300">Ask ST soch raha hai...</span>
+                    </div>
+                  </motion.div>
+                )}
+              </AnimatePresence>
+            </div>
+
+            {/* Hindi / English Suggestion Chips */}
+            <div className="flex flex-wrap gap-1 px-3 py-2 border-t border-slate-800/80 bg-slate-950/80 shrink-0">
+              {DESI_SUGGESTIONS.map((label) => (
+                <button
+                  key={label}
+                  type="button"
+                  onClick={() => respond(label)}
+                  className="px-2.5 py-1 rounded-lg text-[10px] font-mono text-slate-400 bg-slate-900 border border-slate-800 hover:text-orange-400 hover:border-slate-700 transition-colors cursor-pointer"
+                >
+                  {label}
+                </button>
+              ))}
+            </div>
+
+            {/* Input Form */}
+            <form onSubmit={handleSubmit} className="p-3 border-t border-slate-800/80 flex gap-2 shrink-0 bg-slate-950">
+              <input
+                value={input}
+                onChange={(e) => setInput(e.target.value)}
+                type="text"
+                placeholder="Ask ST anything (English ya Hinglish)..."
+                className="flex-1 bg-slate-900 rounded-xl px-3.5 py-2.5 text-xs outline-none text-slate-100 placeholder:text-slate-500 border border-slate-800 focus:border-orange-500/50 transition-colors"
+              />
+              <button
+                type="submit"
+                disabled={loading}
+                className="px-4 py-2.5 rounded-xl font-mono text-xs font-semibold text-white bg-gradient-to-r from-orange-600 to-amber-600 hover:opacity-90 transition-opacity cursor-pointer disabled:opacity-50 shadow-md"
+              >
+                Send ➔
+              </button>
+            </form>
+
+            {/* Custom Portfolio Watermark */}
+            <div className="text-center py-1 bg-slate-950 text-[9px] font-mono text-slate-500 border-t border-slate-900/80">
+              Dil Se Engineered by Sheersh Tiwari • Portfolio AI 🇮🇳
+            </div>
+          </motion.div>
+        )}
+      </AnimatePresence>
+    </>
   );
 }
