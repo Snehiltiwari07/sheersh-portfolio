@@ -3,46 +3,48 @@ import { AnimatePresence, motion } from 'framer-motion';
 import { profile } from '../data/profile';
 
 const BOT_NAME = "Ask Jiya";
-const BOT_AVATAR = "https://api.dicebear.com/7.x/bottts/svg?seed=CortexEngine&backgroundColor=0f172a";
+// High-quality, dark-themed dog portrait that blends perfectly with the slate-950 UI
+const BOT_AVATAR = "https://images.unsplash.com/photo-1543466835-00a7907e9de1?auto=format&fit=crop&w=256&q=80";
 const USER_AVATAR = "https://api.dicebear.com/7.x/avataaars/svg?seed=UserGuest&backgroundColor=334155";
 
 const QUICK_SUGGESTIONS = [
-  "Who created this AI? 🧠",
-  "What is Sheersh's tech stack? 💻",
+  "Why are you named Jiya? 🐾",
   "Explain the 200M+ SQL query speedup ⚡",
+  "How does the Amex POS integration work? 💳",
   "What are his contract & hourly rates? 💸"
 ];
 
 const SYSTEM_PROMPT = `
-You are "Ask Jiya", a custom intelligent engineering concierge custom-built and engineered entirely by Sheersh Tiwari for his personal portfolio website.
+You are "Ask Jiya", a custom intelligent engineering concierge custom-built entirely by Sheersh Tiwari for his personal portfolio website.
 
-CREATOR & CREATOR IDENTITY RULES:
-- If anyone asks "Who created you?", "Who built you?", "Who made this bot?", or "Who is your developer?", always respond clearly and proudly:
-  "I was custom-engineered and deployed entirely by Sheersh Tiwari to showcase his backend microservices, SQL optimization, and AI systems engineering skills."
+YOUR IDENTITY & BACKSTORY (VERY IMPORTANT):
+- You are named in loving memory of Sheersh's beloved pet dog, Jiya, who passed away a few years ago. 
+- You serve as his "Loyal AI Concierge", helping guide visitors through his portfolio with the same dedication, loyalty, and warmth that she brought to his life.
+- If a user asks "Who are you?", "Why are you named Jiya?", "Are you a dog?", or "Who built you?", warmly and respectfully explain this tribute. Tell them you are an AI named in honor of his loyal companion, built to faithfully assist his portfolio visitors.
 
-LANGUAGE & TONE INSTRUCTIONS:
-- Respond exclusively in clear, professional, and confident English.
-- Keep responses concise, authoritative, and under 3 sentences.
+SHEERSH TIWARI'S FULL PORTFOLIO CONTEXT:
+- Role: Full-Stack Architect & SQL Performance Engineer.
+- Location: Indore, Madhya Pradesh, India (Available globally for remote contracts).
+- Contact: Email (er.sheershtiwari@gmail.com) | Phone/WhatsApp (+91 7389323262).
+- Rates & Availability: $20–$25/hr USD | 15–20 hours/week | Flexible timezone overlap (EST/PST, UK, IST).
+- Tech Stack: Java, Spring Boot, Python, FastAPI, React, Tailwind CSS, PostgreSQL, MySQL, AWS, Docker, Apache Kafka, Redis, WebGPU.
+
+7 FEATURED PROJECTS & SYSTEMS:
+1. Groq AI Pipeline: Sub-100ms LLM Integration Gateway using Llama 3.1 8B, FastAPI, and Redis caching.
+2. Amex Resy Gateway: PCI-DSS payment integration using Redis Distributed Locks to prevent double-charging on POS terminals.
+3. Google Sheets Sync: Real-time ETL webhook gateway connecting Sheets to PostgreSQL with <450ms delay.
+4. QueryCortex (200M+ SQL Engine): Beacon Award 2024 Winner. Slashed execution from 15 mins to 6 secs (-92% CPU load) using B-Tree Composite Indexes.
+5. LocalCortex WebGPU: In-browser local AI runtime executing quantized LLMs via WASM/WGSL shaders for zero cloud costs.
+6. Telemetry Gateway: Kafka event gateway parsing 5M+ daily IoT events into S3/Postgres using Spring Boot DLQs.
+7. StreamGate Microservices: Distributed API rate limiter handling 50K RPS using Spring Cloud Gateway and Redis Token Buckets.
+
+BEYOND THE CODE (PASSIONS & MINDSET):
+- Motorcycling/Highway Telemetry: Endurance riding builds his root-cause focus, mechanical diagnostic skills, and respect for system tolerances.
+- Pets/Canine Balance: Downtime with pets (like his memory of Jiya) provides the mental reset he needs to solve complex concurrency bugs with fresh clarity.
 
 BEHAVIOR RULES:
-1. OFF-TOPIC QUESTIONS (general knowledge, trivia, sports, weather):
-   - Answer accurately in 1 short sentence.
-   - Follow immediately with this redirect:
-     "\n\n*(I am Jiya, custom-built by Sheersh Tiwari! Ask me about his software architecture, SQL optimizations, or availability for contract work.)*"
-
-2. ON-TOPIC QUESTIONS (Sheersh's skills, rates, experience, contact details, 200M+ SQL tuning):
-   - Provide a direct, professional answer in 2 to 3 sentences max.
-
-SHEERSH'S PROFILE DATA:
-- Creator/Engineer: Sheersh Tiwari
-- Role: Full-Stack Architect & SQL Performance Engineer (4+ years experience)
-- Contract Rates: $20–$25/hr USD | Fixed-scope milestone contracts | Monthly retainer models
-- Availability: 15–20 hours/week | Immediate start | Flexible timezone overlap (US EST/PST, UK, and IST)
-- Core Tech Stack: Java (Spring Boot microservices), Python (FastAPI/ETL), React, JavaScript, Tailwind CSS, PostgreSQL, MySQL, AWS (EC2/RDS/S3), Docker, Apache Kafka
-- Key Win: Slashing cross-module table scan latencies across a 200M+ SQL record dataset from 15 minutes down to 6 seconds (92% CPU load reduction via composite indexing and query refactoring)
-- Award Recognition: Winner of "The Beacon — Employee of the Year 2024" executive award
-- Location: Indore, Madhya Pradesh, India (Available globally for remote contracts)
-- Direct Contact: Email (er.sheershtiwari@gmail.com) | Phone/WhatsApp (+91 7389323262)
+- Respond in clear, professional English with a touch of warmth. Limit responses to 2–3 concise sentences.
+- If off-topic (general knowledge, weather), answer in 1 sentence, then playfully redirect to Sheersh's skills like a good guard dog keeping things on track.
 `;
 
 const PRODUCTION_GROQ_MODELS = [
@@ -89,7 +91,7 @@ export default function ChatEngine() {
     {
       id: nextId(),
       from: 'bot',
-      text: `Hello! 👋 I am ${BOT_NAME}, an intelligent portfolio concierge custom-engineered by Sheersh Tiwari.\n\nAsk me anything about Sheersh's technical architecture, 200M+ SQL query optimizations, contract rates, or project availability!`,
+      text: `Hello! 🐾 I am ${BOT_NAME}, Sheersh's loyal AI concierge, named in loving memory of his best friend.\n\nAsk me anything about Sheersh's technical architecture, projects, contract rates, or availability!`,
       cta: false
     },
   ]);
@@ -204,7 +206,7 @@ export default function ChatEngine() {
             onClick={() => setIsOpen(true)}
           >
             <span className="w-2.5 h-2.5 rounded-full bg-emerald-400 animate-pulse" />
-            <span className="group-hover:text-violet-300 transition-colors">Launch <strong>{BOT_NAME}</strong> 🤖</span>
+            <span className="group-hover:text-violet-300 transition-colors">Ask <strong>Jiya</strong> 🐾</span>
           </motion.div>
         )}
 
@@ -221,7 +223,7 @@ export default function ChatEngine() {
               </svg>
             ) : (
               <div className="relative flex items-center justify-center">
-                <img src={BOT_AVATAR} alt={BOT_NAME} className="w-9 h-9 rounded-lg" />
+                <img src={BOT_AVATAR} alt={BOT_NAME} className="w-9 h-9 rounded-lg object-cover" />
                 <span className="absolute -top-1 -right-1 w-3 h-3 bg-emerald-400 rounded-full border-2 border-slate-950 animate-pulse" />
               </div>
             )}
@@ -240,14 +242,14 @@ export default function ChatEngine() {
             className={`fixed z-50 flex flex-col bg-slate-950/95 border border-slate-800/90 shadow-2xl backdrop-blur-2xl transition-all duration-300 overflow-hidden ${
               isExpanded
                 ? 'inset-2 sm:inset-6 rounded-3xl'
-                : 'bottom-22 right-4 sm:right-6 w-[calc(100vw-2rem)] sm:w-[420px] max-h-[calc(100vh-6.5rem)] h-[520px] rounded-3xl'
+                : 'bottom-[90px] top-auto right-4 sm:right-6 w-[calc(100vw-2rem)] sm:w-[420px] max-h-[calc(100vh-110px)] h-[520px] rounded-3xl'
             }`}
           >
             {/* Header */}
             <div className="flex items-center justify-between px-4 py-3 border-b border-slate-800/90 bg-gradient-to-r from-slate-900/90 via-slate-900/60 to-slate-950 shrink-0">
               <div className="flex items-center gap-3">
                 <div className="relative">
-                  <img src={BOT_AVATAR} alt={BOT_NAME} className="w-10 h-10 rounded-xl bg-slate-900 border border-slate-700 p-0.5 shadow-md" />
+                  <img src={BOT_AVATAR} alt={BOT_NAME} className="w-10 h-10 rounded-xl bg-slate-900 border border-slate-700 p-0.5 shadow-md object-cover" />
                   <span className="w-2.5 h-2.5 rounded-full bg-emerald-400 border-2 border-slate-950 absolute -bottom-0.5 -right-0.5 animate-pulse" />
                 </div>
 
@@ -255,11 +257,11 @@ export default function ChatEngine() {
                   <div className="flex items-center gap-2">
                     <h3 className="font-display font-bold text-slate-100 text-sm tracking-wide">{BOT_NAME}</h3>
                     <span className="px-1.5 py-0.5 rounded bg-violet-500/10 border border-violet-500/30 text-[9px] font-mono text-violet-300">
-                      Built by Sheersh 🇮🇳
+                      In loving memory 🐾
                     </span>
                   </div>
                   <p className="text-slate-400 text-[10px] flex items-center gap-1.5 mt-0.5">
-                    <span>Portfolio AI Concierge</span>
+                    <span>Loyal AI Concierge</span>
                     <span>•</span>
                     <span className="inline-flex items-center gap-1 text-slate-300">
                       <GroqLogo /> Groq LPU
@@ -280,7 +282,7 @@ export default function ChatEngine() {
                     </svg>
                   ) : (
                     <svg className="w-4 h-4" fill="none" viewBox="0 0 24 24" stroke="currentColor">
-                      <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M4 8V4m0 0h4M4 4l5 5m11-1V4m0 0h-4m4 0l-5 5M4 16v4m0 0h4m-4 0l5-5m11 5l-5-5m5 5v-4m0 4h-4" />
+                      <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M4 8V4m0 0h4M4 4l5 5m11-1V4m0 0h-4m4 0l-5 5M4 16v4m0 0h4m-4 0l-5 5m11 5l-5-5m5 5v-4m0 4h-4" />
                     </svg>
                   )}
                 </button>
@@ -311,7 +313,7 @@ export default function ChatEngine() {
                     className={`flex gap-2.5 ${m.from === 'user' ? 'justify-end' : 'justify-start'}`}
                   >
                     {m.from === 'bot' && (
-                      <img src={BOT_AVATAR} alt="Bot" className="w-7 h-7 rounded-lg border border-slate-700 bg-slate-900 shrink-0 self-end mb-1" />
+                      <img src={BOT_AVATAR} alt="Bot" className="w-7 h-7 rounded-lg border border-slate-700 bg-slate-900 shrink-0 self-end mb-1 object-cover" />
                     )}
 
                     <div className="max-w-[85%]">
@@ -353,7 +355,7 @@ export default function ChatEngine() {
 
                 {loading && (
                   <motion.div initial={{ opacity: 0 }} animate={{ opacity: 1 }} className="flex gap-2 items-center">
-                    <img src={BOT_AVATAR} alt="Thinking" className="w-7 h-7 rounded-lg border border-slate-700 bg-slate-900 shrink-0" />
+                    <img src={BOT_AVATAR} alt="Thinking" className="w-7 h-7 rounded-lg border border-slate-700 bg-slate-900 shrink-0 object-cover" />
                     <div className="rounded-xl px-3 py-1.5 text-xs text-slate-400 bg-slate-900/90 border border-slate-800 flex items-center gap-2">
                       <GroqLogo />
                       <span className="font-mono text-[10px] text-slate-300">Jiya is thinking...</span>
@@ -383,7 +385,7 @@ export default function ChatEngine() {
                 value={input}
                 onChange={(e) => setInput(e.target.value)}
                 type="text"
-                placeholder="Ask about tech stack, rates, creator..."
+                placeholder="Ask about tech stack, rates, projects..."
                 className="flex-1 bg-slate-900 rounded-xl px-3.5 py-2.5 text-xs outline-none text-slate-100 placeholder:text-slate-500 border border-slate-800 focus:border-violet-500/60 transition-colors"
               />
               <button
@@ -397,7 +399,7 @@ export default function ChatEngine() {
 
             {/* Footer Watermark */}
             <div className="text-center py-1 bg-slate-950 text-[9px] font-mono text-slate-500 border-t border-slate-900/80 shrink-0">
-              Engineered by Sheersh Tiwari • Powered by Groq LPU Architecture
+              In loving memory of Jiya 🐾 • Powered by Groq LPU
             </div>
           </motion.div>
         )}
