@@ -8,40 +8,33 @@ import Playground from './components/Playground';
 import Reviews from './components/Reviews';
 import ChatEngine from './components/ChatEngine';
 import HireDrawer, { FloatingHireButton } from './components/HireDrawer';
+import Footer from './components/Footer'; // Import Footer
 
 export default function App() {
   const [isHireDrawerOpen, setIsHireDrawerOpen] = useState(false);
 
   return (
-    <div className="min-h-screen bg-slate-950 text-slate-100 selection:bg-orange-500 selection:text-white">
-      {/* Top Fixed Navigation Bar */}
+    <div className="min-h-screen bg-slate-950 text-slate-100 selection:bg-orange-500 selection:text-white flex flex-col justify-between">
+      {/* Top Navigation */}
       <Navbar onOpenHireDrawer={() => setIsHireDrawerOpen(true)} />
 
       <main className="space-y-12">
-        {/* Hero Section */}
         <Hero onOpenHireDrawer={() => setIsHireDrawerOpen(true)} />
-
-        {/* Tech Stack Timeline & Skill Matrix */}
         <TechStack />
         <SkillOrbit />
-
-        {/* Client-Side WebGPU AI Showcase */}
         <LocalLLMRunner />
-
-        {/* Interactive Game Playground */}
         <Playground />
-
-        {/* Client Recommendations */}
         <Reviews />
       </main>
 
-      {/* Floating "Ask ST" AI Chat Assistant */}
-      <ChatEngine />
+      {/* Enhanced Footer */}
+      <Footer onOpenHireDrawer={() => setIsHireDrawerOpen(true)} />
 
-      {/* Floating Project Cost Estimator Button */}
+      {/* Floating Utilities */}
+      <ChatEngine />
       <FloatingHireButton onClick={() => setIsHireDrawerOpen(true)} />
 
-      {/* Interactive Scope & Cost Estimator Drawer */}
+      {/* Drawers */}
       <HireDrawer
         open={isHireDrawerOpen}
         onClose={() => setIsHireDrawerOpen(false)}
