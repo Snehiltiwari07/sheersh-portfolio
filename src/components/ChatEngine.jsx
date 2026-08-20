@@ -2,43 +2,47 @@ import { useEffect, useRef, useState } from 'react';
 import { AnimatePresence, motion } from 'framer-motion';
 import { profile } from '../data/profile';
 
-const BOT_NAME = "Ask ST";
-const BOT_AVATAR = "https://api.dicebear.com/7.x/bottts/svg?seed=SheershST&backgroundColor=0f172a";
+const BOT_NAME = "Ask Jiya";
+const BOT_AVATAR = "https://api.dicebear.com/7.x/bottts/svg?seed=CortexEngine&backgroundColor=0f172a";
 const USER_AVATAR = "https://api.dicebear.com/7.x/avataaars/svg?seed=UserGuest&backgroundColor=334155";
 
-const DESI_SUGGESTIONS = [
-  "Namaste! Sheersh ka tech stack kya hai? 💻",
-  "Freelance hourly rate batao 💸",
-  "200M+ SQL Query speedup kaise kiya? ⚡",
-  "How to book a call with Sheersh? 📅"
+const QUICK_SUGGESTIONS = [
+  "Who created this AI? 🧠",
+  "What is Sheersh's tech stack? 💻",
+  "Explain the 200M+ SQL query speedup ⚡",
+  "What are his contract & hourly rates? 💸"
 ];
 
 const SYSTEM_PROMPT = `
-You are "Ask ST", the official intelligent virtual assistant custom-engineered by Sheersh Tiwari exclusively for his personal portfolio website.
+You are "Ask Jiya", a custom intelligent engineering concierge custom-built and engineered entirely by Sheersh Tiwari for his personal portfolio website.
+
+CREATOR & CREATOR IDENTITY RULES:
+- If anyone asks "Who created you?", "Who built you?", "Who made this bot?", or "Who is your developer?", always respond clearly and proudly:
+  "I was custom-engineered and deployed entirely by Sheersh Tiwari to showcase his backend microservices, SQL optimization, and AI systems engineering skills."
 
 LANGUAGE & TONE INSTRUCTIONS:
-- You understand English, Hindi, and Hinglish queries seamlessly.
-- Respond in polite, concise Hinglish/English with a warm, friendly Desi touch (e.g., using "Namaste!", "Bilkul!", "Aap").
-- Keep answers professional, crisp, and under 3 sentences.
+- Respond exclusively in clear, professional, and confident English.
+- Keep responses concise, authoritative, and under 3 sentences.
 
 BEHAVIOR RULES:
-1. OFF-TOPIC QUESTIONS (general trivia, recipes, tigers, sports, weather, movies):
-   - Answer the question accurately in 1 short sentence first.
-   - Follow immediately with this exact redirect line:
-     "\n\n*(Waise main Sheersh ka virtual assistant hoon! Sheersh ki software engineering, SQL optimization, ya freelance projects ke baare me poochhein?)*"
+1. OFF-TOPIC QUESTIONS (general knowledge, trivia, sports, weather):
+   - Answer accurately in 1 short sentence.
+   - Follow immediately with this redirect:
+     "\n\n*(I am Jiya, custom-built by Sheersh Tiwari! Ask me about his software architecture, SQL optimizations, or availability for contract work.)*"
 
-2. ON-TOPIC QUESTIONS (Sheersh's freelance rates, tech stack, experience, contact details, 200M+ SQL tuning):
-   - Answer directly and professionally in 2 to 3 sentences max.
+2. ON-TOPIC QUESTIONS (Sheersh's skills, rates, experience, contact details, 200M+ SQL tuning):
+   - Provide a direct, professional answer in 2 to 3 sentences max.
 
 SHEERSH'S PROFILE DATA:
-- Role: Full-Stack & SQL Optimization Engineer (4+ years experience)
-- Freelance Rate: $20–$25/hr USD | Fixed-price milestone billing | Monthly retainers (15–20 hrs/week)
-- Availability: 15–20 hrs/week | Immediate start | US night shift (EST/PST), UK & IST overlap
+- Creator/Engineer: Sheersh Tiwari
+- Role: Full-Stack Architect & SQL Performance Engineer (4+ years experience)
+- Contract Rates: $20–$25/hr USD | Fixed-scope milestone contracts | Monthly retainer models
+- Availability: 15–20 hours/week | Immediate start | Flexible timezone overlap (US EST/PST, UK, and IST)
 - Core Tech Stack: Java (Spring Boot microservices), Python (FastAPI/ETL), React, JavaScript, Tailwind CSS, PostgreSQL, MySQL, AWS (EC2/RDS/S3), Docker, Apache Kafka
-- Key Win: Reduced search query execution across a 200M+ record SQL dataset from 15 minutes down to 6 seconds (92% CPU load reduction via composite indexing and stored procedure refactoring)
-- Recognition: Winner of "The Beacon — Employee of the Year 2024" executive award at CloudLIMS
-- Location: Indore, Madhya Pradesh, India (Available globally for remote work)
-- Contact Info: Email (er.sheershtiwari@gmail.com) | Phone/WhatsApp (+91 7389323262)
+- Key Win: Slashing cross-module table scan latencies across a 200M+ SQL record dataset from 15 minutes down to 6 seconds (92% CPU load reduction via composite indexing and query refactoring)
+- Award Recognition: Winner of "The Beacon — Employee of the Year 2024" executive award
+- Location: Indore, Madhya Pradesh, India (Available globally for remote contracts)
+- Direct Contact: Email (er.sheershtiwari@gmail.com) | Phone/WhatsApp (+91 7389323262)
 `;
 
 const PRODUCTION_GROQ_MODELS = [
@@ -85,7 +89,7 @@ export default function ChatEngine() {
     {
       id: nextId(),
       from: 'bot',
-      text: `Namaste! 🙏 Main hoon ${BOT_NAME}, Sheersh Tiwari ka custom AI assistant built with Groq LPU engine.\n\nAap Sheersh ke freelance rates, 200M+ SQL optimizations, tech stack, ya booking ke baare me kuch bhi pooch sakte hain!`,
+      text: `Hello! 👋 I am ${BOT_NAME}, an intelligent portfolio concierge custom-engineered by Sheersh Tiwari.\n\nAsk me anything about Sheersh's technical architecture, 200M+ SQL query optimizations, contract rates, or project availability!`,
       cta: false
     },
   ]);
@@ -173,7 +177,7 @@ export default function ChatEngine() {
         {
           id: nextId(),
           from: 'bot',
-          text: "Aray! Groq AI server connect nahi ho pa raha hai. Aap direct Sheersh se WhatsApp ya Email pe baat kar sakte hain!",
+          text: "I am having trouble connecting to the AI inference engine. Please reach out to Sheersh directly via WhatsApp or Email!",
           cta: true
         }
       ]);
@@ -190,17 +194,17 @@ export default function ChatEngine() {
 
   return (
     <>
-      {/* FLOATING LAUNCHER BUTTON */}
+      {/* Floating Trigger Launcher (Bottom Right) */}
       <div className="fixed bottom-6 right-6 z-50 flex items-center gap-3">
         {!isOpen && (
           <motion.div
             initial={{ opacity: 0, x: 10 }}
             animate={{ opacity: 1, x: 0 }}
-            className="hidden sm:flex items-center gap-2 px-3.5 py-2 rounded-full bg-slate-900/95 border border-slate-700/80 text-slate-100 text-xs font-mono shadow-2xl backdrop-blur-md cursor-pointer hover:border-orange-500/60 transition-all group"
+            className="hidden sm:flex items-center gap-2 px-3.5 py-2 rounded-full bg-slate-900/95 border border-slate-700/80 text-slate-100 text-xs font-mono shadow-2xl backdrop-blur-md cursor-pointer hover:border-violet-500/60 transition-all group"
             onClick={() => setIsOpen(true)}
           >
             <span className="w-2.5 h-2.5 rounded-full bg-emerald-400 animate-pulse" />
-            <span className="group-hover:text-orange-400 transition-colors">Poochho <strong>Ask ST</strong> 🤖</span>
+            <span className="group-hover:text-violet-300 transition-colors">Launch <strong>{BOT_NAME}</strong> 🤖</span>
           </motion.div>
         )}
 
@@ -208,7 +212,7 @@ export default function ChatEngine() {
           whileHover={{ scale: 1.08 }}
           whileTap={{ scale: 0.92 }}
           onClick={() => setIsOpen(!isOpen)}
-          className="relative w-14 h-14 rounded-2xl bg-gradient-to-tr from-orange-600 via-amber-500 to-violet-600 p-[2px] shadow-2xl cursor-pointer focus:outline-none"
+          className="relative w-14 h-14 rounded-2xl bg-gradient-to-tr from-violet-600 via-indigo-600 to-cyan-500 p-[2px] shadow-2xl cursor-pointer focus:outline-none"
         >
           <div className="w-full h-full bg-slate-950 rounded-[14px] flex items-center justify-center text-white hover:bg-slate-900 transition-colors relative overflow-hidden">
             {isOpen ? (
@@ -217,7 +221,7 @@ export default function ChatEngine() {
               </svg>
             ) : (
               <div className="relative flex items-center justify-center">
-                <img src={BOT_AVATAR} alt="Ask ST AI Avatar" className="w-9 h-9 rounded-lg" />
+                <img src={BOT_AVATAR} alt={BOT_NAME} className="w-9 h-9 rounded-lg" />
                 <span className="absolute -top-1 -right-1 w-3 h-3 bg-emerald-400 rounded-full border-2 border-slate-950 animate-pulse" />
               </div>
             )}
@@ -225,7 +229,7 @@ export default function ChatEngine() {
         </motion.button>
       </div>
 
-      {/* VIEWPORT-SAFE FLOATING POPUP WINDOW */}
+      {/* Viewport-Safe Floating Chat Popup */}
       <AnimatePresence>
         {isOpen && (
           <motion.div
@@ -243,19 +247,19 @@ export default function ChatEngine() {
             <div className="flex items-center justify-between px-4 py-3 border-b border-slate-800/90 bg-gradient-to-r from-slate-900/90 via-slate-900/60 to-slate-950 shrink-0">
               <div className="flex items-center gap-3">
                 <div className="relative">
-                  <img src={BOT_AVATAR} alt="Ask ST" className="w-10 h-10 rounded-xl bg-slate-900 border border-slate-700 p-0.5 shadow-md" />
+                  <img src={BOT_AVATAR} alt={BOT_NAME} className="w-10 h-10 rounded-xl bg-slate-900 border border-slate-700 p-0.5 shadow-md" />
                   <span className="w-2.5 h-2.5 rounded-full bg-emerald-400 border-2 border-slate-950 absolute -bottom-0.5 -right-0.5 animate-pulse" />
                 </div>
 
                 <div>
                   <div className="flex items-center gap-2">
                     <h3 className="font-display font-bold text-slate-100 text-sm tracking-wide">{BOT_NAME}</h3>
-                    <span className="px-1.5 py-0.5 rounded bg-orange-500/10 border border-orange-500/30 text-[9px] font-mono text-orange-400">
-                      Built By Sheersh 🇮🇳
+                    <span className="px-1.5 py-0.5 rounded bg-violet-500/10 border border-violet-500/30 text-[9px] font-mono text-violet-300">
+                      Built by Sheersh 🇮🇳
                     </span>
                   </div>
                   <p className="text-slate-400 text-[10px] flex items-center gap-1.5 mt-0.5">
-                    <span>Virtual AI Assistant</span>
+                    <span>Portfolio AI Concierge</span>
                     <span>•</span>
                     <span className="inline-flex items-center gap-1 text-slate-300">
                       <GroqLogo /> Groq LPU
@@ -292,7 +296,7 @@ export default function ChatEngine() {
               </div>
             </div>
 
-            {/* Scrollable Chat Body */}
+            {/* Scrollable Chat Area */}
             <div
               ref={scrollRef}
               className="flex-1 overflow-y-auto p-4 flex flex-col gap-3.5 scrollbar-thin scrollbar-thumb-slate-800 min-h-0"
@@ -314,8 +318,8 @@ export default function ChatEngine() {
                       <div
                         className={
                           m.from === 'user'
-                            ? 'rounded-2xl rounded-tr-xs px-3.5 py-2.5 text-xs text-white bg-gradient-to-r from-violet-600 to-indigo-600 shadow-md'
-                            : 'rounded-2xl rounded-tl-xs px-3.5 py-2.5 text-xs text-slate-200 bg-slate-900/90 border border-slate-800/90 leading-relaxed shadow-sm'
+                            ? 'rounded-2xl rounded-tr-xs px-3.5 py-2.5 text-xs text-white bg-gradient-to-r from-violet-600 to-indigo-600 shadow-md font-sans'
+                            : 'rounded-2xl rounded-tl-xs px-3.5 py-2.5 text-xs text-slate-200 bg-slate-900/90 border border-slate-800/90 leading-relaxed shadow-sm font-sans'
                         }
                       >
                         {m.from === 'bot' ? <TypedText text={m.text} /> : m.text}
@@ -335,7 +339,7 @@ export default function ChatEngine() {
                             href={`mailto:${profile.email}?subject=Project%20Inquiry`}
                             className="px-2.5 py-1 rounded-md text-[11px] font-mono text-cyan-400 bg-cyan-950/40 border border-cyan-800/60 hover:bg-cyan-900/50 transition-colors"
                           >
-                            ✉️ Email Him
+                            ✉️ Direct Email
                           </a>
                         </div>
                       )}
@@ -352,7 +356,7 @@ export default function ChatEngine() {
                     <img src={BOT_AVATAR} alt="Thinking" className="w-7 h-7 rounded-lg border border-slate-700 bg-slate-900 shrink-0" />
                     <div className="rounded-xl px-3 py-1.5 text-xs text-slate-400 bg-slate-900/90 border border-slate-800 flex items-center gap-2">
                       <GroqLogo />
-                      <span className="font-mono text-[10px] text-slate-300">Ask ST soch raha hai...</span>
+                      <span className="font-mono text-[10px] text-slate-300">Jiya is thinking...</span>
                     </div>
                   </motion.div>
                 )}
@@ -361,12 +365,12 @@ export default function ChatEngine() {
 
             {/* Quick Suggestion Chips */}
             <div className="flex flex-wrap gap-1 px-3 py-2 border-t border-slate-800/80 bg-slate-950/80 shrink-0">
-              {DESI_SUGGESTIONS.map((label) => (
+              {QUICK_SUGGESTIONS.map((label) => (
                 <button
                   key={label}
                   type="button"
                   onClick={() => respond(label)}
-                  className="px-2.5 py-1 rounded-lg text-[10px] font-mono text-slate-400 bg-slate-900 border border-slate-800 hover:text-orange-400 hover:border-slate-700 transition-colors cursor-pointer"
+                  className="px-2.5 py-1 rounded-lg text-[10px] font-mono text-slate-400 bg-slate-900 border border-slate-800 hover:text-cyan-400 hover:border-slate-700 transition-colors cursor-pointer"
                 >
                   {label}
                 </button>
@@ -379,21 +383,21 @@ export default function ChatEngine() {
                 value={input}
                 onChange={(e) => setInput(e.target.value)}
                 type="text"
-                placeholder="Ask ST anything (English ya Hinglish)..."
-                className="flex-1 bg-slate-900 rounded-xl px-3.5 py-2.5 text-xs outline-none text-slate-100 placeholder:text-slate-500 border border-slate-800 focus:border-orange-500/50 transition-colors"
+                placeholder="Ask about tech stack, rates, creator..."
+                className="flex-1 bg-slate-900 rounded-xl px-3.5 py-2.5 text-xs outline-none text-slate-100 placeholder:text-slate-500 border border-slate-800 focus:border-violet-500/60 transition-colors"
               />
               <button
                 type="submit"
                 disabled={loading}
-                className="px-4 py-2.5 rounded-xl font-mono text-xs font-semibold text-white bg-gradient-to-r from-orange-600 to-amber-600 hover:opacity-90 transition-opacity cursor-pointer disabled:opacity-50 shadow-md"
+                className="px-4 py-2.5 rounded-xl font-mono text-xs font-semibold text-white bg-gradient-to-r from-violet-600 to-cyan-600 hover:opacity-90 transition-opacity cursor-pointer disabled:opacity-50 shadow-md"
               >
                 Send ➔
               </button>
             </form>
 
-            {/* Watermark */}
+            {/* Footer Watermark */}
             <div className="text-center py-1 bg-slate-950 text-[9px] font-mono text-slate-500 border-t border-slate-900/80 shrink-0">
-              Dil Se Engineered by Sheersh Tiwari • Portfolio AI 🇮🇳
+              Engineered by Sheersh Tiwari • Powered by Groq LPU Architecture
             </div>
           </motion.div>
         )}
