@@ -410,3 +410,89 @@ export const careerRoadmap = [
     ]
   }
 ];
+
+export const skillCategories = ['All', 'Backend', 'Databases', 'Frontend', 'Cloud & DevOps', 'AI & Automation'];
+
+export const skillNodes = [
+  {
+    id: 'spring-boot',
+    name: 'Spring Boot',
+    category: 'Backend',
+    level: 'Expert',
+    icon: 'https://cdn.jsdelivr.net/gh/devicons/devicon/icons/spring/spring-original.svg',
+    impact: 'Powers core REST microservices, Spring Security auth, and scheduled search pipelines across 200M+ records.',
+    highlight: 'Microservices Architecture'
+  },
+  {
+    id: 'sql-tuning',
+    name: 'SQL Optimization',
+    category: 'Databases',
+    level: 'Expert',
+    icon: 'https://cdn.jsdelivr.net/gh/devicons/devicon/icons/postgresql/postgresql-original.svg',
+    impact: 'Reduced cross-module table scan queries from 15 minutes down to 6 seconds with custom composite indexing.',
+    highlight: 'Sub-Second Latency'
+  },
+  {
+    id: 'ai-groq',
+    name: 'Groq & LLM APIs',
+    category: 'AI & Automation',
+    level: 'Advanced',
+    icon: 'https://api.dicebear.com/7.x/bottts/svg?seed=GroqLPU&backgroundColor=0f172a',
+    impact: 'Engineered custom RAG workflows and fast Groq LPU inference agents for interactive portfolio guidance.',
+    highlight: 'AI Integration'
+  },
+  {
+    id: 'python',
+    name: 'Python',
+    category: 'Backend',
+    level: 'Advanced',
+    icon: 'https://cdn.jsdelivr.net/gh/devicons/devicon/icons/python/python-original.svg',
+    impact: 'Automated data migration pipelines, background ETL scripts, and rapid FastAPI prototyping.',
+    highlight: 'Data & ETL Pipelines'
+  },
+  {
+    id: 'react',
+    name: 'React.js',
+    category: 'Frontend',
+    level: 'Advanced',
+    icon: 'https://cdn.jsdelivr.net/gh/devicons/devicon/icons/react/react-original.svg',
+    impact: 'Engineered high-throughput reporting dashboards with component modularity and responsive state management.',
+    highlight: 'Reactive State Architecture'
+  },
+  {
+    id: 'aws',
+    name: 'AWS Cloud',
+    category: 'Cloud & DevOps',
+    level: 'Advanced',
+    icon: 'https://cdn.jsdelivr.net/gh/devicons/devicon/icons/amazonwebservices/amazonwebservices-original-wordmark.svg',
+    impact: 'Managed cloud infrastructure across EC2, S3 bucket storage, RDS instances, and Lambda serverless jobs.',
+    highlight: 'Cloud Infrastructure'
+  },
+  {
+    id: 'docker',
+    name: 'Docker',
+    category: 'Cloud & DevOps',
+    level: 'Proficient',
+    icon: 'https://cdn.jsdelivr.net/gh/devicons/devicon/icons/docker/docker-original.svg',
+    impact: 'Containerized local and staging environments for standardized deployment pipelines.',
+    highlight: 'Containerization'
+  },
+  {
+    id: 'kafka',
+    name: 'Apache Kafka',
+    category: 'Backend',
+    level: 'Proficient',
+    icon: 'https://cdn.jsdelivr.net/gh/devicons/devicon/icons/apachekafka/apachekafka-original.svg',
+    impact: 'Asynchronous event streaming layer for platform data synchronization and reporting jobs.',
+    highlight: 'Event-Driven Systems'
+  },
+  {
+    id: 'tailwind',
+    name: 'Tailwind CSS',
+    category: 'Frontend',
+    level: 'Advanced',
+    icon: 'https://cdn.jsdelivr.net/gh/devicons/devicon/icons/tailwindcss/tailwindcss-original.svg',
+    impact: 'Designed glassmorphism UI systems, theme engines, and mobile-friendly responsive layouts.',
+    highlight: 'Modern Design Systems'
+  }
+];
