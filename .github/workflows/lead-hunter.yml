@@ -1,9 +1,11 @@
 name: Automated AI Lead Hunter Pipeline
 
 on:
+  push:
+    branches: [main] # Runs immediately when you commit/deploy
   schedule:
-    - cron: '0 */1 * * *' # Executes hourly
-  workflow_dispatch: # Enables manual run trigger
+    - cron: '0 9 * * *' # Runs automatically once every day at 09:00 UTC
+  workflow_dispatch: # Allows manual triggers anytime
 
 concurrency:
   group: lead-hunter-pipeline
@@ -22,7 +24,6 @@ jobs:
         uses: actions/setup-node@v4
         with:
           node-version: 22
-          cache-dependency-path: package.json
 
       - name: Execute Lead Hunter Script
         run: node scripts/lead-hunter.js
