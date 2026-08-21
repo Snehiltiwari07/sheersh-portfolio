@@ -1,17 +1,37 @@
 /**
- * Versatile AI Lead Hunter Pipeline
- * Scope: Web Creation, SaaS MVPs, Full-Stack, Mobile Apps, APIs, Scripting & Custom Software
+ * Fully Automated Versatile AI Lead Hunter Pipeline
+ * File: scripts/lead-hunter.js
  */
 
 const GROQ_API_KEY = (process.env.GROQ_API_KEY || '').replace(/['"]/g, '').trim();
 const RESEND_API_KEY = (process.env.RESEND_API_KEY || '').replace(/['"]/g, '').trim();
 const RECIPIENT_EMAIL = (process.env.RECIPIENT_EMAIL || 'er.sheershtiwari@gmail.com').replace(/['"]/g, '').trim();
 
+const sleep = (ms) => new Promise((resolve) => setTimeout(resolve, ms));
+
 const Logger = {
   info: (msg, data = {}) => console.log(JSON.stringify({ timestamp: new Date().toISOString(), level: 'INFO', message: msg, ...data })),
   warn: (msg, data = {}) => console.warn(JSON.stringify({ timestamp: new Date().toISOString(), level: 'WARN', message: msg, ...data })),
   error: (msg, data = {}) => console.error(JSON.stringify({ timestamp: new Date().toISOString(), level: 'ERROR', message: msg, ...data }))
 };
+
+// URL Sanitizer to ensure links open correctly in email clients
+function sanitizeUrl(rawUrl) {
+  if (!rawUrl) return '#';
+  let clean = rawUrl
+    .replace(/<!\[CDATA\[|\]\]>/g, '')
+    .replace(/&amp;/g, '&')
+    .replace(/&lt;/g, '<')
+    .replace(/&gt;/g, '>')
+    .replace(/&quot;/g, '"')
+    .replace(/&#39;/g, "'")
+    .trim();
+
+  if (!clean.startsWith('http://') && !clean.startsWith('https://')) {
+    clean = 'https://' + clean;
+  }
+  return clean;
+}
 
 async function sendEmailAlert(subject, htmlBody) {
   try {
@@ -40,7 +60,7 @@ async function sendEmailAlert(subject, htmlBody) {
   }
 }
 
-// 1. Fetch All Remote Software & Web Development Jobs from Remotive
+// 1. Fetch Remote Software & Web Development Jobs from Remotive
 async function fetchRemotiveLeads() {
   const leads = [];
   try {
@@ -58,7 +78,7 @@ async function fetchRemotiveLeads() {
         source: 'Remotive',
         title: `${job.title} (${job.company_name})`,
         body: (job.description || '').replace(/<[^>]*>/g, '').slice(0, 1200),
-        url: job.url,
+        url: sanitizeUrl(job.url),
         createdAt: job.publication_date || new Date().toISOString()
       });
     }
@@ -68,7 +88,7 @@ async function fetchRemotiveLeads() {
   return leads;
 }
 
-// 2. Fetch We Work Remotely Programming RSS Feed
+// 2. Fetch We Work Remotely Programming RSS
 async function fetchWWRLeads() {
   const leads = [];
   try {
@@ -83,7 +103,7 @@ async function fetchWWRLeads() {
     let match;
     while ((match = itemRegex.exec(xmlText)) !== null && leads.length < 15) {
       const title = match[1].replace(/<!\[CDATA\[|\]\]>/g, '').replace(/<[^>]*>/g, '').trim();
-      const url = match[2].replace(/<!\[CDATA\[|\]\]>/g, '').trim();
+      const rawLink = match[2];
       const description = match[3].replace(/<!\[CDATA\[|\]\]>/g, '').replace(/<[^>]*>/g, '').trim().slice(0, 1200);
 
       leads.push({
@@ -91,7 +111,7 @@ async function fetchWWRLeads() {
         source: 'We Work Remotely',
         title: title,
         body: description,
-        url: url,
+        url: sanitizeUrl(rawLink),
         createdAt: new Date().toISOString()
       });
     }
@@ -105,8 +125,8 @@ async function fetchWWRLeads() {
 async function fetchHackerNewsLeads() {
   const leads = [];
   try {
-    const res = await fetch('https://news.ycombinator.com/jobsrss', {
-      headers: { 'User-Agent': 'Mozilla/5.0 (Windows NT 10.0; Win64; x64)' }
+    const res = await fetch('https://hnrss.org/jobs', {
+      headers: { 'User-Agent': 'Mozilla/5.0 (Windows NT 10.0; Win64; x64) LeadHunter/3.0' }
     });
     if (!res.ok) return leads;
 
@@ -116,7 +136,7 @@ async function fetchHackerNewsLeads() {
     let match;
     while ((match = itemRegex.exec(xmlText)) !== null && leads.length < 10) {
       const title = match[1].replace(/<!\[CDATA\[|\]\]>/g, '').replace(/<[^>]*>/g, '').trim();
-      const url = match[2].replace(/<!\[CDATA\[|\]\]>/g, '').trim();
+      const rawLink = match[2];
       const description = match[3].replace(/<!\[CDATA\[|\]\]>/g, '').replace(/<[^>]*>/g, '').trim().slice(0, 1200);
 
       leads.push({
@@ -124,7 +144,7 @@ async function fetchHackerNewsLeads() {
         source: 'Hacker News Jobs',
         title: title,
         body: description,
-        url: url,
+        url: sanitizeUrl(rawLink),
         createdAt: new Date().toISOString()
       });
     }
@@ -136,7 +156,7 @@ async function fetchHackerNewsLeads() {
 
 // Versatile AI Evaluation
 async function evaluateLeadWithGroq(lead) {
-  const systemPrompt = `You are an executive AI sales assistant for Sheersh Tiwari ($20-$30/hr), a highly adaptable Full-Stack Developer and Software Architect. He handles end-to-end development across modern tech stacks: custom websites, SaaS MVPs, mobile/web apps, REST/GraphQL APIs, backend systems, database performance, and automation scripts. You MUST respond strictly in valid JSON.`;
+  const systemPrompt = `You are an executive AI sales assistant for Sheersh Tiwari ($20-$30/hr), a highly adaptable Full-Stack Developer and Software Architect. He handles end-to-end development across modern tech stacks: custom websites, SaaS MVPs, mobile/web apps, REST/GraphQL APIs, backend systems, database performance, and automation scripts. You MUST respond strictly in valid JSON format only.`;
   
   const userPrompt = `
   Analyze this listing to see if it requires ANY software development, web creation, mobile app development, scripting, API integration, or technical product building.
@@ -145,8 +165,8 @@ async function evaluateLeadWithGroq(lead) {
   1. Assign a relevance score (0-100).
   2. Draft a customized, highly persuasive 2-sentence proposal tailored directly to the specific tech or product requested in the job, emphasizing Sheersh's ability to build clean, fast, and scalable solutions.
 
-  If NOT RELEVANT (e.g., non-technical jobs like customer support, sales, accounting, or administrative roles):
-  Respond ONLY with: {"relevant": false}
+  If NOT RELEVANT (e.g., non-technical jobs like customer support, sales, accounting, writing, or administrative roles):
+  Respond ONLY with JSON: {"relevant": false}
 
   JSON output format:
   {
@@ -159,7 +179,7 @@ async function evaluateLeadWithGroq(lead) {
   Listing Description: ${lead.body}
   `;
 
-  const modelsToTry = ['openai/gpt-oss-20b', 'llama-3.1-8b-instant', 'llama-3.3-70b-versatile'];
+  const modelsToTry = ['llama-3.1-8b-instant', 'llama-3.3-70b-versatile', 'llama3-8b-8192'];
 
   for (const model of modelsToTry) {
     try {
@@ -188,7 +208,7 @@ async function evaluateLeadWithGroq(lead) {
     }
   }
 
-  Logger.error('Failed AI evaluation across models', { leadId: lead.id });
+  Logger.error('Failed AI evaluation across all models', { leadId: lead.id });
   return { relevant: false };
 }
 
@@ -212,7 +232,7 @@ async function runPipeline() {
   const rawLeads = [];
 
   for (const lead of [...remotiveLeads, ...wwrLeads, ...hnLeads]) {
-    if (!seenUrls.has(lead.url)) {
+    if (lead.url && !seenUrls.has(lead.url)) {
       seenUrls.add(lead.url);
       rawLeads.push(lead);
     }
@@ -231,6 +251,9 @@ async function runPipeline() {
     Logger.info(`Evaluating [${lead.id}]`, { source: lead.source, title: lead.title.slice(0, 50) });
     const evaluation = await evaluateLeadWithGroq(lead);
 
+    // Rate-limit safety pause
+    await sleep(500);
+
     if (evaluation.relevant && evaluation.score >= 60) {
       qualifiedCount++;
       Logger.info(`Qualified Lead [${lead.id}]`, { score: evaluation.score });
@@ -245,7 +268,7 @@ async function runPipeline() {
             <p style="font-size: 15px; color: #222; line-height: 1.5;">${evaluation.pitch}</p>
           </div>
           <p style="margin-top: 20px;">
-            <a href="${lead.url}" style="background-color: #0070f3; color: white; padding: 10px 18px; text-decoration: none; border-radius: 5px; display: inline-block;">View Opportunity</a>
+            <a href="${lead.url}" target="_blank" rel="noopener noreferrer" style="background-color: #0070f3; color: #ffffff; padding: 12px 20px; text-decoration: none; border-radius: 5px; display: inline-block; font-weight: bold;">View Opportunity</a>
           </p>
         </div>
       `;
