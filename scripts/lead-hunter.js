@@ -1,80 +1,243 @@
+/**
+ * Production AI Lead Hunter
+ * Target Runtime: Node.js 22+
+ */
+
 const GROQ_API_KEY = process.env.GROQ_API_KEY;
-const TELEGRAM_BOT_TOKEN = process.env.TELEGRAM_BOT_TOKEN;
-const TELEGRAM_CHAT_ID = process.env.TELEGRAM_CHAT_ID;
+const RESEND_API_KEY = process.env.RESEND_API_KEY;
+const RECIPIENT_EMAIL = process.env.RECIPIENT_EMAIL || 'er.sheershtiwari@gmail.com';
 
-async function run() {
-  console.log('--- STARTING LEAD HUNTER ---');
-  
-  if (!GROQ_API_KEY || !TELEGRAM_BOT_TOKEN || !TELEGRAM_CHAT_ID) {
-    console.error('❌ Error: Missing environment secrets! Verify GROQ_API_KEY, TELEGRAM_BOT_TOKEN, and TELEGRAM_CHAT_ID in GitHub Secrets.');
-    return;
-  }
+// 90-minute lookback window (ensures no duplicate alerts when running on an hourly cron)
+const LOOKBACK_WINDOW_MS = 90 * 60 * 1000;
 
-  console.log('Fetching latest Reddit posts...');
-  const res = await fetch('https://www.reddit.com/r/forhire/new.json?limit=25', {
-    headers: { 'User-Agent': 'LeadHunter/1.0' }
-  });
-  const data = await res.json();
-  const rawPosts = data.data?.children || [];
-  console.log(`Fetched ${rawPosts.length} total posts from Reddit.`);
+const Logger = {
+  info: (msg, data = {}) => console.log(JSON.stringify({ timestamp: new Date().toISOString(), level: 'INFO', message: msg, ...data })),
+  warn: (msg, data = {}) => console.warn(JSON.stringify({ timestamp: new Date().toISOString(), level: 'WARN', message: msg, ...data })),
+  error: (msg, data = {}) => console.error(JSON.stringify({ timestamp: new Date().toISOString(), level: 'ERROR', message: msg, ...data }))
+};
 
-  const hiringPosts = rawPosts
-    .map(c => c.data)
-    .filter(p => p.title && p.title.toLowerCase().includes('hiring'));
+async function sendEmailAlert(subject, htmlBody) {
+  try {
+    const response = await fetch('https://api.resend.com/emails', {
+      method: 'POST',
+      headers: {
+        'Authorization': `Bearer ${RESEND_API_KEY}`,
+        'Content-Type': 'application/json'
+      },
+      body: JSON.stringify({
+        from: 'Lead Hunter Pipeline <onboarding@resend.dev>',
+        to: [RECIPIENT_EMAIL],
+        subject: subject,
+        html: htmlBody
+      })
+    });
 
-  console.log(`Found ${hiringPosts.length} posts containing "hiring" in title.`);
-
-  if (hiringPosts.length === 0) {
-    console.log('No hiring posts found in this run. Waiting for next schedule.');
-    return;
-  }
-
-  for (const lead of hiringPosts) {
-    console.log(`Analyzing: "${lead.title}"...`);
-    const prompt = `
-    You are an AI sales agent for Sheersh Tiwari ($20-$25/hr Full-Stack Architect).
-    Analyze this post. If relevant to SQL, Spring Boot, React, FastAPI, or Database optimization, draft a 2-sentence proposal highlighting his 200M+ SQL record query optimization win.
-    Otherwise, respond ONLY with "SKIP".
-
-    Title: ${lead.title}
-    Body: ${lead.selftext || ''}
-    `;
-
-    try {
-      const aiRes = await fetch('https://api.groq.com/openai/v1/chat/completions', {
-        method: 'POST',
-        headers: {
-          'Authorization': `Bearer ${GROQ_API_KEY}`,
-          'Content-Type': 'application/json'
-        },
-        body: JSON.stringify({
-          model: 'llama-3.1-8b-instant',
-          messages: [{ role: 'user', content: prompt }]
-        })
-      });
-
-      const aiData = await aiRes.json();
-      const pitch = aiData.choices?.[0]?.message?.content?.trim();
-
-      if (pitch && !pitch.includes('SKIP')) {
-        console.log('✅ Qualified lead found! Sending Telegram notification...');
-        const text = `🚨 *NEW REDDIT LEAD*\n\n*Title:* ${lead.title}\n\n*AI Pitch:* ${pitch}\n\n[View Job Details](https://reddit.com${lead.permalink})`;
-        
-        const tgRes = await fetch(`https://api.telegram.org/bot${TELEGRAM_BOT_TOKEN}/sendMessage`, {
-          method: 'POST',
-          headers: { 'Content-Type': 'application/json' },
-          body: JSON.stringify({ chat_id: TELEGRAM_CHAT_ID, text, parse_mode: 'Markdown' })
-        });
-        const tgData = await tgRes.json();
-        console.log('Telegram API Response:', tgData);
-      } else {
-        console.log('Skipped (not relevant to your skill stack).');
-      }
-    } catch (err) {
-      console.error('Error processing lead:', err.message);
+    const payload = await response.json();
+    if (!response.ok) {
+      throw new Error(`Resend API Error: ${payload.message || response.statusText}`);
     }
+    return payload;
+  } catch (err) {
+    Logger.error('Failed to dispatch email notification', { error: err.message });
+    return null;
   }
-  console.log('--- LEAD HUNTER COMPLETED ---');
 }
 
-run();
+async function fetchRedditLeads() {
+  const subreddits = ['forhire', 'freelance_forhire', 'reactjs'];
+  const leads = [];
+  const now = Date.now();
+
+  for (const sub of subreddits) {
+    try {
+      const res = await fetch(`https://www.reddit.com/r/${sub}/new.json?limit=25`, {
+        headers: { 'User-Agent': 'ProductionLeadHunter/2.0' }
+      });
+
+      if (!res.ok) {
+        Logger.warn(`Reddit sub /r/${sub} returned status ${res.status}`);
+        continue;
+      }
+
+      const data = await res.json();
+      const posts = data.data?.children || [];
+
+      for (const child of posts) {
+        const post = child.data;
+        const postAgeMs = now - (post.created_utc * 1000);
+
+        // Deduplication filter: Only analyze posts created within the lookback window
+        if (postAgeMs > LOOKBACK_WINDOW_MS) continue;
+
+        const isHiring = post.title && (
+          post.title.toLowerCase().includes('[hiring]') || 
+          post.title.toLowerCase().includes('hiring')
+        );
+
+        if (isHiring) {
+          leads.push({
+            id: `reddit_${post.id}`,
+            source: `Reddit (/r/${sub})`,
+            title: post.title,
+            body: post.selftext || '',
+            url: `https://reddit.com${post.permalink}`,
+            createdAt: new Date(post.created_utc * 1000).toISOString()
+          });
+        }
+      }
+    } catch (err) {
+      Logger.error(`Error fetching Reddit sub /r/${sub}`, { error: err.message });
+    }
+  }
+  return leads;
+}
+
+async function fetchHackerNewsLeads() {
+  const leads = [];
+  try {
+    const res = await fetch('https://hnrss.org/whoishiring/freelance?q=SEEKING+FREELANCER');
+    if (!res.ok) return leads;
+
+    const xmlText = await res.text();
+    const itemRegex = /<item>[\s\S]*?<title>(.*?)<\/title>[\s\S]*?<link>(.*?)<\/link>[\s\S]*?<description>(.*?)<\/description>[\s\S]*?<pubDate>(.*?)<\/pubDate>[\s\S]*?<\/item>/g;
+    
+    let match;
+    const now = Date.now();
+
+    while ((match = itemRegex.exec(xmlText)) !== null) {
+      const pubDate = new Date(match[4]).getTime();
+      if (now - pubDate > LOOKBACK_WINDOW_MS) continue;
+
+      leads.push({
+        id: `hn_${pubDate}`,
+        source: 'Hacker News',
+        title: match[1].replace(/<!\[CDATA\[|\]\]>/g, '').trim(),
+        body: match[3].replace(/<!\[CDATA\[|\]\]>/g, '').trim().slice(0, 1000),
+        url: match[2].trim(),
+        createdAt: new Date(pubDate).toISOString()
+      });
+    }
+  } catch (err) {
+    Logger.error('Error fetching Hacker News RSS', { error: err.message });
+  }
+  return leads;
+}
+
+async function evaluateLeadWithGroq(lead) {
+  const prompt = `
+  You are an executive sales AI for Sheersh Tiwari ($20-$25/hr Full-Stack Architect).
+  Target Stack: Java, Spring Boot, Python, FastAPI, React, SQL performance tuning, and Microservices.
+
+  Analyze this client post.
+  If the job is seeking a developer in his stack:
+  1. Score relevance (0-100).
+  2. Write a 2-sentence cold proposal referencing his 200M+ record SQL optimization milestone.
+
+  If NOT relevant, respond ONLY with JSON: {"relevant": false}
+
+  JSON output format:
+  {
+    "relevant": true,
+    "score": 92,
+    "pitch": "..."
+  }
+
+  Post Title: ${lead.title}
+  Post Body: ${lead.body}
+  `;
+
+  try {
+    const response = await fetch('https://api.groq.com/openai/v1/chat/completions', {
+      method: 'POST',
+      headers: {
+        'Authorization': `Bearer ${GROQ_API_KEY}`,
+        'Content-Type': 'application/json'
+      },
+      body: JSON.stringify({
+        model: 'llama-3.1-8b-instant',
+        messages: [{ role: 'user', content: prompt }],
+        response_format: { type: 'json_object' }
+      })
+    });
+
+    if (!response.ok) {
+      throw new Error(`Groq API returned HTTP ${response.status}`);
+    }
+
+    const data = await response.json();
+    const content = JSON.parse(data.choices[0]?.message?.content || '{}');
+    return content;
+  } catch (err) {
+    Logger.error('Failed AI evaluation', { leadId: lead.id, error: err.message });
+    return { relevant: false };
+  }
+}
+
+async function runPipeline() {
+  const startTime = Date.now();
+  Logger.info('Pipeline execution initiated');
+
+  // 1. Environmental Assertions
+  if (!GROQ_API_KEY || !RESEND_API_KEY) {
+    Logger.error('Environment validation failed. Missing GROQ_API_KEY or RESEND_API_KEY.');
+    process.exit(1);
+  }
+
+  // 2. Lead Discovery
+  const [redditLeads, hnLeads] = await Promise.all([
+    fetchRedditLeads(),
+    fetchHackerNewsLeads()
+  ]);
+
+  const rawLeads = [...redditLeads, ...hnLeads];
+  Logger.info(`Ingested raw leads within lookback window`, { count: rawLeads.length });
+
+  if (rawLeads.length === 0) {
+    Logger.info('Zero fresh leads found in current timeframe. Execution terminating normally.');
+    return;
+  }
+
+  // 3. AI Processing & Filtering
+  let qualifiedCount = 0;
+
+  for (const lead of rawLeads) {
+    Logger.info(`Evaluating lead [${lead.id}]`, { source: lead.source, title: lead.title.slice(0, 45) });
+    const evaluation = await evaluateLeadWithGroq(lead);
+
+    if (evaluation.relevant && evaluation.score >= 70) {
+      qualifiedCount++;
+      Logger.info(`Lead qualified [${lead.id}]`, { score: evaluation.score });
+
+      const emailSubject = `🚨 [Score: ${evaluation.score}] ${lead.source}: ${lead.title.slice(0, 50)}...`;
+      const htmlTemplate = `
+        <div style="font-family: Arial, sans-serif; max-width: 600px; margin: 0 auto; border: 1px solid #e0e0e0; border-radius: 8px; padding: 20px;">
+          <h2 style="color: #1a0dab; margin-top: 0;">${lead.title}</h2>
+          <p><strong>Source:</strong> ${lead.source} | <strong>Posted:</strong> ${lead.createdAt}</p>
+          <div style="background-color: #f5f5f5; padding: 15px; border-left: 4px solid #0070f3; margin: 15px 0;">
+            <h4 style="margin-top: 0; color: #333;">Generated Proposal Pitch:</h4>
+            <p style="font-size: 15px; color: #222; line-height: 1.5;">${evaluation.pitch}</p>
+          </div>
+          <p style="margin-top: 20px;">
+            <a href="${lead.url}" style="background-color: #0070f3; color: white; padding: 10px 18px; text-decoration: none; border-radius: 5px; display: inline-block;">View Original Listing</a>
+          </p>
+        </div>
+      `;
+
+      await sendEmailAlert(emailSubject, htmlTemplate);
+    } else {
+      Logger.info(`Lead skipped [${lead.id}]`, { reason: 'Below score threshold or non-matching stack' });
+    }
+  }
+
+  const durationMs = Date.now() - startTime;
+  Logger.info('Pipeline execution finished', {
+    processed: rawLeads.length,
+    qualified: qualifiedCount,
+    durationMs: durationMs
+  });
+}
+
+runPipeline().catch((err) => {
+  Logger.error('Unhandled pipeline failure', { error: err.message, stack: err.stack });
+  process.exit(1);
+});
