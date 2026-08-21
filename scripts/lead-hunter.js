@@ -1,14 +1,13 @@
 /**
- * Production AI Lead Hunter
- * Target Runtime: Node.js 22+
+ * Production AI Lead Hunter (24-Hour Historical Scan + Daily Schedule)
  */
 
 const GROQ_API_KEY = process.env.GROQ_API_KEY;
 const RESEND_API_KEY = process.env.RESEND_API_KEY;
 const RECIPIENT_EMAIL = process.env.RECIPIENT_EMAIL || 'er.sheershtiwari@gmail.com';
 
-// 90-minute lookback window (ensures no duplicate alerts when running on an hourly cron)
-const LOOKBACK_WINDOW_MS = 90 * 60 * 1000;
+// 24-hour lookback window to capture recent historical posts
+const LOOKBACK_WINDOW_MS = 24 * 60 * 60 * 1000;
 
 const Logger = {
   info: (msg, data = {}) => console.log(JSON.stringify({ timestamp: new Date().toISOString(), level: 'INFO', message: msg, ...data })),
@@ -50,7 +49,7 @@ async function fetchRedditLeads() {
 
   for (const sub of subreddits) {
     try {
-      const res = await fetch(`https://www.reddit.com/r/${sub}/new.json?limit=25`, {
+      const res = await fetch(`https://www.reddit.com/r/${sub}/new.json?limit=50`, {
         headers: { 'User-Agent': 'ProductionLeadHunter/2.0' }
       });
 
@@ -66,7 +65,6 @@ async function fetchRedditLeads() {
         const post = child.data;
         const postAgeMs = now - (post.created_utc * 1000);
 
-        // Deduplication filter: Only analyze posts created within the lookback window
         if (postAgeMs > LOOKBACK_WINDOW_MS) continue;
 
         const isHiring = post.title && (
@@ -165,8 +163,7 @@ async function evaluateLeadWithGroq(lead) {
     }
 
     const data = await response.json();
-    const content = JSON.parse(data.choices[0]?.message?.content || '{}');
-    return content;
+    return JSON.parse(data.choices[0]?.message?.content || '{}');
   } catch (err) {
     Logger.error('Failed AI evaluation', { leadId: lead.id, error: err.message });
     return { relevant: false };
@@ -177,27 +174,25 @@ async function runPipeline() {
   const startTime = Date.now();
   Logger.info('Pipeline execution initiated');
 
-  // 1. Environmental Assertions
   if (!GROQ_API_KEY || !RESEND_API_KEY) {
     Logger.error('Environment validation failed. Missing GROQ_API_KEY or RESEND_API_KEY.');
     process.exit(1);
   }
 
-  // 2. Lead Discovery
+  // Instant notification ping on startup
+  await sendEmailAlert(
+    '🟢 Lead Hunter Immediate Execution Initiated',
+    '<p>Pipeline activated. Scanning past 24 hours of listings across Reddit and Hacker News...</p>'
+  );
+
   const [redditLeads, hnLeads] = await Promise.all([
     fetchRedditLeads(),
     fetchHackerNewsLeads()
   ]);
 
   const rawLeads = [...redditLeads, ...hnLeads];
-  Logger.info(`Ingested raw leads within lookback window`, { count: rawLeads.length });
+  Logger.info(`Ingested raw leads within 24-hour window`, { count: rawLeads.length });
 
-  if (rawLeads.length === 0) {
-    Logger.info('Zero fresh leads found in current timeframe. Execution terminating normally.');
-    return;
-  }
-
-  // 3. AI Processing & Filtering
   let qualifiedCount = 0;
 
   for (const lead of rawLeads) {
@@ -224,16 +219,13 @@ async function runPipeline() {
       `;
 
       await sendEmailAlert(emailSubject, htmlTemplate);
-    } else {
-      Logger.info(`Lead skipped [${lead.id}]`, { reason: 'Below score threshold or non-matching stack' });
     }
   }
 
-  const durationMs = Date.now() - startTime;
   Logger.info('Pipeline execution finished', {
     processed: rawLeads.length,
     qualified: qualifiedCount,
-    durationMs: durationMs
+    durationMs: Date.now() - startTime
   });
 }
 
