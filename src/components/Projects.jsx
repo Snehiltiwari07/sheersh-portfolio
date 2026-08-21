@@ -3,6 +3,18 @@ import { motion, AnimatePresence } from 'framer-motion';
 
 // Lightweight, instant-rendering SVG vector banners (0ms network load time)
 const TECH_BANNERS = {
+  leadHunter: (
+    <div className="w-full h-full bg-gradient-to-tr from-emerald-950 via-slate-950 to-cyan-950 flex items-center justify-center relative overflow-hidden">
+      <div className="absolute inset-0 bg-[radial-gradient(circle_at_center,rgba(16,185,129,0.2)_0,transparent_70%)]" />
+      <svg className="w-16 h-16 text-emerald-400/50 animate-pulse" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.5">
+        <circle cx="12" cy="12" r="10" />
+        <circle cx="12" cy="12" r="6" />
+        <circle cx="12" cy="12" r="2" />
+        <line x1="12" y1="2" x2="12" y2="22" />
+        <line x1="2" y1="12" x2="22" y2="12" />
+      </svg>
+    </div>
+  ),
   groq: (
     <div className="w-full h-full bg-gradient-to-tr from-orange-950 via-slate-950 to-amber-950 flex items-center justify-center relative overflow-hidden">
       <div className="absolute inset-0 bg-[radial-gradient(circle_at_center,rgba(249,115,22,0.15)_0,transparent_70%)]" />
@@ -68,6 +80,45 @@ const TECH_BANNERS = {
 
 const PROJECT_CAROUSEL = [
   {
+    id: 'ai-lead-hunter-pipeline',
+    title: 'Autonomous AI Lead Hunter & Proposal Pipeline',
+    subtitle: 'Multi-Source Lead Harvesting & Auto-Pitching',
+    type: 'AI Sales Automation & ETL',
+    badge: 'Production Live & Automated',
+    badgeColor: 'border-emerald-500/40 text-emerald-300 bg-emerald-950/30',
+    banner: TECH_BANNERS.leadHunter,
+    description:
+      'An autonomous multi-channel lead generation pipeline that scrapes contract listings from LinkedIn, Reddit, Hacker News, RemoteOK, We Work Remotely, and Remotive, evaluates relevance using Groq LPU inference, and dispatches single-digest email briefs with 1-click mailto proposals.',
+    metrics: [
+      { label: 'Harvest Volume', value: '50+ Jobs/Run' },
+      { label: 'Precision Score', value: '75+ Cutoff' },
+      { label: 'Execution Speed', value: '< 45 Seconds' }
+    ],
+    techStack: ['Node.js', 'Groq LPU API', 'Resend API', 'Apify Scraping', 'GitHub Actions', 'RSS/REST'],
+    architectureFlow: '6 Multi-Source Endpoints ➔ Groq LPU Evaluation Engine ➔ 1-Click Mailto Proposal Generator ➔ Resend Consolidated Digest',
+    deepExplanation:
+      'Engineered an autonomous sales engineering worker running scheduled GitHub Actions workflows. It concurrently queries 6 job networks (LinkedIn Apify actor, Reddit JSON/RSS, Hacker News, RemoteOK API, Remotive), evaluates tech stack relevance and budget fit via Groq LPU inference, extracts hiring contact emails, and delivers a consolidated HTML digest with pre-filled proposal links.',
+    codeSnippet: `async function runPipeline() {
+  // Concurrent Multi-Source Ingestion
+  const [reddit, remoteOk, hn, wwr, linkedIn, remotive] = await Promise.all([
+    fetchRedditLeads(), fetchRemoteOKLeads(), fetchHackerNewsLeads(),
+    fetchWWRLeads(), fetchLinkedInLeads(), fetchRemotiveLeads()
+  ]);
+
+  // Groq LPU AI Evaluation & Scoring Loop
+  for (const lead of rawLeads) {
+    const eval = await evaluateLeadWithGroq(lead);
+    if (eval.relevant && eval.score >= 75) {
+      qualifiedLeads.push({ lead, eval });
+    }
+    await sleep(2000); // Enforce Groq rate-limit compliance
+  }
+
+  // Dispatch Master Consolidated Digest
+  await sendDigestEmail(qualifiedLeads);
+}`
+  },
+  {
     id: 'groq-ai-pipeline',
     title: 'Groq LPU Fast Inference Pipeline',
     subtitle: 'Sub-100ms LLM Integration Gateway',
@@ -123,7 +174,7 @@ public ResponseEntity<PaymentResult> authorizeAmexTransaction(@Valid @RequestBod
     if (!redisTemplate.opsForValue().setIfAbsent(lockKey, "LOCKED", Duration.ofSeconds(10))) {
         return ResponseEntity.status(HttpStatus.CONFLICT).body(PaymentResult.duplicate("Duplicate Request"));
     }
-    
+
     AmexAuthResponse response = amexClient.executeAuthorization(request.toAmexPayload());
     return ResponseEntity.ok(PaymentResult.fromAmex(response));
 }`
@@ -153,7 +204,7 @@ public class GoogleSheetsSyncService {
     public BatchUpdateValuesResponse syncRowToPostgres(String spreadsheetId, List<Object> rowData) {
         Sheets service = googleSheetsClient.getSheetsService();
         ValueRange body = new ValueRange().setValues(Collections.singletonList(rowData));
-        
+
         return service.spreadsheets().values()
             .update(spreadsheetId, "A1:Z1", body)
             .setValueInputOption("USER_ENTERED")
@@ -166,7 +217,7 @@ public class GoogleSheetsSyncService {
     title: '200M+ Record SQL Optimization Engine',
     subtitle: 'High-Cardinality Query Tuning & Execution Refactoring',
     type: 'Database Architecture & Tuning',
-    badge: 'Beacon Award 2024 Winner',
+    badge: 'Beacon Award Winner',
     badgeColor: 'border-amber-500/40 text-amber-300 bg-amber-950/30',
     banner: TECH_BANNERS.sql,
     description:
@@ -327,13 +378,13 @@ export default function Projects({ onOpenHireDrawer }) {
         <div className="space-y-3">
           <div className="inline-flex items-center gap-2 px-3.5 py-1 rounded-full bg-slate-900 border border-slate-800 text-xs font-mono text-cyan-400 shadow-md">
             <span className="w-2 h-2 rounded-full bg-cyan-400 animate-pulse" />
-            7 Systems, AI Pipelines & Fintech Integrations
+            8 Systems, AI Pipelines & Sales Automations
           </div>
           <h2 className="font-display font-bold text-3xl sm:text-5xl text-slate-100 tracking-tight">
             Featured Systems Showcase
           </h2>
           <p className="text-slate-400 text-xs sm:text-sm max-w-2xl font-sans leading-relaxed">
-            Auto-rotating showcase featuring Groq LPU AI pipelines, Amex Card POS gateways, Google Sheets ETL syncs, and 200M+ SQL refactors. Hover to pause auto-scroll.
+            Auto-rotating showcase featuring autonomous AI lead pipelines, Groq LPU inference, Amex Card POS gateways, Google Sheets ETL syncs, and 200M+ SQL refactors. Hover to pause auto-scroll.
           </p>
         </div>
 
@@ -477,7 +528,7 @@ function DetailedArchitectureModal({ project, onClose, onOpenHireDrawer }) {
         {/* Header Image Cover */}
         <div className="relative h-32 sm:h-36 w-full bg-slate-900 shrink-0 border-b border-slate-800">
           {project.banner}
-          
+
           <div className="absolute top-4 right-4 z-10">
             <button
               onClick={onClose}
@@ -499,7 +550,7 @@ function DetailedArchitectureModal({ project, onClose, onOpenHireDrawer }) {
 
         {/* Modal Scrollable Body */}
         <div className="p-6 flex-1 overflow-y-auto space-y-5 font-sans">
-          
+
           {/* Pipeline Data Flow */}
           <div className="space-y-1.5">
             <h4 className="font-mono text-[11px] font-bold text-slate-400 uppercase tracking-wider">
