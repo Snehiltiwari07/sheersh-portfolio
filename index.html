@@ -4,23 +4,40 @@
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
 
-    <!-- 1. CookieHub Cookie Banner Script -->
+    <!-- 1. CookieHub Cookie Banner Script with GA4 Integration Callback -->
     <script src="https://cdn.cookiehub.eu/c2/c71950bb.js"></script>
     <script type="text/javascript">
       document.addEventListener("DOMContentLoaded", function(event) {
-        var cpm = {};
+        var cpm = {
+          onInitialise: function(status) {
+            if (this.hasConsented('analytics')) {
+              loadGA4();
+            }
+          },
+          onAllow: function(category) {
+            if (category === 'analytics') {
+              loadGA4();
+            }
+          }
+        };
         window.cookiehub.load(cpm);
       });
-    </script>
 
-    <!-- 2. Google Analytics 4 (GA4) Tag -->
-    <script async src="https://www.googletagmanager.com/gtag/js?id=G-R767831ZBS"></script>
-    <script>
-      window.dataLayer = window.dataLayer || [];
-      function gtag(){dataLayer.push(arguments);}
-      gtag('js', new Date());
+      function loadGA4() {
+        if (window.ga4Loaded) return;
+        window.ga4Loaded = true;
 
-      gtag('config', 'G-R767831ZBS');
+        var script = document.createElement('script');
+        script.async = true;
+        script.src = 'https://www.googletagmanager.com/gtag/js?id=G-R767831ZBS';
+        document.head.appendChild(script);
+
+        window.dataLayer = window.dataLayer || [];
+        function gtag(){dataLayer.push(arguments);}
+        window.gtag = gtag;
+        gtag('js', new Date());
+        gtag('config', 'G-R767831ZBS');
+      }
     </script>
 
     <!-- Browser Tab Title -->

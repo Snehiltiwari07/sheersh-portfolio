@@ -190,15 +190,15 @@ export const keyAchievements = [
     techs: ["Google Sheets API", "OAuth2", "Node.js", "Webhooks", "JSON"],
     description: "Built an automated bi-directional bridge between production databases and Google Sheets. Allows non-technical business teams to view and edit live database reports inside familiar spreadsheets without manual data entry errors."
   },
-  {
-    id: "api-integration",
-    category: "Financial Integrations",
-    title: "QuickBooks Bi-Directional Sync",
-    metric: "30% Faster Invoicing",
-    subtext: "Automated Accounting",
-    techs: ["Java", "Spring Boot", "QuickBooks REST API", "OAuth2"],
-    description: "Architected automatic invoice and payment synchronization between enterprise backend software and QuickBooks, removing manual accounting delay and speeding up client billing turnaround."
-  },
+  // {
+  //   id: "api-integration",
+  //   category: "Financial Integrations",
+  //   title: "QuickBooks Bi-Directional Sync",
+  //   metric: "30% Faster Invoicing",
+  //   subtext: "Automated Accounting",
+  //   techs: ["Java", "Spring Boot", "QuickBooks REST API", "OAuth2"],
+  //   description: "Architected automatic invoice and payment synchronization between enterprise backend software and QuickBooks, removing manual accounting delay and speeding up client billing turnaround."
+  // },
   {
     id: "sql-perf",
     category: "Database Acceleration",
