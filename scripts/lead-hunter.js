@@ -1,12 +1,12 @@
 /**
- * Production AI Lead Hunter (24-Hour Historical Scan + Daily Schedule)
+ * Production AI Lead Hunter (Multi-Source RSS Pipeline)
  */
 
 const GROQ_API_KEY = process.env.GROQ_API_KEY;
 const RESEND_API_KEY = process.env.RESEND_API_KEY;
 const RECIPIENT_EMAIL = process.env.RECIPIENT_EMAIL || 'er.sheershtiwari@gmail.com';
 
-// 24-hour lookback window to capture recent historical posts
+// 24-hour lookback window
 const LOOKBACK_WINDOW_MS = 24 * 60 * 60 * 1000;
 
 const Logger = {
@@ -42,6 +42,7 @@ async function sendEmailAlert(subject, htmlBody) {
   }
 }
 
+// 1. Reddit RSS Feeds (Bypasses 403 JSON Cloud IP Block)
 async function fetchRedditLeads() {
   const subreddits = ['forhire', 'freelance_forhire', 'reactjs'];
   const leads = [];
@@ -49,8 +50,10 @@ async function fetchRedditLeads() {
 
   for (const sub of subreddits) {
     try {
-      const res = await fetch(`https://www.reddit.com/r/${sub}/new.json?limit=50`, {
-        headers: { 'User-Agent': 'ProductionLeadHunter/2.0' }
+      const res = await fetch(`https://www.reddit.com/r/${sub}/new.rss`, {
+        headers: {
+          'User-Agent': 'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/122.0.0.0 Safari/537.36'
+        }
       });
 
       if (!res.ok) {
@@ -58,28 +61,28 @@ async function fetchRedditLeads() {
         continue;
       }
 
-      const data = await res.json();
-      const posts = data.data?.children || [];
+      const xmlText = await res.text();
+      const entryRegex = /<entry>[\s\S]*?<title>(.*?)<\/title>[\s\S]*?<link href="(.*?)"[\s\S]*?<updated>(.*?)<\/updated>[\s\S]*?<content type="html">(.*?)<\/content>[\s\S]*?<\/entry>/g;
 
-      for (const child of posts) {
-        const post = child.data;
-        const postAgeMs = now - (post.created_utc * 1000);
+      let match;
+      while ((match = entryRegex.exec(xmlText)) !== null) {
+        const title = match[1].replace(/&lt;/g, '<').replace(/&gt;/g, '>').replace(/&amp;/g, '&').trim();
+        const url = match[2];
+        const updatedTime = new Date(match[3]).getTime();
+        const content = match[4].replace(/&lt;/g, '<').replace(/&gt;/g, '>').replace(/&amp;/g, '&').replace(/<[^>]*>/g, '').trim();
 
-        if (postAgeMs > LOOKBACK_WINDOW_MS) continue;
+        if (now - updatedTime > LOOKBACK_WINDOW_MS) continue;
 
-        const isHiring = post.title && (
-          post.title.toLowerCase().includes('[hiring]') || 
-          post.title.toLowerCase().includes('hiring')
-        );
+        const isHiring = title.toLowerCase().includes('[hiring]') || title.toLowerCase().includes('hiring');
 
         if (isHiring) {
           leads.push({
-            id: `reddit_${post.id}`,
+            id: `reddit_${updatedTime}_${Math.random().toString(36).substring(7)}`,
             source: `Reddit (/r/${sub})`,
-            title: post.title,
-            body: post.selftext || '',
-            url: `https://reddit.com${post.permalink}`,
-            createdAt: new Date(post.created_utc * 1000).toISOString()
+            title: title,
+            body: content.slice(0, 1000),
+            url: url,
+            createdAt: new Date(updatedTime).toISOString()
           });
         }
       }
@@ -90,6 +93,7 @@ async function fetchRedditLeads() {
   return leads;
 }
 
+// 2. Hacker News RSS Feed
 async function fetchHackerNewsLeads() {
   const leads = [];
   try {
@@ -98,7 +102,7 @@ async function fetchHackerNewsLeads() {
 
     const xmlText = await res.text();
     const itemRegex = /<item>[\s\S]*?<title>(.*?)<\/title>[\s\S]*?<link>(.*?)<\/link>[\s\S]*?<description>(.*?)<\/description>[\s\S]*?<pubDate>(.*?)<\/pubDate>[\s\S]*?<\/item>/g;
-    
+
     let match;
     const now = Date.now();
 
@@ -178,12 +182,6 @@ async function runPipeline() {
     Logger.error('Environment validation failed. Missing GROQ_API_KEY or RESEND_API_KEY.');
     process.exit(1);
   }
-
-  // Instant notification ping on startup
-  await sendEmailAlert(
-    '🟢 Lead Hunter Immediate Execution Initiated',
-    '<p>Pipeline activated. Scanning past 24 hours of listings across Reddit and Hacker News...</p>'
-  );
 
   const [redditLeads, hnLeads] = await Promise.all([
     fetchRedditLeads(),
