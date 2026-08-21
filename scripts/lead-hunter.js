@@ -15,7 +15,7 @@ const Logger = {
   error: (msg, data = {}) => console.error(JSON.stringify({ timestamp: new Date().toISOString(), level: 'ERROR', message: msg, ...data }))
 };
 
-// URL Sanitizer to ensure links open correctly in email clients
+// URL Sanitizer to decode HTML entities and guarantee clickable links in Gmail
 function sanitizeUrl(rawUrl) {
   if (!rawUrl) return '#';
   let clean = rawUrl
@@ -93,7 +93,7 @@ async function fetchWWRLeads() {
   const leads = [];
   try {
     const res = await fetch('https://weworkremotely.com/categories/remote-programming-jobs.rss', {
-      headers: { 'User-Agent': 'Mozilla/5.0 (Windows NT 10.0; Win64; x64)' }
+      headers: { 'User-Agent': 'Mozilla/5.0 (Windows NT 10.0; Win64; x64) LeadHunter/3.0' }
     });
     if (!res.ok) return leads;
 
@@ -154,7 +154,7 @@ async function fetchHackerNewsLeads() {
   return leads;
 }
 
-// Versatile AI Evaluation
+// Versatile AI Evaluation with Native Groq Models
 async function evaluateLeadWithGroq(lead) {
   const systemPrompt = `You are an executive AI sales assistant for Sheersh Tiwari ($20-$30/hr), a highly adaptable Full-Stack Developer and Software Architect. He handles end-to-end development across modern tech stacks: custom websites, SaaS MVPs, mobile/web apps, REST/GraphQL APIs, backend systems, database performance, and automation scripts. You MUST respond strictly in valid JSON format only.`;
   
@@ -179,7 +179,8 @@ async function evaluateLeadWithGroq(lead) {
   Listing Description: ${lead.body}
   `;
 
-  const modelsToTry = ['llama-3.1-8b-instant', 'llama-3.3-70b-versatile', 'llama3-8b-8192'];
+  // Native supported Groq models
+  const modelsToTry = ['llama-3.1-8b-instant', 'llama-3.3-70b-versatile'];
 
   for (const model of modelsToTry) {
     try {
@@ -202,9 +203,12 @@ async function evaluateLeadWithGroq(lead) {
       if (response.ok) {
         const data = await response.json();
         return JSON.parse(data.choices[0]?.message?.content || '{}');
+      } else {
+        const errText = await response.text();
+        Logger.warn(`Groq Model [${model}] HTTP ${response.status}`, { details: errText.slice(0, 150) });
       }
     } catch (err) {
-      // Fallback to next model
+      Logger.warn(`Groq Model [${model}] Exception`, { error: err.message });
     }
   }
 
@@ -251,7 +255,7 @@ async function runPipeline() {
     Logger.info(`Evaluating [${lead.id}]`, { source: lead.source, title: lead.title.slice(0, 50) });
     const evaluation = await evaluateLeadWithGroq(lead);
 
-    // Rate-limit safety pause
+    // Sleep delay between calls to preserve free-tier request limits
     await sleep(500);
 
     if (evaluation.relevant && evaluation.score >= 60) {
