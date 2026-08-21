@@ -2,31 +2,20 @@ name: Automated AI Lead Hunter Pipeline
 
 on:
   push:
-    branches: [main] # Runs immediately when you commit/deploy
+    branches: [main]
   schedule:
-    - cron: '0 9 * * *' # Runs automatically once every day at 09:00 UTC
-  workflow_dispatch: # Allows manual triggers anytime
-
-concurrency:
-  group: lead-hunter-pipeline
-  cancel-in-progress: true
+    - cron: '0 9 * * *'
+  workflow_dispatch:
 
 jobs:
   execute-pipeline:
     runs-on: ubuntu-latest
-    timeout-minutes: 10
-
     steps:
-      - name: Checkout Codebase
-        uses: actions/checkout@v4
-
-      - name: Setup Node.js Environment (v22)
-        uses: actions/setup-node@v4
+      - uses: actions/checkout@v4
+      - uses: actions/setup-node@v4
         with:
           node-version: 22
-
-      - name: Execute Lead Hunter Script
-        run: node scripts/lead-hunter.js
+      - run: node scripts/lead-hunter.js
         env:
           GROQ_API_KEY: ${{ secrets.GROQ_API_KEY }}
           RESEND_API_KEY: ${{ secrets.RESEND_API_KEY }}
