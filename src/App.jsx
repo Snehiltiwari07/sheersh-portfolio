@@ -23,6 +23,8 @@ const Footer = lazy(() => import('./components/Footer'));
 const ChatEngine = lazy(() => import('./components/ChatEngine'));
 const HireDrawer = lazy(() => import('./components/HireDrawer'));
 import { FloatingHireButton } from './components/HireDrawer';
+import { SpeedInsights } from "@vercel/speed-insights/react";
+import { Analytics } from "@vercel/analytics/react"
 
 const SectionLoader = () => (
   <div className="w-full h-32 flex items-center justify-center font-mono text-xs text-slate-500">
@@ -75,6 +77,8 @@ export default function App() {
 
         <FloatingHireButton onClick={() => setIsHireDrawerOpen(true)} />
       </div>
+      <SpeedInsights />
+      <Analytics />
     </SecurityGuard>
   );
 }
