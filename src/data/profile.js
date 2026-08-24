@@ -113,6 +113,7 @@ export const clientReviews = [
     year: '2022'
   }
 ];
+
 export const techCategories = [
   {
     title: "Backend & Systems Architecture",

@@ -3,12 +3,12 @@ import { profile } from '../data/profile';
 
 export default function Hero({ onOpenHireDrawer }) {
   const techPills = [
-    { label: 'Spring Boot Microservices', color: 'border-emerald-500/40 text-emerald-300 bg-emerald-950/30' },
-    { label: '200M+ SQL Optimization', color: 'border-violet-500/40 text-violet-300 bg-violet-950/30' },
-    { label: 'AI Agents & RAG Pipelines', color: 'border-cyan-500/40 text-cyan-300 bg-cyan-950/30' },
+    { label: 'Java Spring Boot', color: 'border-emerald-500/40 text-emerald-300 bg-emerald-950/30' },
+    { label: 'Full-Stack Development', color: 'border-violet-500/40 text-violet-300 bg-violet-950/30' },
+    { label: 'AI & Machine Learning', color: 'border-cyan-500/40 text-cyan-300 bg-cyan-950/30' },
     { label: 'Python / FastAPI', color: 'border-amber-500/40 text-amber-300 bg-amber-950/30' },
     { label: 'React.js Frontend', color: 'border-blue-500/40 text-blue-300 bg-blue-950/30' },
-    { label: 'AWS & Docker Containers', color: 'border-orange-500/40 text-orange-300 bg-orange-950/30' },
+    { label: 'AWS & Cloud Architecture', color: 'border-orange-500/40 text-orange-300 bg-orange-950/30' },
   ];
 
   return (
@@ -46,7 +46,7 @@ export default function Hero({ onOpenHireDrawer }) {
               Sheersh <span className="text-transparent bg-clip-text bg-gradient-to-r from-violet-400 via-cyan-300 to-orange-400">Tiwari</span>
             </h1>
             <p className="font-mono text-xs sm:text-sm text-cyan-400 font-semibold tracking-wider uppercase">
-              Full-Stack & SQL Architect • AI Systems Specialist
+              Senior Software Engineer • Full-Stack & AI Specialist
             </p>
           </motion.div>
 
@@ -57,7 +57,7 @@ export default function Hero({ onOpenHireDrawer }) {
             transition={{ duration: 0.5, delay: 0.2 }}
             className="text-slate-300 text-xs sm:text-sm md:text-base leading-relaxed font-sans"
           >
-            I partner with founders, engineering teams, and enterprise clients to <strong className="text-slate-100 font-semibold">solve critical system bottlenecks, cut cloud infrastructure bills, and ship production-grade AI features</strong> across SaaS, Fintech, and high-scale platforms. Whether you need to refactor a slow database, build resilient Spring Boot/Python microservices, or integrate secure local AI workflows, I bring proven architectural rigor to your product. Winner of <strong className="text-orange-400 font-semibold">"The Beacon — Employee of the Year 2024"</strong> for optimizing 200M+ record queries—slashing execution latencies from 15 minutes to 6 seconds and cutting CPU load by 92%.
+            I partner with engineering teams and enterprise clients to <strong className="text-slate-100 font-semibold">build scalable enterprise systems, optimize cloud infrastructure, and ship production-grade AI features</strong>. Whether you need to architect resilient end-to-end solutions, develop robust Java and Python microservices, or integrate secure local AI workflows, I bring proven engineering rigor to your product. Recognized with top organizational awards for driving critical technical optimizations and system reliability.
           </motion.p>
 
           {/* Skill Expertise Pills */}
@@ -85,18 +85,18 @@ export default function Hero({ onOpenHireDrawer }) {
             className="grid grid-cols-3 gap-3 pt-2"
           >
             <div className="p-3 rounded-2xl bg-slate-950/80 border border-slate-800/80">
-              <div className="font-display font-bold text-lg sm:text-xl text-violet-400">200M+</div>
-              <div className="font-mono text-[10px] text-slate-400">Records Optimized</div>
+              <div className="font-display font-bold text-lg sm:text-xl text-violet-400">Enterprise</div>
+              <div className="font-mono text-[10px] text-slate-400">Architecture</div>
             </div>
 
             <div className="p-3 rounded-2xl bg-slate-950/80 border border-slate-800/80">
-              <div className="font-display font-bold text-lg sm:text-xl text-cyan-400">15m ➔ 6s</div>
-              <div className="font-mono text-[10px] text-slate-400">Execution Speedup</div>
+              <div className="font-display font-bold text-lg sm:text-xl text-cyan-400">Full-Stack</div>
+              <div className="font-mono text-[10px] text-slate-400">Engineering</div>
             </div>
 
             <div className="p-3 rounded-2xl bg-slate-950/80 border border-slate-800/80">
-              <div className="font-display font-bold text-lg sm:text-xl text-orange-400">Beacon 2024</div>
-              <div className="font-mono text-[10px] text-slate-400">Executive Award</div>
+              <div className="font-display font-bold text-lg sm:text-xl text-orange-400">Top Performer</div>
+              <div className="font-mono text-[10px] text-slate-400">Excellence Award</div>
             </div>
           </motion.div>
 
@@ -153,10 +153,10 @@ export default function Hero({ onOpenHireDrawer }) {
 
               {/* Top HUD Badge */}
               <div className="absolute top-3 left-3 right-3 flex items-center justify-between">
-                <span className="px-3 py-1 rounded-full bg-slate-950/80 border border-slate-800 text-[10px] font-mono text-cyan-400 backdrop-blur-md shadow-md">
-                  Indore, MP, India
+                <span className="px-3 py-1 rounded-full bg-slate-950/80 border border-slate-800 text-[10px] font-mono text-cyan-400 backdrop-blur-md shadow-md flex items-center gap-1.5">
+                  <span>India • Remote</span>
                 </span>
-                <span className="w-2.5 h-2.5 rounded-full bg-emerald-400 border-2 border-slate-950 animate-pulse" />
+                <span className="w-2.5 h-2.5 rounded-full bg-emerald-400 border-2 border-slate-950 animate-pulse shadow-[0_0_8px_rgba(52,211,153,0.8)]" />
               </div>
 
               {/* Bottom Details Overlay */}
@@ -165,10 +165,10 @@ export default function Hero({ onOpenHireDrawer }) {
                   Sheersh Tiwari
                 </h3>
                 <p className="font-mono text-[11px] text-orange-400">
-                  The Beacon — Employee of the Year 2024
+                  Award-Winning Software Engineer
                 </p>
                 <p className="font-mono text-[10px] text-slate-400">
-                  Java Spring • Python • SQL • WebGPU AI
+                  Java • Python • Full-Stack • AI
                 </p>
               </div>
 

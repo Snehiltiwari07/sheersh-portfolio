@@ -49,7 +49,6 @@ export default function Reviews() {
     ? clientReviews
     : clientReviews.filter(r => r.year === selectedYear);
 
-  // Reset slider index when year filter changes
   const handleYearChange = (year) => {
     setSelectedYear(year);
     setCurrentIndex(0);
@@ -65,7 +64,6 @@ export default function Reviews() {
     setCurrentIndex((prev) => (prev - 1 + filteredReviews.length) % filteredReviews.length);
   }, [filteredReviews.length]);
 
-  // Auto-slide every 5 seconds
   useEffect(() => {
     if (!isAutoPlaying || filteredReviews.length <= 1) return;
     const timer = setInterval(() => {
@@ -112,7 +110,6 @@ export default function Reviews() {
         onMouseEnter={() => setIsAutoPlaying(false)}
         onMouseLeave={() => setIsAutoPlaying(true)}
       >
-        {/* Background Decorative Quote Mark & Ambient Glow */}
         <div className="absolute top-2 right-6 text-slate-800/20 font-serif text-8xl font-black select-none pointer-events-none">
           “
         </div>
