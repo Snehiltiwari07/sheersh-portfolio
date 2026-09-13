@@ -1,3 +1,5 @@
+import { PHOTO_ALT } from './positioning.js';
+
 /**
  * Single source of truth for the responsive image pipeline (T-001).
  *
@@ -6,6 +8,8 @@
  *   - src/components/ResponsivePhoto.jsx  (runtime: builds <picture>/srcset/sizes)
  *
  * Never hand-edit the generated files in public/img/ — re-run `npm run build:images`.
+ * The `alt` default comes from the positioning layer, so the manifest cannot
+ * carry a role descriptor the rest of the site does not use (T-014, PRD row 8).
  */
 
 /** Fallback (universally supported) raster width, in px. */
@@ -21,7 +25,7 @@ export const PHOTOS = {
     fallback: '/img/profile-headshot-fallback.png',
     widths: SHARED_WIDTHS,
     intrinsic: { width: 2048, height: 2048 },
-    alt: 'Sheersh Tiwari — Senior Software Engineer, full-stack and AI systems',
+    alt: PHOTO_ALT,
   },
   lifestyle: {
     master: 'assets-src/profile-lifestyle.png',

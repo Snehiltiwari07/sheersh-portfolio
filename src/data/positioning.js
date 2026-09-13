@@ -42,6 +42,19 @@ export const META_DESCRIPTION =
 export const AVAILABILITY =
   'Available for Full-Stack & Database Performance Contracts';
 
+// Footer brand paragraph — outcome-led, same voice as the summary.
+export const FOOTER_BRAND =
+  'Full-stack engineer who makes slow enterprise systems fast — 200M+ record performance tuning, Spring Boot microservices, and client-side AI.';
+
+// profile.summary — the long-form bio in src/data/profile.js.
+export const SUMMARY =
+  'Full-stack engineer who makes slow enterprise systems fast — 200M+ record datasets from 15 minutes to 6 seconds, 92% less CPU, across high-throughput backend services and React frontends.';
+
+// Alt text for the portrait photographs (Hero + src/data/image-manifest.js).
+// Name plus the ONE role line — so a screen reader or an image search does not
+// hear a fifth descriptor.
+export const PHOTO_ALT = `Sheersh Tiwari — ${TAGLINE}`;
+
 export const positioning = {
   concept: CONCEPT,
   headline: HEADLINE,
@@ -50,12 +63,22 @@ export const positioning = {
   titleTag: TITLE_TAG,
   metaDescription: META_DESCRIPTION,
   availability: AVAILABILITY,
+  footerBrand: FOOTER_BRAND,
+  summary: SUMMARY,
+  photoAlt: PHOTO_ALT,
 
   // ===========================================================================
   // Consistency change list — every file that currently ships a divergent (or
   // missing) statement. `current` is the exact string on disk today; `replace`
   // is what it must become. This is the grep-verifiable target for the
   // "1 statement sitewide" acceptance criterion.
+  //
+  // T-014 executed this list. The `current:` values are kept as the audit trail
+  // of what the site used to say — and this file is the ONLY place the retired
+  // strings are allowed to appear: nothing imports it, so none of it reaches a
+  // component or the bundle. `npm run check:seo` enforces exactly that rule
+  // (it scans src/, index.html and dist/ and excludes this file), which is what
+  // makes the grep in the acceptance criterion meaningful.
   // ===========================================================================
   filesToChange: [
     {
@@ -70,8 +93,7 @@ export const positioning = {
       location: 'profile.summary (line 16)',
       current:
         'Full-Stack Engineer with 4+ years of experience engineering high-throughput backend services, React frontends, and ultra-low latency SQL query architectures across 200M+ record datasets.',
-      replace:
-        'Full-stack engineer who makes slow enterprise systems fast — 200M+ record datasets from 15 minutes to 6 seconds, 92% less CPU, across high-throughput backend services and React frontends.',
+      replace: SUMMARY,
       note: 'Align summary voice to the outcome (speed), not the stack list.',
     },
     {
@@ -87,6 +109,27 @@ export const positioning = {
       current: 'Available for Full-Stack & AI Systems Contracts',
       replace: AVAILABILITY,
       note: 'Keep the badge, align the words.',
+    },
+    {
+      file: 'src/components/Hero.jsx',
+      location: 'headshot alt text (line 136)',
+      current: 'Sheersh Tiwari — Senior Software Engineer, full-stack and AI systems',
+      replace: PHOTO_ALT,
+      note: 'The alt text was a sixth descriptor; it ships in the bundle and in the DOM.',
+    },
+    {
+      file: 'src/data/image-manifest.js',
+      location: 'PHOTOS.headshot.alt (line 24)',
+      current: 'Sheersh Tiwari — Senior Software Engineer, full-stack and AI systems',
+      replace: PHOTO_ALT,
+      note: 'The manifest default alt, used whenever a caller omits the alt prop.',
+    },
+    {
+      file: 'src/components/Footer.jsx',
+      location: 'availability badge (line 30)',
+      current: 'Available for Contract & Remote Engagement',
+      replace: AVAILABILITY,
+      note: 'Availability is one line shared by Hero and Footer — this is the same badge.',
     },
     {
       file: 'src/components/Navbar.jsx',
@@ -116,7 +159,7 @@ export const positioning = {
       current:
         'Full-Stack & SQL Architect specializing in 200M+ database performance tuning, Spring Boot microservices, and client-side AI systems.',
       replace:
-        'Full-stack engineer who makes slow enterprise systems fast — 200M+ record performance tuning, Spring Boot microservices, and client-side AI.',
+        FOOTER_BRAND,
       note: 'Fifth divergent descriptor found in the footer.',
     },
     {
@@ -126,7 +169,7 @@ export const positioning = {
         'Sheersh Tiwari: Full-Stack Architect & SQL Performance Specialist based in Indore, MP, India (Global Remote; overlaps with US EST/PST, UK, IST).',
       replace:
         'Sheersh Tiwari: Full-Stack Engineer & Database Performance Specialist based in Indore, MP, India (Global Remote; overlaps with US EST/PST, UK, IST).',
-      note: 'ChatEngine is out of scope for the frontend pass; update this one persona line to match the tagline.',
+      note: 'STILL DIVERGENT: T-014 skipped this file (card scope: "do not touch ChatEngine.jsx" — the API-key decision on the same file is BOSS\'s). Update this one persona line to match the tagline.',
     },
     {
       file: 'src/components/PhotoCard3D.jsx',

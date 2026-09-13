@@ -1,5 +1,6 @@
 import { useState, useEffect } from 'react';
 import { profile } from '../data/profile';
+import { TAGLINE } from '../data/positioning';
 import { cssColor } from '../styles/tokens';
 
 function BrandLogo() {
@@ -38,7 +39,7 @@ function BrandLogo() {
           </span>
         </div>
         <span className="text-tiny font-mono text-slate-400 -mt-0.5 tracking-wide">
-          SQL & AI Architect
+          {TAGLINE}
         </span>
       </div>
     </a>

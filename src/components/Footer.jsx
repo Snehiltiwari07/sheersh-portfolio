@@ -1,4 +1,5 @@
 import { profile } from '../data/profile';
+import { AVAILABILITY, FOOTER_BRAND } from '../data/positioning';
 
 export default function Footer({ onOpenHireDrawer }) {
   return (
@@ -21,13 +22,13 @@ export default function Footer({ onOpenHireDrawer }) {
             </div>
 
             <p className="text-slate-400 text-xs sm:text-sm leading-relaxed max-w-sm">
-              Full-Stack & SQL Architect specializing in 200M+ database performance tuning, Spring Boot microservices, and client-side AI systems.
+              {FOOTER_BRAND}
             </p>
 
             <div className="flex items-center gap-2 flex-wrap">
               <div className="inline-flex items-center gap-2 px-3 py-1.5 rounded-full bg-slate-900 border border-slate-800 text-xs font-mono text-emerald-400 shadow-sm">
                 <span className="w-2 h-2 rounded-full bg-emerald-400 animate-pulse" />
-                Available for Contract & Remote Engagement
+                {AVAILABILITY}
               </div>
               <span className="text-xs font-mono text-slate-400">• Indore, India</span>
             </div>

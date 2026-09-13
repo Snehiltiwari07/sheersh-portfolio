@@ -1,6 +1,8 @@
+import { TAGLINE, SUMMARY } from './positioning.js';
+
 export const profile = {
   name: 'Sheersh Tiwari',
-  title: 'Full-Stack Developer & SQL Optimization Specialist',
+  title: TAGLINE,
   subTitle: 'Spring Boot • Python • React • AWS • Database Architecture',
   email: 'er.sheershtiwari@gmail.com',
   phone: '+91 7389323262',
@@ -13,7 +15,7 @@ export const profile = {
   resumeUrl: '/Sheersh_Tiwari_Resume.pdf',
   avatarHeadshot: '/profile-headshot.png',   // Headshot photo (56.png)
   avatarLifestyle: '/profile-lifestyle.png', // Biker photo (2785.png)
-  summary: 'Full-Stack Engineer with 4+ years of experience engineering high-throughput backend services, React frontends, and ultra-low latency SQL query architectures across 200M+ record datasets.',
+  summary: SUMMARY,
   stats: [
     { label: 'Query Latency Reduction', value: '99.3%' },
     { label: 'Freelance Rating', value: '4.85 / 5.0' },

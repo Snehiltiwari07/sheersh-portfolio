@@ -1,6 +1,7 @@
 import { useState } from 'react';
 import ResponsivePhoto from './ResponsivePhoto';
 import { MONOGRAM_OWNER } from '../lib/monogram';
+import { AVAILABILITY, TAGLINE, PHOTO_ALT } from '../data/positioning';
 
 /**
  * Above-the-fold hero.
@@ -41,7 +42,7 @@ export default function Hero({ onOpenHireDrawer }) {
               <span className="animate-ping absolute inline-flex h-full w-full rounded-full bg-emerald-400 opacity-75" />
               <span className="relative inline-flex rounded-full h-2 w-2 bg-emerald-400" />
             </span>
-            <span>Available for Full-Stack & AI Systems Contracts</span>
+            <span>{AVAILABILITY}</span>
           </div>
 
           {/* Name & Title */}
@@ -50,7 +51,7 @@ export default function Hero({ onOpenHireDrawer }) {
               Sheersh <span className="text-transparent bg-clip-text bg-gradient-to-r from-violet-400 via-cyan-300 to-orange-400">Tiwari</span>
             </h1>
             <p className="font-mono text-xs sm:text-sm text-cyan-400 font-semibold tracking-wider uppercase">
-              Senior Software Engineer • Full-Stack & AI Specialist
+              {TAGLINE}
             </p>
           </div>
 
@@ -133,7 +134,7 @@ export default function Hero({ onOpenHireDrawer }) {
                   photo="headshot"
                   sizes="320px"
                   priority
-                  alt="Sheersh Tiwari — Senior Software Engineer, full-stack and AI systems"
+                  alt={PHOTO_ALT}
                   className="w-full h-full object-cover object-center filter brightness-[0.92] contrast-[1.08] group-hover:scale-105 transition-transform duration-slow"
                   onError={() => setHeadshotUnavailable(true)}
                 />
