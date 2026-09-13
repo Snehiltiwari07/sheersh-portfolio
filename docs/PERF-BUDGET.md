@@ -40,7 +40,7 @@ node scripts/measure-perf.mjs --skip-lighthouse   # faster loop while iterating
 | 4 | LCP (mobile) | **< 2.5 s** | yes |
 | 5 | INP | **< 200 ms** | yes **when** measurable — proxy only, see §4 |
 | 6 | CLS | **< 0.1** | yes (both viewports) |
-| 7 | Lighthouse mobile performance | **>= 90** | yes |
+| 7 | Lighthouse mobile performance | **>= 60** (pass-1 gate, BOSS decision 2026-09-13) · pass-2 target **>= 90** per PRD §9 | yes, at 60 |
 
 Baseline to beat (live site, 25 Aug build): **8,468 KB transfer, 4,345 ms load, 51 resources.**
 

@@ -70,6 +70,13 @@ It is now four named tokens: `text-nano` (8) · `text-tiny` (9) · `text-micro` 
 The body scale (`text-xs`/`sm`/`base`) is deliberately **not** re-declared — re-declaring it would
 silently resize every paragraph.
 
+`--text-xs` (0.75rem) and `--text-sm` (0.875rem) mirror Tailwind's own `text-xs`/`text-sm` for the
+plain-CSS HUD labels in `system.css` (`.chip`, `.cmd-label`, `.skip-link`), which cannot read a
+utility class. They are values only — Tailwind keeps emitting its own rem literals for the
+utilities, so no existing `text-xs`/`text-sm` element changes size. They are load-bearing: a bare
+`var(--text-xs)` with no definition drops the declaration at computed-value time, which is exactly
+how those three labels silently rendered at an inherited 16px.
+
 ## 3. Spacing, radius, layout, elevation
 
 `--space-1…16`, `--radius-xs…2xl` (+ `--radius-inner`, `--radius-panel`), `--hairline` (1px),

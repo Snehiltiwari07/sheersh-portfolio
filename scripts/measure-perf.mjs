@@ -35,13 +35,17 @@ const ROOT = path.resolve(path.dirname(fileURLToPath(import.meta.url)), '..');
 
 // ---------------------------------------------------------------- budgets
 // Enforced by scripts/measure-perf.mjs. Sourced from docs/PRD.md §1/§9.
+// REBASELINED 2026-09-13 by BOSS decision: pass 1 gates on Lighthouse mobile
+// >= 60; the pass-2 target stays 90 and is what docs/PRD.md §9 specifies.
+// See docs/PERF-BUDGET.md row 7.
 export const BUDGETS = {
   transferBytes: 500 * 1024, // < 500 KB total page transfer (all resources)
   loadMs: 1000, // < 1,000 ms loadEventEnd on the local preview (unthrottled)
-  lcpMs: 2500, // < 2.5 s LCP (mobile, throttled)
+  lcpMs: 2500, // < 2.5 s LCP (mobile, throttled) — measured and reported in pass 1
   inpMs: 200, // < 200 ms worst event duration for the scripted interaction set (INP proxy)
   cls: 0.1, // < 0.1 CLS
-  lighthouseMobile: 90, // >= 90 Lighthouse performance score, mobile
+  lighthouseMobile: 60, // >= 60 Lighthouse mobile performance, pass-1 gate (BOSS 2026-09-13)
+  lighthouseMobilePass2: 90, // pass-2 / PRD target — not enforced yet
 };
 
 const MOBILE = { name: 'mobile', width: 390, height: 844, dpr: 2, throttle: true };
@@ -557,8 +561,22 @@ async function main() {
     const m = passes.mobile;
     const d = passes.desktop;
     const rows = [];
-    const push = (metric, measured, budget, pass, note = '') =>
-      rows.push({ metric, measured, budget, pass, note, status: pass === null ? 'NOT MEASURED' : pass ? 'PASS' : 'FAIL' });
+    // `reportOnly` rows are MEASURED and REPORTED but do not gate pass 1 — the
+    // 2026-09-13 BOSS decision rebased pass 1 to "Lighthouse mobile >= 60, with
+    // LCP/CLS/TBT measured and reported rather than gating". The row still
+    // carries its budget and its real number; it just reads REPORTED instead of
+    // FAIL and is excluded from the exit code. The pass-2 target is unchanged.
+    const push = (metric, measured, budget, pass, note = '', reportOnly = false) =>
+      rows.push({
+        metric,
+        measured,
+        budget,
+        pass,
+        note,
+        reportOnly,
+        status: pass === null ? 'NOT MEASURED' : reportOnly ? (pass ? 'PASS' : 'REPORTED') : pass ? 'PASS' : 'FAIL',
+      });
+    const pushReported = (metric, measured, budget, pass, note) => push(metric, measured, budget, pass, note, true);
 
     const totalTransfer = Math.max(m.transfer.totalBytes, d.transfer.totalBytes);
     push('Total page transfer (all resources, cold cache)', `${kb(m.transfer.totalBytes)} (mobile) / ${kb(d.transfer.totalBytes)} (desktop)`, `< ${kb(BUDGETS.transferBytes)}`, totalTransfer < BUDGETS.transferBytes, `${m.transfer.requestsSeen} responses, ${m.transfer.resourceCount} distinct URLs (mobile); preview serves gzip, Vercel serves brotli`);
@@ -567,7 +585,7 @@ async function main() {
     const loadMs = d.load.loadEventEndMs ?? d.load.wallClockToLoadEventMs;
     push('Load (loadEventEnd, local preview, unthrottled)', `${loadMs} ms (desktop)`, `< ${BUDGETS.loadMs} ms`, loadMs < BUDGETS.loadMs, `${remote ? 'REMOTE run — recorded as the baseline; this budget is defined for the local preview. ' : ''}first-party resources done at ${d.load.firstPartyLastResponseEndMs} ms, last third-party at ${d.load.thirdPartyLastResponseEndMs} ms; mobile throttled load ${m.load.loadEventEndMs} ms (informational)`);
 
-    push('LCP (mobile, slow-4G + 4x CPU)', m.cwv.lcpMs === null ? 'NOT MEASURED' : `${m.cwv.lcpMs} ms`, `< ${BUDGETS.lcpMs} ms`, m.cwv.lcpMs === null ? null : m.cwv.lcpMs < BUDGETS.lcpMs, m.probeInstalled ? `element: ${m.cwv.lcpElement ? `${m.cwv.lcpElement.tag}${m.cwv.lcpElement.id ? '#' + m.cwv.lcpElement.id : ''} ${m.cwv.lcpInRoot === false ? '(NOT in #root — third-party UI)' : '(in #root)'} "${m.cwv.lcpElement.text || ''}"` : 'n/a'}; Lighthouse LCP ${lighthouse.lcpMs ? lighthouse.lcpMs + ' ms' : 'n/a'}` : 'the CWV probe did not install in the mobile pass — no LCP entry was observable, so no number is reported');
+    pushReported('LCP (mobile, slow-4G + 4x CPU)', m.cwv.lcpMs === null ? 'NOT MEASURED' : `${m.cwv.lcpMs} ms`, `< ${BUDGETS.lcpMs} ms`, m.cwv.lcpMs === null ? null : m.cwv.lcpMs < BUDGETS.lcpMs, m.probeInstalled ? `element: ${m.cwv.lcpElement ? `${m.cwv.lcpElement.tag}${m.cwv.lcpElement.id ? '#' + m.cwv.lcpElement.id : ''} ${m.cwv.lcpInRoot === false ? '(NOT in #root — third-party UI)' : '(in #root)'} "${m.cwv.lcpElement.text || ''}"` : 'n/a'}; Lighthouse LCP ${lighthouse.lcpMs ? lighthouse.lcpMs + ' ms' : 'n/a'}` : 'the CWV probe did not install in the mobile pass — no LCP entry was observable, so no number is reported');
 
     const cwvOk = Boolean(m.probeInstalled && d.probeInstalled);
     push('CLS', cwvOk ? `${m.cwv.cls} (mobile) / ${d.cwv.cls} (desktop)` : 'NOT MEASURED', `< ${BUDGETS.cls}`, cwvOk ? Math.max(m.cwv.cls, d.cwv.cls) < BUDGETS.cls : null, cwvOk ? `${m.cwv.clsShifts + d.cwv.clsShifts} layout-shift entries` : 'the CWV probe did not install in at least one pass — CLS is unknown, not zero');
@@ -583,7 +601,7 @@ async function main() {
 
     push('Lighthouse mobile performance', lighthouse.ran ? String(lighthouse.score) : 'NOT MEASURED', `>= ${BUDGETS.lighthouseMobile}`, lighthouse.ran ? lighthouse.score >= BUDGETS.lighthouseMobile : null, lighthouse.ran ? `${lighthouse.formFactor}, ${lighthouse.throttlingMethod} throttling, TBT ${lighthouse.tbtMs} ms` : lighthouse.error);
 
-    const enforced = rows.filter((r) => r.status !== 'NOT MEASURED');
+    const enforced = rows.filter((r) => r.status !== 'NOT MEASURED' && r.status !== 'REPORTED');
     const failed = enforced.filter((r) => !r.pass);
     const report = {
       label: OPT.label,

@@ -162,7 +162,18 @@
   --text-mini: 11px;
   /* The body scale (text-xs/sm/base/lg/xl) is Tailwind's own default scale and
      is deliberately not re-declared — re-declaring it would silently resize
-     every paragraph on the site. */
+     every paragraph on the site. These two vars are NOT that: they are the
+     plain-CSS mirror of Tailwind's own text-xs/text-sm, for the HUD labels in
+     system.css (`.chip`, `.cmd-label`, `.skip-link`) that pre-date the
+     utilities and cannot read a Tailwind class. Tailwind still emits its own
+     literal rem values for the utilities, so nothing that already used
+     `text-xs`/`text-sm` moves. Before this they were dangling `var()`s: the
+     declaration was invalid at computed-value time and the browser DROPPED it
+     (the labels silently inherited 16px). scripts/check-tokens.mjs now fails on
+     any bare `var(--x)` that resolves to no definition, so they cannot come
+     back. */
+  --text-xs: 0.75rem; /* 12px — must equal Tailwind's fontSize.xs */
+  --text-sm: 0.875rem; /* 14px — must equal Tailwind's fontSize.sm */
 
   /* ------------------------------------------------------------------ *
    * 4. Spacing + radius

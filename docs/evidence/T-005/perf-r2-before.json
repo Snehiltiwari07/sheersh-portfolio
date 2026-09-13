@@ -1,0 +1,463 @@
+{
+  "label": "r2-before",
+  "generatedAt": "2026-09-13T17:52:51.113Z",
+  "mode": "local-build",
+  "target": "http://127.0.0.1:4188/",
+  "commit": "a180bd120a04d5c13727a6bdd388d97c2b0ab51d",
+  "budgets": {
+    "transferBytes": 512000,
+    "loadMs": 1000,
+    "lcpMs": 2500,
+    "inpMs": 200,
+    "cls": 0.1,
+    "lighthouseMobile": 90
+  },
+  "lighthouse": {
+    "ran": true,
+    "score": 67,
+    "formFactor": "mobile",
+    "throttlingMethod": "simulate",
+    "lcpMs": 2207,
+    "cls": 0.0789,
+    "tbtMs": 1463,
+    "fcpMs": 1759,
+    "speedIndexMs": 4731,
+    "inpAudit": "not present in this Lighthouse version",
+    "reportHtml": "docs/evidence/T-005/lighthouse-r2-before.html",
+    "reportJson": "docs/evidence/T-005/lighthouse-r2-before.json"
+  },
+  "passes": {
+    "mobile": {
+      "viewport": {
+        "name": "mobile",
+        "width": 390,
+        "height": 844,
+        "dpr": 2,
+        "throttle": true
+      },
+      "viewportLabel": "390x844 @2x slow-4G/4xCPU",
+      "url": "http://127.0.0.1:4188/",
+      "probeInstalled": true,
+      "load": {
+        "loadEventEndMs": 4733,
+        "domContentLoadedMs": 1236,
+        "wallClockToLoadEventMs": 5339,
+        "firstPartyLastResponseEndMs": 4381,
+        "thirdPartyLastResponseEndMs": 6002,
+        "firstPartyResources": 22
+      },
+      "transfer": {
+        "totalBytes": 446516,
+        "firstPartyBytes": 177903,
+        "thirdPartyBytes": 268613,
+        "resourceCount": 54,
+        "requestsSeen": 57,
+        "top10": [
+          {
+            "url": "https://cdn.jsdelivr.net/gh/devicons/devicon/icons/linux/linux-original.svg",
+            "bytes": 76280,
+            "contentEncoding": "br",
+            "thirdParty": true
+          },
+          {
+            "url": "https://fonts.gstatic.com/s/inter/v20/UcC73FwrK3iLTeHuS_nVMrMxCp50SjIa1ZL7W0Q5nw.woff2",
+            "bytes": 48983,
+            "contentEncoding": "identity",
+            "thirdParty": true
+          },
+          {
+            "url": "http://127.0.0.1:4188/assets/react-vendor-BMB7oc-E.js",
+            "bytes": 45741,
+            "contentEncoding": "gzip",
+            "thirdParty": false
+          },
+          {
+            "url": "https://cdn.cookiehub.eu/c2/c71950bb.js",
+            "bytes": 42042,
+            "contentEncoding": "zstd",
+            "thirdParty": true
+          },
+          {
+            "url": "http://127.0.0.1:4188/assets/framer-motion-DIp0JQT2.js",
+            "bytes": 38217,
+            "contentEncoding": "gzip",
+            "thirdParty": false
+          },
+          {
+            "url": "https://fonts.gstatic.com/s/jetbrainsmono/v24/tDbv2o-flEEny0FZhsfKu5WU4zr3E_BX0PnT8RD8yKwBNntkaToggR7BYRbKPxDcwgknk-4.woff2",
+            "bytes": 31467,
+            "contentEncoding": "identity",
+            "thirdParty": true
+          },
+          {
+            "url": "http://127.0.0.1:4188/img/profile-headshot-640.avif",
+            "bytes": 19007,
+            "contentEncoding": "identity",
+            "thirdParty": false
+          },
+          {
+            "url": "http://127.0.0.1:4188/assets/index-dzp_2JEh.js",
+            "bytes": 16999,
+            "contentEncoding": "gzip",
+            "thirdParty": false
+          },
+          {
+            "url": "http://127.0.0.1:4188/assets/index-CmFtZA57.css",
+            "bytes": 12768,
+            "contentEncoding": "gzip",
+            "thirdParty": false
+          },
+          {
+            "url": "https://api.dicebear.com/7.x/bottts/svg?seed=Prompts",
+            "bytes": 12425,
+            "contentEncoding": "br",
+            "thirdParty": true
+          }
+        ]
+      },
+      "cwv": {
+        "lcpMs": 3292,
+        "lcpElement": {
+          "tag": "p",
+          "id": null,
+          "cls": "text-slate-300 text-xs sm:text-sm md:text-base leading-relax",
+          "text": "I partner with engineering teams and ent",
+          "inRoot": true
+        },
+        "lcpInRoot": true,
+        "lcpUrl": null,
+        "lcpEntries": [
+          {
+            "start": 3292,
+            "size": 54621,
+            "tag": "p",
+            "text": "I partner with engineering teams and ent"
+          }
+        ],
+        "cls": 0.0628,
+        "clsShifts": 3,
+        "inpProxyMs": 184,
+        "inpProxyEvents": 12,
+        "worstEvent": {
+          "name": "keydown",
+          "durMs": 184
+        },
+        "eventEntries": 37,
+        "longTasks": 13,
+        "longTaskTotalMs": 3932,
+        "longTaskWorstMs": 2379
+      },
+      "interactions": [
+        {
+          "name": "button-1",
+          "label": "button:Open navigation me",
+          "from": "app",
+          "x": 344,
+          "y": 40,
+          "kind": "click",
+          "newEventEntries": 17,
+          "worstEventMs": 120,
+          "events": [
+            "pointerdown:56",
+            "mousedown:56",
+            "pointerup:120",
+            "mouseup:120",
+            "click:120"
+          ]
+        },
+        {
+          "name": "button-2",
+          "label": "button:Hire Sheersh",
+          "from": "app",
+          "x": 195,
+          "y": 284,
+          "kind": "click",
+          "newEventEntries": 18,
+          "worstEventMs": 112,
+          "events": [
+            "pointerdown:96",
+            "mousedown:96",
+            "pointerup:112",
+            "mouseup:112",
+            "click:112"
+          ]
+        },
+        {
+          "name": "keyboard-tab",
+          "kind": "keydown",
+          "label": "Tab",
+          "from": "keyboard",
+          "newEventEntries": 2,
+          "worstEventMs": 184,
+          "events": [
+            "keydown:184",
+            "keyup:168"
+          ]
+        }
+      ]
+    },
+    "desktop": {
+      "viewport": {
+        "name": "desktop",
+        "width": 1440,
+        "height": 900,
+        "dpr": 1,
+        "throttle": false
+      },
+      "viewportLabel": "1440x900 @1x unthrottled",
+      "url": "http://127.0.0.1:4188/",
+      "probeInstalled": true,
+      "load": {
+        "loadEventEndMs": 795,
+        "domContentLoadedMs": 203,
+        "wallClockToLoadEventMs": 1086,
+        "firstPartyLastResponseEndMs": 1503,
+        "thirdPartyLastResponseEndMs": 1979,
+        "firstPartyResources": 22
+      },
+      "transfer": {
+        "totalBytes": 595389,
+        "firstPartyBytes": 170593,
+        "thirdPartyBytes": 424796,
+        "resourceCount": 52,
+        "requestsSeen": 55,
+        "top10": [
+          {
+            "url": "https://www.googletagmanager.com/gtag/js?id=G-R767831ZBS",
+            "bytes": 175877,
+            "contentEncoding": "zstd",
+            "thirdParty": true
+          },
+          {
+            "url": "https://cdn.jsdelivr.net/gh/devicons/devicon/icons/linux/linux-original.svg",
+            "bytes": 76008,
+            "contentEncoding": "br",
+            "thirdParty": true
+          },
+          {
+            "url": "https://fonts.gstatic.com/s/inter/v20/UcC73FwrK3iLTeHuS_nVMrMxCp50SjIa1ZL7.woff2",
+            "bytes": 48392,
+            "contentEncoding": "identity",
+            "thirdParty": true
+          },
+          {
+            "url": "http://127.0.0.1:4188/assets/react-vendor-BMB7oc-E.js",
+            "bytes": 45741,
+            "contentEncoding": "gzip",
+            "thirdParty": false
+          },
+          {
+            "url": "https://cdn.cookiehub.eu/c2/c71950bb.js",
+            "bytes": 42039,
+            "contentEncoding": "zstd",
+            "thirdParty": true
+          },
+          {
+            "url": "http://127.0.0.1:4188/assets/framer-motion-DIp0JQT2.js",
+            "bytes": 38217,
+            "contentEncoding": "gzip",
+            "thirdParty": false
+          },
+          {
+            "url": "https://fonts.gstatic.com/s/jetbrainsmono/v24/tDbv2o-flEEny0FZhsfKu5WU4zr3E_BX0PnT8RD8yKwBNntkaToggR7BYRbKPxDcwg.woff2",
+            "bytes": 31974,
+            "contentEncoding": "identity",
+            "thirdParty": true
+          },
+          {
+            "url": "http://127.0.0.1:4188/assets/index-dzp_2JEh.js",
+            "bytes": 16999,
+            "contentEncoding": "gzip",
+            "thirdParty": false
+          },
+          {
+            "url": "http://127.0.0.1:4188/assets/index-CmFtZA57.css",
+            "bytes": 12768,
+            "contentEncoding": "gzip",
+            "thirdParty": false
+          },
+          {
+            "url": "https://api.dicebear.com/7.x/bottts/svg?seed=Prompts",
+            "bytes": 12415,
+            "contentEncoding": "br",
+            "thirdParty": true
+          }
+        ]
+      },
+      "cwv": {
+        "lcpMs": 932,
+        "lcpElement": {
+          "tag": "img",
+          "id": null,
+          "cls": "w-full h-full object-cover object-center filter brightness-[",
+          "text": "",
+          "inRoot": true
+        },
+        "lcpInRoot": true,
+        "lcpUrl": "http://127.0.0.1:4188/img/profile-headshot-480.avif",
+        "lcpEntries": [
+          {
+            "start": 868,
+            "size": 92073,
+            "tag": "p",
+            "text": "I partner with engineering teams and ent"
+          },
+          {
+            "start": 932,
+            "size": 126558,
+            "tag": "img",
+            "text": ""
+          }
+        ],
+        "cls": 0.018,
+        "clsShifts": 3,
+        "inpProxyMs": 704,
+        "inpProxyEvents": 15,
+        "worstEvent": {
+          "name": "pointerup",
+          "durMs": 704
+        },
+        "eventEntries": 45,
+        "longTasks": 12,
+        "longTaskTotalMs": 1505,
+        "longTaskWorstMs": 459
+      },
+      "interactions": [
+        {
+          "name": "nav-link",
+          "label": "a:Projects",
+          "from": "app",
+          "x": 505,
+          "y": 42,
+          "kind": "click",
+          "newEventEntries": 16,
+          "worstEventMs": 112,
+          "events": [
+            "pointerdown:112",
+            "mousedown:112",
+            "pointerup:88",
+            "mouseup:88",
+            "click:88"
+          ]
+        },
+        {
+          "name": "button-1",
+          "label": "button:Hire Sheersh",
+          "from": "app",
+          "x": 1218,
+          "y": 42,
+          "kind": "click",
+          "newEventEntries": 0,
+          "worstEventMs": 0,
+          "events": []
+        },
+        {
+          "name": "button-2",
+          "label": "button:💼 Scope Project &",
+          "from": "app",
+          "x": 252,
+          "y": 697,
+          "kind": "click",
+          "newEventEntries": 14,
+          "worstEventMs": 632,
+          "events": [
+            "pointerdown:632",
+            "mousedown:632",
+            "pointerup:624",
+            "mouseup:624",
+            "click:624"
+          ]
+        },
+        {
+          "name": "keyboard-tab",
+          "kind": "keydown",
+          "label": "Tab",
+          "from": "keyboard",
+          "newEventEntries": 3,
+          "worstEventMs": 704,
+          "events": [
+            "pointerup:704",
+            "mouseup:704",
+            "click:704"
+          ]
+        }
+      ]
+    }
+  },
+  "rows": [
+    {
+      "metric": "Total page transfer (all resources, cold cache)",
+      "measured": "436 KB (mobile) / 581 KB (desktop)",
+      "budget": "< 500 KB",
+      "pass": false,
+      "note": "57 responses, 54 distinct URLs (mobile); preview serves gzip, Vercel serves brotli",
+      "status": "FAIL"
+    },
+    {
+      "metric": "First-party transfer",
+      "measured": "174 KB (mobile) / 167 KB (desktop)",
+      "budget": "< 500 KB",
+      "pass": true,
+      "note": "third-party: 262 KB mobile / 415 KB desktop",
+      "status": "PASS"
+    },
+    {
+      "metric": "Load (loadEventEnd, local preview, unthrottled)",
+      "measured": "795 ms (desktop)",
+      "budget": "< 1000 ms",
+      "pass": true,
+      "note": "first-party resources done at 1503 ms, last third-party at 1979 ms; mobile throttled load 4733 ms (informational)",
+      "status": "PASS"
+    },
+    {
+      "metric": "LCP (mobile, slow-4G + 4x CPU)",
+      "measured": "3292 ms",
+      "budget": "< 2500 ms",
+      "pass": false,
+      "note": "element: p (in #root) \"I partner with engineering teams and ent\"; Lighthouse LCP 2207 ms",
+      "status": "FAIL"
+    },
+    {
+      "metric": "CLS",
+      "measured": "0.0628 (mobile) / 0.018 (desktop)",
+      "budget": "< 0.1",
+      "pass": true,
+      "note": "6 layout-shift entries",
+      "status": "PASS"
+    },
+    {
+      "metric": "INP (proxy: scripted interactions, lab)",
+      "measured": "184 ms",
+      "budget": "< 200 ms",
+      "pass": true,
+      "note": "worst event-timing duration over 12 input-driven entries; per-interaction maxima: button-1 120 ms, button-2 112 ms, keyboard-tab 184 ms; NOT field INP (no real users, no RUM)",
+      "status": "PASS"
+    },
+    {
+      "metric": "CWV probe installed (harness integrity)",
+      "measured": "yes, both passes",
+      "budget": "required",
+      "pass": true,
+      "note": "PerformanceObserver injected before navigation in both passes; a missing probe would show up as NOT MEASURED rows, never as zeros",
+      "status": "PASS"
+    },
+    {
+      "metric": "Lighthouse mobile performance",
+      "measured": "67",
+      "budget": ">= 90",
+      "pass": false,
+      "note": "mobile, simulate throttling, TBT 1463 ms",
+      "status": "FAIL"
+    }
+  ],
+  "result": "FAIL",
+  "durationMs": 51323,
+  "treeDirty": true,
+  "dirtyFiles": [
+    "M vercel.json",
+    "?? docs/PRD.md",
+    "?? docs/evidence/T-005/lighthouse-r2-before.html",
+    "?? docs/evidence/T-005/lighthouse-r2-before.json"
+  ],
+  "treeNote": "measured from a DIRTY working tree (4 uncommitted path(s)) — these numbers describe this tree, not commit a180bd120a04d5c13727a6bdd388d97c2b0ab51d"
+}
