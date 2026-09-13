@@ -244,7 +244,6 @@ export default function ChatEngine({ onSelectProject, onOpenHireDrawer }) {
   };
 
   const whatsappLink = profile?.whatsappUrl || "https://wa.me/917389323262";
-  const emailLink = `mailto:${profile?.email || 'er.sheershtiwari@gmail.com'}?subject=Project%20Inquiry%20from%20Portfolio`;
 
   return (
     <>
@@ -447,12 +446,15 @@ export default function ChatEngine({ onSelectProject, onOpenHireDrawer }) {
                           >
                             💬 WhatsApp
                           </a>
-                          <a
-                            href={emailLink}
-                            className="px-2.5 py-1.5 rounded-lg text-[11px] font-mono text-cyan-400 bg-cyan-950/40 border border-cyan-800/60 hover:bg-cyan-900/50 transition-colors inline-flex items-center gap-1"
+                          {/* T-008: the mailto: hand-off is gone — this opens the
+                              hire drawer's real form (POST /api/lead + GA4). */}
+                          <button
+                            type="button"
+                            onClick={handleOpenScope}
+                            className="px-2.5 py-1.5 rounded-lg text-[11px] font-mono text-cyan-400 bg-cyan-950/40 border border-cyan-800/60 hover:bg-cyan-900/50 transition-colors inline-flex items-center gap-1 cursor-pointer"
                           >
-                            ✉️ Direct Email
-                          </a>
+                            ✉️ Enquiry Form
+                          </button>
                         </div>
                       )}
                     </div>

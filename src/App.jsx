@@ -90,7 +90,7 @@ export default function App() {
         <Suspense fallback={<SectionLoader />}>
           <MotionRoot>
             <Footer onOpenHireDrawer={() => setIsHireDrawerOpen(true)} />
-            <ChatEngine />
+            <ChatEngine onOpenHireDrawer={() => setIsHireDrawerOpen(true)} />
             <HireDrawer
               open={isHireDrawerOpen}
               onClose={() => setIsHireDrawerOpen(false)}

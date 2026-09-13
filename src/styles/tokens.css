@@ -225,6 +225,10 @@
   --layout-node-offset-lg: 39px;
   --layout-toggle-knob: 3px;
   --layout-toggle-travel: 22px;
+  /* Visually-hidden honeypot geometry (docs/api-lead-contract.md §6.1). The
+     offset and the 1x1 box live here so the spam trap can be hidden without a
+     raw px in a component (scripts/check-tokens.mjs). */
+  --honeypot-offset: -9999px;
 
   /* Motion geometry consumed by system.css / components */
   --lift-hover: -2px;
