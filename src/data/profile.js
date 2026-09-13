@@ -221,7 +221,7 @@ export const keyAchievements = [
   {
     id: "awards",
     category: "Recognition & Leadership",
-    title: "Employee of the Year 2024 — Executive Award",
+    title: "Employee of the Year 2024",
     metric: "Executive Award",
     subtext: "US Life-Sciences Lab Platform",
     techs: ["Leadership", "Full-Stack Engineering", "System Architecture"],

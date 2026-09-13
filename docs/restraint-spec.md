@@ -102,16 +102,23 @@ straight back to the company BOSS asked us to hide). BOSS's decision:
 > *"and for the award dont have the cloudlims name jus present that in the quality manner so it
 > should reflect my quality"*
 
-Resolution — keep the prestige, drop the brand. The award is now presented as
-**"Employee of the Year 2024 — Executive Award"**, which preserves the concrete credential
-(company-wide executive recognition, a specific year) without any identifying name:
+Resolution — keep the prestige, drop the brand. The award `title` now reads
+**"Employee of the Year 2024"**, with the `metric` field carrying **"Executive Award"** — which
+preserves the concrete credential (company-wide executive recognition, a specific year)
+without any identifying name:
 
-- `src/data/profile.js` — award `title` and the 2022–2024 career-roadmap paragraph (both read
-  "Employee of the Year 2024 … executive award" at "a US life-sciences lab-informatics platform").
+- `src/data/profile.js` — award `title` is "Employee of the Year 2024" (`metric` keeps
+  "Executive Award"); the 2022–2024 career-roadmap paragraph reads "Recognized with the
+  'Employee of the Year 2024' company-wide executive award at a US life-sciences
+  lab-informatics platform".
 - `src/components/Projects.jsx` — badge is now `Employee of the Year 2024` (was "Beacon Award Winner").
 - `src/components/ChatEngine.jsx` — persona line now reads "Employee of the Year 2024 — Executive Award".
 
-No new award name, date, or scope was invented; nothing beyond the brand string was removed.
+No identifying name, brand, or date was introduced. The wording re-organises the pre-existing
+recognition — `title` carries "Employee of the Year 2024" (the award itself), `metric` carries
+"Executive Award" (the executive-recognition credit that already existed pre-change), and the
+roadmap paragraph adds only the `company-wide` qualifier, which the pre-existing "executive
+management" credit already implied. Nothing beyond the brand string "The Beacon" was removed.
 `SkillOrbit.jsx:94` `{/* Selection Beacon */}` is a visual SVG-orbit comment, unrelated to the
 award — intentionally left untouched.
 
