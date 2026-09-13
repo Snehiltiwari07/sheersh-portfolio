@@ -206,6 +206,9 @@ version** if it leaks.
 
 No real Google Sheet was contacted — no Google credentials exist in this environment. Proven:
 payload shape, redirect handling, failure classification, and the appender's behaviour against
-stubbed Apps Script services. Not proven: a real row in a real sheet, real Apps Script authorisation,
-and the hunter's producer side (card T-010). The owner's Step 6 `?demo=1` row is the first real
-proof. Say so rather than implying otherwise.
+stubbed Apps Script services. **Both producers are now wired**: the form (`api/lead.js`) and the lead
+hunter (`scripts/lead-hunter.js`, card T-010 — `docs/lead-hunter-sheet.md`), which posts the same row
+after it sends its digest and logs `Sheet mirror failed …` rather than ever disturbing the email.
+Not proven: a real row in a real sheet, real Apps Script authorisation, and any live GitHub Actions
+cron run. The owner's Step 6 `?demo=1` row is the first real proof. Say so rather than implying
+otherwise.

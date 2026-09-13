@@ -21,3 +21,4 @@ jobs:
           RESEND_API_KEY: ${{ secrets.RESEND_API_KEY }}
           APIFY_TOKEN: ${{ secrets.APIFY_TOKEN }}
           RECIPIENT_EMAIL: 'er.sheershtiwari@gmail.com'
+          LEAD_STORE_WEBHOOK_URL: ${{ secrets.LEAD_STORE_WEBHOOK_URL }}

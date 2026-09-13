@@ -7,6 +7,7 @@ const GROQ_API_KEY = (process.env.GROQ_API_KEY || '').replace(/['"]/g, '').trim(
 const RESEND_API_KEY = (process.env.RESEND_API_KEY || '').replace(/['"]/g, '').trim();
 const APIFY_TOKEN = (process.env.APIFY_TOKEN || '').replace(/['"]/g, '').trim();
 const RECIPIENT_EMAIL = (process.env.RECIPIENT_EMAIL || 'er.sheershtiwari@gmail.com').replace(/['"]/g, '').trim();
+const LEAD_STORE_WEBHOOK_URL = (process.env.LEAD_STORE_WEBHOOK_URL || '').replace(/['"]/g, '').trim();
 
 const PORTFOLIO_LINK = 'https://sheershtiwari.vercel.app';
 
@@ -439,6 +440,103 @@ async function sendDigestEmail(qualifiedLeads) {
   }
 }
 
+// ── ADDITIVE (card T-010): mirror qualified leads into the shared Google Sheet ──
+// Same 11-column row contract the website form writes (docs/GOOGLE-SHEET-SETUP.md §The row,
+// docs/DEPLOY-NOTES.md §7). Nothing above this line was changed.
+const HUNTER_SOURCE_LABELS = {
+  'Reddit (/r/forhire)': 'Hunter (Reddit)',
+  'RemoteOK': 'Hunter (RemoteOK)',
+  'Hacker News Jobs': 'Hunter (Hacker News)',
+  'We Work Remotely': 'Hunter (We Work Remotely)',
+  'LinkedIn (Contract)': 'Hunter (LinkedIn)'
+};
+
+// Trailing "(Remote)" / "(Full-time)" / "(YC S21)" is a location or a batch, not a company.
+const NON_COMPANY_SUFFIX = /^(remote|hybrid|on-?site|full-?time|part-?time|contract|contractor|freelance|yc\b.*)$/i;
+
+/** '' for anything absent — never null, never "null", never "undefined" (Apps Script stores cells verbatim). */
+function sheetCell(value) {
+  if (value === undefined || value === null) return '';
+  const text = String(value).trim();
+  return /^(null|undefined|none|n\/a)$/i.test(text) ? '' : text;
+}
+
+/** Titles from the API fetchers are built as "<role> (<company>)"; free-text titles simply have none. */
+function companyFromTitle(title) {
+  const match = sheetCell(title).match(/\(([^()]+)\)\s*$/);
+  if (!match) return '';
+  const candidate = match[1].trim();
+  return NON_COMPANY_SUFFIX.test(candidate) ? '' : candidate;
+}
+
+/** The shared row. Column order is contractual — identical to toSheetRow() in api/lead.js. */
+function toSheetRow(lead, evaluation) {
+  return [
+    new Date().toISOString(), // 1  Received
+    HUNTER_SOURCE_LABELS[lead.source] || (lead.source ? `Hunter (${lead.source})` : 'Hunter (unknown)'), // 2  Source
+    sheetCell(lead.title), // 3  Name / Title
+    companyFromTitle(lead.title), // 4  Company
+    sheetCell(evaluation.contactEmail), // 5  Email
+    '', // 6  Project / Type — form rows only
+    '', // 7  Budget — form rows only
+    sheetCell(evaluation.score), // 8  Score
+    sheetCell(evaluation.pitch), // 9  Message / Pitch
+    sheetCell(lead.url), // 10 Link
+    '' // 11 ID — form rows only
+  ];
+}
+
+/** Posts one row per qualified lead. Every failure is logged and swallowed: this can never throw. */
+async function pushLeadsToSheet(qualifiedLeads) {
+  if (!LEAD_STORE_WEBHOOK_URL) {
+    Logger.info('LEAD_STORE_WEBHOOK_URL not set — Google Sheet mirror skipped (digest unaffected).');
+    return;
+  }
+
+  for (const { lead, evaluation } of qualifiedLeads) {
+    const controller = new AbortController();
+    const timer = setTimeout(() => controller.abort(), 6000);
+    try {
+      const res = await fetch(LEAD_STORE_WEBHOOK_URL, {
+        method: 'POST',
+        // Apps Script answers 302 → script.googleusercontent.com and serves the body only there.
+        // Same decision as api/lead.js persistToStore(): FOLLOW it, and never read a 3xx as a write
+        // (docs/DEPLOY-NOTES.md §7.2).
+        redirect: 'follow',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({ row: toSheetRow(lead, evaluation) }),
+        signal: controller.signal
+      });
+
+      if (res.status >= 300 && res.status < 400) {
+        Logger.warn(`Sheet mirror redirect not followed [${lead.id}]`, { reason: `HTTP ${res.status}` });
+      } else if (!res.ok) {
+        Logger.warn(`Sheet mirror failed [${lead.id}] — digest unaffected`, { reason: `HTTP ${res.status}` });
+      } else {
+        // An Apps Script web app cannot set a status code: a refused write still answers 200, so the
+        // body verdict wins over the status. A non-JSON body stays a success (generic webhooks).
+        const raw = await res.text().catch(() => '');
+        let verdict = null;
+        try {
+          verdict = raw.trim().startsWith('{') ? JSON.parse(raw) : null;
+        } catch (err) {
+          verdict = null;
+        }
+        if (verdict && typeof verdict === 'object' && verdict.ok === false) {
+          Logger.warn(`Sheet mirror rejected [${lead.id}] — digest unaffected`, { reason: String(verdict.error || 'ok:false').slice(0, 200) });
+        } else {
+          Logger.info(`Lead mirrored to Google Sheet [${lead.id}]`, { source: HUNTER_SOURCE_LABELS[lead.source] || lead.source, status: res.status });
+        }
+      }
+    } catch (err) {
+      // `cause` is what makes a CI log diagnosable (ECONNREFUSED / ENOTFOUND / UND_ERR_ABORTED).
+      Logger.warn(`Sheet mirror failed [${lead.id}] — digest unaffected`, { error: err.message, cause: err.cause?.code || err.cause?.message });
+    } finally {
+      clearTimeout(timer);
+    }
+  }
+}
+
 async function runPipeline() {
   const startTime = Date.now();
   Logger.info('Master Pipeline execution initiated');
@@ -486,6 +584,12 @@ async function runPipeline() {
   }
 
   await sendDigestEmail(qualifiedLeads);
+
+  // Additive (T-010). Deliberately AFTER the digest is dispatched, and the whole step is wrapped, so
+  // a Google Sheet problem can never delay, alter or break the email that has already gone out.
+  await pushLeadsToSheet(qualifiedLeads).catch((err) =>
+    Logger.warn('Sheet mirror step failed — digest already sent', { error: err.message })
+  );
 
   Logger.info('Master Pipeline execution finished', {
     processed: rawLeads.length,

@@ -9,7 +9,7 @@ form on the website                lead hunter (GitHub Actions cron, 09:00 daily
         │                                        │
         ▼                                        ▼
 POST /api/lead (Vercel)  ──────┐        ┌────── scripts/lead-hunter.js
-        │                      │        │        (untouched — card T-010 wires this end)
+        │                      │        │        (daily cron, GitHub Actions)
         ├─► Resend → email     │        │
         │                      ▼        ▼
         │            LEAD_STORE_WEBHOOK_URL  (same URL in both places)
@@ -51,7 +51,7 @@ hunter leads leave the form-only columns empty. **Empty means an empty cell — 
 |---|---|
 | `integrations/google-sheets/Code.gs` | the Apps Script you paste into Google (kept in the repo so it is version-controlled) |
 | `api/lead.js` | the form endpoint — maps a lead to the row above and POSTs it; **no change needed for this setup** |
-| `scripts/lead-hunter.js` | the hunter — **untouched**; wiring it to the same URL is card T-010 |
+| `scripts/lead-hunter.js` | the hunter — reads the same URL and writes `Source = Hunter (…)` rows; implementation + evidence: `docs/lead-hunter-sheet.md` |
 
 ---
 
@@ -172,10 +172,13 @@ keeps working *without* a sheet row — a lead is never lost, but it never reach
 1. GitHub ▸ the repo ▸ **Settings ▸ Secrets and variables ▸ Actions ▸ New repository secret**:
    - **Name**: `LEAD_STORE_WEBHOOK_URL`
    - **Secret**: the same `/exec` URL + `?token=…`
-2. That is all you do here. The hunter does not read the secret yet — wiring it in is card **T-010**,
-   which is deliberately separate so the running daily cron (`0 9 * * *`) is not disturbed by this
-   card. Once T-010 lands, the hunter's rows appear with `Source = Hunter (…)`.
-3. Until T-010 lands, the sheet holds form leads only. That is expected, not a fault.
+2. That is all you do here. `scripts/lead-hunter.js` reads the secret through the workflow's `env:`
+   block (one line, added by card T-010 — `docs/lead-hunter-sheet.md §5`) and posts every qualified
+   lead as a row with `Source = Hunter (…)`, after it emails the digest. If the sheet push fails for
+   any reason the digest still sends; the failure is logged, never hidden.
+3. If you skip this step the hunter keeps working exactly as before — it logs
+   `LEAD_STORE_WEBHOOK_URL not set — Google Sheet mirror skipped` once per run and the sheet holds
+   form leads only. That is a skip, not a fault.
 
 ### 3 — Treat the URL as a secret
 
@@ -218,7 +221,7 @@ curl -s -X POST https://sheershtiwari.vercel.app/api/lead \
 
 ## Verification status (honest version)
 
-**Verified in this repo — reproduce with `npm test` (57 + 36 assertions, both harnesses exit 0):**
+**Verified in this repo — reproduce with `npm test` (three harnesses: 57 + 36 + 77 assertions, all exit 0):**
 
 Real code output, but against *mocks*, and labelled as such:
 
@@ -226,9 +229,10 @@ Real code output, but against *mocks*, and labelled as such:
 |---|---|---|
 | `npm run test:lead` (CASE 15–19) | `api/lead.js` + a real `node:http` mock Apps Script web app on `127.0.0.1`, reproducing `POST /exec → 302 → GET /content → 200` | the 11-column mapping (order, labels, `""` for absent values, ISO timestamp); that the `302` **is** followed; that an unfollowed `302` is **not** counted as a write (→ `502`); that a `200` whose body says `{"ok":false}` **is** counted as a failed write; that a failed sheet write still emails the lead |
 | `npm run test:sheet` (S1–S11) | `integrations/google-sheets/Code.gs`, loaded in a Node VM with the Apps Script services stubbed | header created once with the 11 canonical columns and frozen; row appended in order; a 10-value row refused without writing anything; `null`/`undefined`/`"undefined"` cells cleaned to `""`; formula injection (`= + - @`) neutralised; token enforcement; `?demo=1`; `checkSetup()` output |
+| `npm run test:hunter` (H1–H11) | `scripts/lead-hunter.js`, run in a Node VM with the feeds/Groq/Resend stubbed and the Google endpoint under test | the hunter's 11-column row, the `Hunter (…)` label per feed, absent values as `""`, only Groq-qualified leads mirrored, and that the **digest still sends** when the push fails (HTTP 500 / `{"ok":false}` / thrown error / a real refused TCP connection / a malformed URL) — details: `docs/lead-hunter-sheet.md §4` |
 
 **Not verified here, and I am not claiming it:** **no real Google Sheet was touched** — no Google
 credentials exist in this environment, so that can only be done by you in Steps 1–8. Nothing in this
 repo proves a row lands in a real sheet, that Apps Script's real redirect behaves exactly as the mock
-does, or that the hunter is wired (that is T-010). The first real proof is Step 6's `?demo=1` row,
-then the `curl` above.
+does, or that the GitHub Actions cron run has been exercised (no scheduled job was triggered from
+here). The first real proof is Step 6's `?demo=1` row, then the `curl` above.

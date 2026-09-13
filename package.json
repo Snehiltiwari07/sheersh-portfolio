@@ -9,7 +9,8 @@
     "preview": "vite preview",
     "test:lead": "node scripts/lead-endpoint-test.mjs",
     "test:sheet": "node scripts/apps-script-sheet-test.mjs",
-    "test": "npm run test:lead && npm run test:sheet"
+    "test:hunter": "node scripts/lead-hunter-sheet-test.mjs",
+    "test": "npm run test:lead && npm run test:sheet && npm run test:hunter"
   },
   "dependencies": {
     "@google/generative-ai": "^0.24.1",
