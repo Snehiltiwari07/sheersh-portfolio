@@ -5,13 +5,13 @@ export default function BeyondTheCode() {
   return (
     <section id="beyond-code" className="max-w-6xl mx-auto px-4 sm:px-6 py-20 relative">
       {/* Background Ambient Glows */}
-      <div className="absolute top-1/2 left-1/4 -translate-y-1/2 w-96 h-96 bg-amber-500/10 rounded-full blur-[140px] pointer-events-none -z-10" />
-      <div className="absolute bottom-10 right-1/4 w-80 h-80 bg-cyan-500/10 rounded-full blur-[130px] pointer-events-none -z-10" />
+      <div className="absolute top-1/2 left-1/4 -translate-y-1/2 w-96 h-96 bg-amber-500/10 rounded-full blur-ambient-lg pointer-events-none -z-10" />
+      <div className="absolute bottom-10 right-1/4 w-80 h-80 bg-cyan-500/10 rounded-full blur-ambient-md pointer-events-none -z-10" />
 
       {/* Main Glass Panel */}
       <div className="relative rounded-3xl bg-slate-950/80 border border-slate-800/90 shadow-2xl backdrop-blur-2xl p-6 sm:p-10 lg:p-12 overflow-hidden">
         {/* Top Accent Gradient Line */}
-        <div className="absolute top-0 left-0 right-0 h-[2px] bg-gradient-to-r from-amber-500 via-violet-500 to-cyan-500 opacity-80" />
+        <div className="absolute top-0 left-0 right-0 h-accent-bar bg-gradient-to-r from-amber-500 via-violet-500 to-cyan-500 opacity-80" />
 
         <div className="grid grid-cols-1 lg:grid-cols-12 gap-8 lg:gap-12 items-center">
           
@@ -29,7 +29,7 @@ export default function BeyondTheCode() {
                 photo="lifestyle"
                 sizes="(min-width: 1024px) 552px, 92vw"
                 alt="Sheersh Tiwari on the highway with his motorcycle — life beyond the code"
-                className="w-full h-[360px] sm:h-[420px] object-cover group-hover:scale-105 transition-transform duration-700"
+                className="w-full h-photo-sm sm:h-photo-lg object-cover group-hover:scale-105 transition-transform duration-700"
               />
 
               {/* Gradient Overlay for Text Legibility */}
@@ -38,7 +38,7 @@ export default function BeyondTheCode() {
               {/* Floating Top Badge: Pets & Companion */}
               <div className="absolute top-4 right-4 z-10 bg-slate-950/80 border border-slate-800/80 backdrop-blur-md px-3 py-1.5 rounded-full flex items-center gap-2 shadow-lg">
                 <span className="text-sm">🐾</span>
-                <span className="font-mono text-[11px] font-medium text-slate-200">Pet & Life Balance</span>
+                <span className="font-mono text-mini font-medium text-slate-200">Pet & Life Balance</span>
               </div>
 
               {/* Bottom Glass Overlay Bar: Bikes & Highway */}
@@ -47,7 +47,7 @@ export default function BeyondTheCode() {
                   <p className="font-mono text-xs font-bold text-slate-100 flex items-center gap-1.5">
                     <span>Driven by Freedom & Precision</span>
                   </p>
-                  <p className="font-mono text-[10px] text-slate-400">
+                  <p className="font-mono text-micro text-slate-400">
                     Open Highways • Two-Wheel Telemetry • Canine Loyalty
                   </p>
                 </div>
@@ -91,7 +91,7 @@ export default function BeyondTheCode() {
                   <span className="text-amber-400 text-sm">🏍️</span>
                   <p className="font-display font-bold text-sm text-slate-100">Highway Telemetry</p>
                 </div>
-                <p className="font-mono text-[11px] text-slate-400 leading-normal">
+                <p className="font-mono text-mini text-slate-400 leading-normal">
                   Endurance riding builds deep root-cause focus, mechanical diagnostic skills, and respect for tolerances under heavy load.
                 </p>
               </div>
@@ -102,7 +102,7 @@ export default function BeyondTheCode() {
                   <span className="text-cyan-400 text-sm">🐾</span>
                   <p className="font-display font-bold text-sm text-slate-100">Canine Balance</p>
                 </div>
-                <p className="font-mono text-[11px] text-slate-400 leading-normal">
+                <p className="font-mono text-mini text-slate-400 leading-normal">
                   Downtime with pets provides the mental reset required to approach complex concurrency and database bottlenecks with fresh clarity.
                 </p>
               </div>

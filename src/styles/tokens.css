@@ -1,0 +1,299 @@
+/* ============================================================================
+ * src/styles/tokens.css — Sheersh Portfolio v5 design tokens
+ * ----------------------------------------------------------------------------
+ * The single source of truth for every visual value on the site: colour,
+ * surface, type, spacing, radius, motion (duration + easing), blur, shadow,
+ * layout dimensions and z-layers.
+ *
+ * Rules
+ *   1. Components never contain a raw hex / rgb() / px / ms value. They read a
+ *      token (Tailwind class -> var(--token), or var(--token) inline).
+ *   2. Colour primitives are stored as SPACE-SEPARATED RGB CHANNELS so Tailwind
+ *      can generate alpha variants:  rgb(var(--c-violet-500) / 0.4).
+ *      A bare hex in tailwind.config breaks every /opacity modifier — that is
+ *      exactly the bug this file fixes.
+ *   3. Motion is a closed vocabulary: 4 durations + 4 easings. No component
+ *      invents its own cubic-bezier.
+ *   4. `prefers-reduced-motion: reduce` collapses the vocabulary to 1ms and
+ *      switches every decorative, pointer-driven effect off. Content is never
+ *      hidden by that block — only motion.
+ *
+ * Enforced by `node scripts/check-tokens.mjs` (npm run check:tokens).
+ * Documented in docs/DESIGN-SYSTEM.md.
+ * ========================================================================= */
+
+:root,
+[data-theme='dark'] {
+  /* ------------------------------------------------------------------ *
+   * 1. Colour primitives — RGB channels, brand-anchored
+   * ------------------------------------------------------------------ */
+
+  /* Brand violet — identity anchor #7C5CFF (500) with the #a585f7 (400)
+     family used for text on dark surfaces. */
+  --c-violet-50: 245 243 255;
+  --c-violet-100: 237 233 254;
+  --c-violet-200: 221 214 254;
+  --c-violet-300: 196 181 253;
+  --c-violet-400: 165 133 247;
+  --c-violet-500: 124 92 255;
+  --c-violet-600: 124 58 237;
+  --c-violet-700: 109 40 217;
+  --c-violet-800: 91 33 182;
+  --c-violet-900: 76 29 149;
+  --c-violet-950: 46 16 101;
+
+  /* Brand cyan — identity anchor #00E5FF (500). */
+  --c-cyan-50: 236 254 255;
+  --c-cyan-100: 207 250 254;
+  --c-cyan-200: 165 243 252;
+  --c-cyan-300: 103 232 249;
+  --c-cyan-400: 0 229 255;
+  --c-cyan-500: 0 200 230;
+  --c-cyan-600: 8 145 178;
+  --c-cyan-700: 14 116 144;
+  --c-cyan-800: 21 94 117;
+  --c-cyan-900: 22 78 99;
+  --c-cyan-950: 8 51 68;
+
+  /* Brand pink — identity anchor #FF4FD8 (500). */
+  --c-pink-50: 255 241 251;
+  --c-pink-100: 255 224 247;
+  --c-pink-200: 255 199 240;
+  --c-pink-300: 255 163 235;
+  --c-pink-400: 255 122 227;
+  --c-pink-500: 255 79 216;
+  --c-pink-600: 220 55 184;
+  --c-pink-700: 178 40 148;
+  --c-pink-800: 132 28 110;
+  --c-pink-900: 92 18 76;
+  --c-pink-950: 60 10 50;
+
+  /* Neutral ink scale (kept local so the dark palette is tunable in one place) */
+  --c-ink-50: 248 250 252;
+  --c-ink-100: 243 244 246;
+  --c-ink-300: 203 213 225;
+  /* 170 178 190 (#AAB2BE), not the original 156 163 175: the muted tone is
+     frequently composited over translucent card gradients, and the darker value
+     measured 4.26:1 on the rendered page (Lighthouse color-contrast) — below
+     the 4.5:1 AA floor. This keeps ~1.6x headroom for that stacking. */
+  --c-ink-400: 170 178 190;
+  --c-ink-500: 107 114 128;
+  --c-ink-600: 75 85 99;
+  --c-ink-700: 51 65 85;
+  --c-ink-800: 30 41 59;
+  --c-ink-900: 15 23 42;
+  --c-ink-950: 7 9 19;
+
+  /* Feedback + accent primitives used by decorative glows and canvas art */
+  --c-white: 255 255 255;
+  --c-black: 0 0 0;
+  --c-emerald-400: 52 211 153;
+  --c-emerald-500: 16 185 129;
+  --c-amber-50: 255 251 235;
+  --c-amber-400: 251 191 36;
+  --c-amber-500: 245 158 11;
+  --c-amber-700: 180 83 9;
+  --c-orange-400: 251 146 60;
+  --c-orange-500: 249 115 22;
+  --c-blue-400: 96 165 250;
+  --c-blue-500: 59 130 246;
+  --c-sky-400: 56 189 248;
+  --c-red-400: 248 113 113;
+  --c-red-500: 239 68 68;
+  --c-red-800: 153 27 27;
+
+  /* ------------------------------------------------------------------ *
+   * 2. Semantic surface + text tokens (theme-switched)
+   * ------------------------------------------------------------------ */
+  --bg: rgb(var(--c-ink-950));
+  --bg-rgb: var(--c-ink-950);          /* channels, for canvas/gradients  */
+  --surface: rgba(255, 255, 255, 0.03);
+  --surface-solid: #0e1225;
+  /* The card gradient's dark stop, and the lightest background a card can end
+     up sitting on once the ambient violet/cyan glow is composited over it.
+     `--surface-tint` is the worst case text has to survive — it is the value
+     Lighthouse measured on the rendered page (see docs/DESIGN-SYSTEM.md §6). */
+  --surface-deep: #090c1a;
+  --surface-tint: #0e0f2e;
+  --text: rgb(var(--c-ink-100));
+  --muted: rgb(var(--c-ink-400));
+  --line: rgba(255, 255, 255, 0.08);
+  --card-bg: linear-gradient(180deg, rgba(14, 18, 37, 0.9), rgba(9, 12, 26, 0.8));
+  --glass-bg: rgba(14, 18, 37, 0.7);
+  --nav-bg: rgba(10, 13, 28, 0.75);
+
+  /* Accent used for interactive emphasis (links, chips, focus). */
+  --accent: rgb(var(--c-violet-400));
+  --accent-strong: rgb(var(--c-violet-500));
+  --accent-rgb: var(--c-violet-500);
+
+  /* AA-audited text accents on the dark surface.
+     violet-400 = 7.1:1, cyan-400 = 12.5:1 on --bg (see docs/DESIGN-SYSTEM.md §6) */
+  --accent-text: rgb(var(--c-violet-400));
+  --accent-text-hover: rgb(var(--c-violet-300));
+
+  /* Focus indication — must be visible on dark AND light surfaces. */
+  --focus-ring: rgb(var(--c-cyan-300));
+  --focus-ring-contrast: rgb(var(--c-ink-950));
+  --focus-ring-width: 2px;
+  --focus-ring-offset: 2px;
+
+  /* Decorative grid / glow geometry */
+  --grid-line: rgb(var(--c-ink-700));
+  --grid-size: 4rem;
+  --grid-opacity: 0.14;
+  --spotlight-size: 600px;
+  --spotlight-offscreen: -1000px;
+  --glow-alpha-strong: 0.2;
+  --glow-alpha: 0.15;
+  --spotlight-alpha: 0.14;
+  --spotlight-alpha-2: 0.05;
+
+  /* ------------------------------------------------------------------ *
+   * 3. Type scale (micro sizes are the site's HUD labels)
+   * ------------------------------------------------------------------ */
+  --font-display: 'Space Grotesk', 'Inter', system-ui, sans-serif;
+  --font-body: 'Inter', system-ui, sans-serif;
+  --font-mono: 'JetBrains Mono', ui-monospace, monospace;
+
+  --text-nano: 8px;
+  --text-tiny: 9px;
+  --text-micro: 10px;
+  --text-mini: 11px;
+  /* The body scale (text-xs/sm/base/lg/xl) is Tailwind's own default scale and
+     is deliberately not re-declared — re-declaring it would silently resize
+     every paragraph on the site. */
+
+  /* ------------------------------------------------------------------ *
+   * 4. Spacing + radius
+   * ------------------------------------------------------------------ */
+  --space-0: 0;
+  --space-1: 4px;
+  --space-2: 8px;
+  --space-3: 12px;
+  --space-4: 16px;
+  --space-5: 20px;
+  --space-6: 24px;
+  --space-8: 32px;
+  --space-10: 40px;
+  --space-12: 48px;
+  --space-16: 64px;
+
+  --radius-xs: 4px;
+  --radius-sm: 6px;
+  --radius-inner: 7px;
+  --radius-md: 10px;
+  --radius-lg: 12px;
+  --radius-xl: 16px;
+  --radius-2xl: 24px;
+  --radius-panel: 14px;
+  --radius-full: 9999px;
+  --hairline: 1px;
+  --accent-bar: 2px;
+  /* WCAG 2.2 SC 2.5.8 Target Size (Minimum) and the comfortable mobile size */
+  --target-min: 24px;
+  --target-comfortable: 44px;
+
+  /* ------------------------------------------------------------------ *
+   * 5. Layout dimensions (ambient glow geometry + component boxes)
+   * ------------------------------------------------------------------ */
+  --layout-glow-hero-w: 550px;
+  --layout-glow-hero-h: 350px;
+  --layout-glow-footer-w: 500px;
+  --layout-glow-orb: 384px;          /* w-96 / h-96 */
+  --layout-photo-h: 460px;
+  --layout-photo-sm-h: 360px;
+  --layout-photo-lg-h: 420px;
+  --layout-panel-sm-w: 380px;
+  --layout-panel-md-w: 410px;
+  --layout-portrait-w: 340px;
+  --layout-quote-min-h: 170px;
+  --layout-card-min-h: 300px;
+  --layout-hud-min-w: 100px;
+  --layout-node-offset: 31px;
+  --layout-node-offset-lg: 39px;
+  --layout-toggle-knob: 3px;
+  --layout-toggle-travel: 22px;
+
+  /* Motion geometry consumed by system.css / components */
+  --lift-hover: -2px;
+  --reveal-shift: 20px;
+  /* Trailing cursor: follow factor + how long the ring may stay parked
+     (an idle rAF loop is wasted main-thread time). */
+  --cursor-smoothing: 0.18;
+  --cursor-park-ms: 400;
+  /* Clearance kept above a focused / anchor-scrolled element so the sticky nav
+     can never obscure it (WCAG 2.2 SC 2.4.11). */
+  --scroll-offset: 6rem;
+
+  /* ------------------------------------------------------------------ *
+   * 6. Blur + shadow + z-layers
+   * ------------------------------------------------------------------ */
+  --blur-ambient-sm: 120px;
+  --blur-ambient-md: 130px;
+  --blur-ambient-lg: 140px;
+  --blur-glass: 8px;
+
+  --shadow-hud: 0 0 20px rgb(var(--c-cyan-600) / 0.4);
+  --shadow-live: 0 0 8px rgb(var(--c-emerald-400) / 0.8);
+
+  --z-base: 0;
+  --z-content: 10;
+  --z-nav: 50;
+  --z-overlay: 100;
+  --z-cursor: 9999;
+
+  /* ------------------------------------------------------------------ *
+   * 7. MOTION — the closed vocabulary
+   *    Every animation on the site uses one of these.
+   * ------------------------------------------------------------------ */
+  --dur-instant: 0ms;
+  --dur-none: 1ms;        /* the reduced-motion / "no animation" value      */
+  --dur-fast: 120ms;      /* state feedback: hover, chip, focus           */
+  --dur-base: 220ms;      /* element transitions: card, nav, drawer       */
+  --dur-slow: 320ms;      /* theme switch, larger surface changes         */
+  --dur-reveal: 520ms;    /* entrance choreography                        */
+  --dur-shimmer: 1000ms;  /* the single decorative shimmer                 */
+  --dur-ambient: 2600ms;  /* ambient pulse (badge liveness)               */
+
+  --ease-spring: cubic-bezier(0.16, 1, 0.3, 1);      /* entrances        */
+  --ease-out: cubic-bezier(0.22, 1, 0.36, 1);        /* exits/hovers     */
+  --ease-in-out: cubic-bezier(0.4, 0, 0.2, 1);       /* loops            */
+  --ease-standard: cubic-bezier(0.2, 0, 0.2, 1);     /* legacy .2s curve */
+
+  /* Entrance stagger (index-based, applied with calc) */
+  --stagger-step: 80ms;
+
+  /* ------------------------------------------------------------------ *
+   * 8. Skin: reusable surfaces built from the tokens above
+   * ------------------------------------------------------------------ */
+  --card-hover-border: rgb(var(--c-violet-500) / 0.4);
+}
+
+[data-theme='light'] {
+  --bg: rgb(250 250 252);
+  --bg-rgb: 250 250 252;
+  --surface: rgba(255, 255, 255, 0.9);
+  --surface-solid: #ffffff;
+  --surface-deep: #f1f5f9;
+  --surface-tint: #ede9fe;
+  --text: rgb(15 23 42);
+  --muted: rgb(71 85 105);
+  --line: rgba(124, 92, 255, 0.15);
+  --card-bg: linear-gradient(180deg, #ffffff, #f1f5f9);
+  --glass-bg: rgba(255, 255, 255, 0.85);
+  --nav-bg: rgba(255, 255, 255, 0.8);
+
+  --accent: rgb(var(--c-violet-600));
+  --accent-strong: rgb(var(--c-violet-700));
+  --accent-rgb: var(--c-violet-600);
+  --accent-text: rgb(var(--c-violet-700));
+  --accent-text-hover: rgb(var(--c-violet-800));
+
+  --focus-ring: rgb(var(--c-violet-700));
+  --focus-ring-contrast: rgb(250 250 252);
+
+  --grid-line: rgb(var(--c-ink-300));
+  --card-hover-border: rgb(var(--c-violet-600) / 0.5);
+  --shadow-live: 0 0 8px rgb(var(--c-emerald-500) / 0.8);
+}

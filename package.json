@@ -11,7 +11,8 @@
     "test:lead": "node scripts/lead-endpoint-test.mjs",
     "test:sheet": "node scripts/apps-script-sheet-test.mjs",
     "test:hunter": "node scripts/lead-hunter-sheet-test.mjs",
-    "test": "npm run test:lead && npm run test:sheet && npm run test:hunter"
+    "test": "npm run test:lead && npm run test:sheet && npm run test:hunter",
+    "check:tokens": "node scripts/check-tokens.mjs"
   },
   "dependencies": {
     "@google/generative-ai": "^0.24.1",

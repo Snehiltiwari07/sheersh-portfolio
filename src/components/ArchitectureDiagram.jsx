@@ -42,7 +42,7 @@ export default function ArchitectureDiagram() {
                   <div className="flex items-center gap-3.5">
                     <span className="text-2xl">{node.icon}</span>
                     <div>
-                      <span className="chip px-2.5 py-0.5 rounded text-[10px] text-cyan font-mono">
+                      <span className="chip px-2.5 py-0.5 rounded text-micro text-cyan font-mono">
                         {node.category}
                       </span>
                       <h3 className="font-display font-bold text-sm sm:text-base text-ink mt-0.5">
@@ -51,7 +51,7 @@ export default function ArchitectureDiagram() {
                     </div>
                   </div>
 
-                  <span className="font-mono text-xs text-violet font-semibold hidden sm:inline-block">
+                  <span className="font-mono text-xs text-violet-400 font-semibold hidden sm:inline-block">
                     {node.metrics}
                   </span>
                 </motion.button>
@@ -75,7 +75,7 @@ export default function ArchitectureDiagram() {
                 <div className="flex items-center gap-3 border-b border-line pb-4 mb-5">
                   <span className="text-4xl">{selectedNode.icon}</span>
                   <div>
-                    <span className="chip px-2.5 py-0.5 rounded-full text-[10px] text-cyan font-mono">
+                    <span className="chip px-2.5 py-0.5 rounded-full text-micro text-cyan font-mono">
                       {selectedNode.category}
                     </span>
                     <h3 className="font-display font-bold text-xl text-ink mt-1">
@@ -90,7 +90,7 @@ export default function ArchitectureDiagram() {
               </div>
 
               <div>
-                <p className="font-mono text-xs text-violet mb-2 font-semibold">
+                <p className="font-mono text-xs text-violet-400 mb-2 font-semibold">
                   Technologies & Specs:
                 </p>
                 <div className="flex flex-wrap gap-2">

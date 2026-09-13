@@ -130,7 +130,7 @@ export default function HireDrawer({ open, onClose }) {
             {/* Header */}
             <div className="flex items-center justify-between mb-4">
               <div>
-                <span className="chip px-2.5 py-0.5 rounded text-[10px] text-cyan font-mono">
+                <span className="chip px-2.5 py-0.5 rounded text-micro text-cyan font-mono">
                   Interactive Scope & Estimator
                 </span>
                 <h3 className="font-display font-bold text-xl text-ink mt-1">
@@ -163,7 +163,7 @@ export default function HireDrawer({ open, onClose }) {
                         <span className="text-lg">{s.icon}</span>
                         <span className="font-mono text-xs font-semibold">{s.label}</span>
                       </div>
-                      <span className="font-mono text-[11px] text-violet font-bold">
+                      <span className="font-mono text-mini text-violet-400 font-bold">
                         ${s.minCost}-${s.maxCost}
                       </span>
                     </button>
@@ -176,7 +176,7 @@ export default function HireDrawer({ open, onClose }) {
             <div className="p-3.5 rounded-xl glass border border-line mb-6 flex items-center justify-between">
               <div>
                 <p className="font-mono text-xs font-semibold text-ink">Express Speed Priority</p>
-                <p className="font-mono text-[10px] text-muted">50% faster delivery (+25% rush pricing)</p>
+                <p className="font-mono text-micro text-muted">50% faster delivery (+25% rush pricing)</p>
               </div>
               <button
                 type="button"
@@ -197,19 +197,19 @@ export default function HireDrawer({ open, onClose }) {
             <div className="card p-4 rounded-2xl glass border-2 border-violet/40 mb-6 space-y-3 bg-violet/5">
               <div className="flex items-center justify-between border-b border-line pb-3">
                 <div>
-                  <p className="font-mono text-[10px] text-muted uppercase">Estimated Budget Range</p>
+                  <p className="font-mono text-micro text-muted uppercase">Estimated Budget Range</p>
                   <p className="font-display font-extrabold text-2xl grad-text">
                     ${estMinCost} - ${estMaxCost} <span className="text-xs font-mono font-normal text-muted">USD</span>
                   </p>
                 </div>
                 <div className="text-right">
-                  <p className="font-mono text-[10px] text-muted uppercase">Estimated Timeline</p>
+                  <p className="font-mono text-micro text-muted uppercase">Estimated Timeline</p>
                   <p className="font-display font-bold text-lg text-ink">
                     {estMinDays}-{estMaxDays} <span className="text-xs font-mono font-normal text-muted">Days</span>
                   </p>
                 </div>
               </div>
-              <p className="font-mono text-[10px] text-muted">
+              <p className="font-mono text-micro text-muted">
                 *Includes full code delivery, automated deployment setup, and post-launch support.
               </p>
             </div>
@@ -252,27 +252,7 @@ export default function HireDrawer({ open, onClose }) {
   );
 }
 
-export function FloatingHireButton({ onClick }) {
-  return (
-    <div className="fixed bottom-6 left-6 z-40">
-      <button
-        onClick={onClick}
-        className="relative group flex items-center gap-2.5 px-4 py-3 rounded-full font-mono text-xs font-bold text-white bg-slate-950/90 border border-violet-500/40 hover:border-violet-400 shadow-2xl backdrop-blur-xl hover:scale-105 active:scale-95 transition-all cursor-pointer overflow-hidden"
-      >
-        {/* Glow Aura */}
-        <span className="absolute -inset-1 rounded-full bg-gradient-to-r from-violet-600 to-orange-500 opacity-30 blur-md group-hover:opacity-70 transition-opacity" />
-
-        {/* Live Indicator */}
-        <span className="relative flex h-2 w-2 shrink-0">
-          <span className="animate-ping absolute inline-flex h-full w-full rounded-full bg-emerald-400 opacity-75" />
-          <span className="relative inline-flex rounded-full h-2 w-2 bg-emerald-400" />
-        </span>
-
-        {/* Text */}
-        <span className="relative z-10 text-slate-100 group-hover:text-violet-300 transition-colors">
-          💼 Estimate Project Cost
-        </span>
-      </button>
-    </div>
-  );
-}
+// The floating CTA moved to ./FloatingHireButton so App.jsx can import it
+// eagerly without pulling this module (and framer-motion) onto the critical
+// path. Re-exported here so existing importers keep working.
+export { FloatingHireButton } from './FloatingHireButton';

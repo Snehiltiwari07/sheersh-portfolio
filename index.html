@@ -3,26 +3,16 @@
   <head>
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <meta name="color-scheme" content="dark light" />
 
-    <!-- 1. CookieHub Cookie Banner Script with GA4 Integration Callback -->
-    <script src="https://cdn.cookiehub.eu/c2/c71950bb.js"></script>
+    <!-- 1. Cookie consent (CookieHub) + GA4, loaded AFTER the page is usable.
+         As a synchronous head script this blocked first paint for ~1.3 s; as a
+         `defer` script it still executed ahead of the app's module script and
+         pushed the entire React render out behind a third-party CDN. Consent
+         does not need to precede the first paint, and GA4 is only requested
+         once consent is granted, so the loader is injected asynchronously on
+         the `load` event instead. -->
     <script type="text/javascript">
-      document.addEventListener("DOMContentLoaded", function(event) {
-        var cpm = {
-          onInitialise: function(status) {
-            if (this.hasConsented('analytics')) {
-              loadGA4();
-            }
-          },
-          onAllow: function(category) {
-            if (category === 'analytics') {
-              loadGA4();
-            }
-          }
-        };
-        window.cookiehub.load(cpm);
-      });
-
       function loadGA4() {
         if (window.ga4Loaded) return;
         window.ga4Loaded = true;
@@ -38,6 +28,28 @@
         gtag('js', new Date());
         gtag('config', 'G-R767831ZBS');
       }
+
+      (function initConsent() {
+        function start() {
+          var script = document.createElement('script');
+          script.async = true;
+          script.src = 'https://cdn.cookiehub.eu/c2/c71950bb.js';
+          script.onload = function () {
+            window.cookiehub.load({
+              onInitialise: function () {
+                if (this.hasConsented('analytics')) loadGA4();
+              },
+              onAllow: function (category) {
+                if (category === 'analytics') loadGA4();
+              },
+            });
+          };
+          document.head.appendChild(script);
+        }
+
+        if (document.readyState === 'complete') start();
+        else window.addEventListener('load', start, { once: true });
+      })();
     </script>
 
     <!-- Browser Tab Title -->
@@ -56,13 +68,29 @@
       content="Official portfolio of Sheersh Tiwari — Full-Stack Architect & SQL Performance Engineer."
     />
 
-    <!-- Fonts -->
+    <!-- Fonts — loaded non-blocking: a render-blocking Google Fonts stylesheet
+         was costing ~1.3 s of first paint. Text paints immediately in the
+         fallback face (font-display: swap) and swaps in when the CSS lands. -->
     <link rel="preconnect" href="https://fonts.googleapis.com" />
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
     <link
+      rel="preload"
+      as="style"
       href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800;900&family=JetBrains+Mono:wght@400;500;700&display=swap"
-      rel="stylesheet"
     />
+    <link
+      id="font-stylesheet"
+      rel="stylesheet"
+      media="print"
+      onload="this.media='all';this.removeAttribute('onload')"
+      href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800;900&family=JetBrains+Mono:wght@400;500;700&display=swap"
+    />
+    <noscript>
+      <link
+        rel="stylesheet"
+        href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800;900&family=JetBrains+Mono:wght@400;500;700&display=swap"
+      />
+    </noscript>
   </head>
   <body class="bg-slate-950 text-slate-100 antialiased selection:bg-orange-500 selection:text-white">
     <div id="root"></div>

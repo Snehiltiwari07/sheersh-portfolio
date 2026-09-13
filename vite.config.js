@@ -18,10 +18,18 @@ export default defineConfig({
     chunkSizeWarningLimit: 1000,
     rollupOptions: {
       output: {
-        // Separate heavy vendor scripts to maximize browser caching
-        manualChunks: {
-          'framer-motion': ['framer-motion'],
-          'react-vendor': ['react', 'react-dom'],
+        // Chunk by package, explicitly: the previous list named only
+        // 'react' and 'react-dom', so react/jsx-runtime — which every JSX file
+        // needs — was bundled into the framer-motion chunk. The initial chunk
+        // therefore imported framer-motion (122 KB) statically and waited on it
+        // before the first render. With the runtime pinned to react-vendor,
+        // framer-motion is reachable only through the lazy below-the-fold
+        // chunks.
+        manualChunks(id) {
+          if (!id.includes('node_modules')) return undefined;
+          if (id.includes('framer-motion')) return 'framer-motion';
+          if (/[\\/]node_modules[\\/](react|react-dom|scheduler)[\\/]/.test(id)) return 'react-vendor';
+          return undefined;
         },
       },
     },

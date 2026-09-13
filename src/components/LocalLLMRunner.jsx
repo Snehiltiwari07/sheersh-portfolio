@@ -207,7 +207,7 @@ export default function LocalLLMRunner() {
 
   return (
     <section id="local-llm" className="max-w-6xl mx-auto px-4 sm:px-6 py-20 relative">
-      <div className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-96 h-96 bg-cyan-600/10 rounded-full blur-[140px] pointer-events-none -z-10" />
+      <div className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-96 h-96 bg-cyan-600/10 rounded-full blur-ambient-lg pointer-events-none -z-10" />
 
       {/* Header */}
       <div className="text-center space-y-3 mb-10">
@@ -240,28 +240,28 @@ export default function LocalLLMRunner() {
         {/* Top HUD Telemetry Bar */}
         <div className="bg-slate-900/90 border-b border-slate-800 p-4 grid grid-cols-2 sm:grid-cols-4 gap-3 text-xs font-mono">
           <div className="p-2.5 rounded-xl bg-slate-950/80 border border-slate-800">
-            <div className="text-slate-500 text-[10px]">HARDWARE ADAPTER</div>
+            <div className="text-slate-400 text-micro">HARDWARE ADAPTER</div>
             <div className="text-cyan-400 font-bold truncate mt-0.5" title={gpuInfo.name}>
               {gpuInfo.name}
             </div>
           </div>
 
           <div className="p-2.5 rounded-xl bg-slate-950/80 border border-slate-800">
-            <div className="text-slate-500 text-[10px]">VRAM / BUFFER ALLOCATED</div>
+            <div className="text-slate-400 text-micro">VRAM / BUFFER ALLOCATED</div>
             <div className="text-emerald-400 font-bold mt-0.5">
               {telemetry.vramUsed} MB / 1024 MB
             </div>
           </div>
 
           <div className="p-2.5 rounded-xl bg-slate-950/80 border border-slate-800">
-            <div className="text-slate-500 text-[10px]">LOCAL INFERENCE SPEED</div>
+            <div className="text-slate-400 text-micro">LOCAL INFERENCE SPEED</div>
             <div className="text-orange-400 font-bold mt-0.5">
               {telemetry.tps > 0 ? `${telemetry.tps} TPS` : '0 TPS (Idle)'}
             </div>
           </div>
 
           <div className="p-2.5 rounded-xl bg-slate-950/80 border border-slate-800">
-            <div className="text-slate-500 text-[10px]">NETWORK PACKETS</div>
+            <div className="text-slate-400 text-micro">NETWORK PACKETS</div>
             <div className="text-purple-400 font-bold mt-0.5 flex items-center gap-1.5">
               <span className="w-1.5 h-1.5 rounded-full bg-emerald-400" />
               0 KB/s (100% Offline)
@@ -297,7 +297,7 @@ export default function LocalLLMRunner() {
         {activeTab === 'runner' && (
           <div className="p-4 sm:p-6 space-y-4">
             <div className="space-y-1.5">
-              <span className="text-[10px] font-mono text-slate-500">TEST PRESET PROMPTS:</span>
+              <span className="text-micro font-mono text-slate-400">TEST PRESET PROMPTS:</span>
               <div className="flex flex-wrap gap-2">
                 {PRESET_PROMPTS.map((prompt) => (
                   <button
@@ -307,7 +307,7 @@ export default function LocalLLMRunner() {
                       generateTokens(prompt);
                     }}
                     disabled={isGenerating}
-                    className="px-3 py-1.5 rounded-lg bg-slate-900 hover:bg-slate-800 border border-slate-800 text-[11px] font-mono text-slate-300 hover:text-cyan-300 transition-colors cursor-pointer disabled:opacity-50 text-left"
+                    className="px-3 py-1.5 rounded-lg bg-slate-900 hover:bg-slate-800 border border-slate-800 text-mini font-mono text-slate-300 hover:text-cyan-300 transition-colors cursor-pointer disabled:opacity-50 text-left"
                   >
                     ⚡ {prompt}
                   </button>
@@ -322,7 +322,7 @@ export default function LocalLLMRunner() {
               {outputStream ? (
                 <pre className="whitespace-pre-wrap font-mono">{outputStream}</pre>
               ) : (
-                <div className="h-full flex flex-col items-center justify-center text-slate-500 text-center space-y-2">
+                <div className="h-full flex flex-col items-center justify-center text-slate-400 text-center space-y-2">
                   <div className="w-10 h-10 rounded-xl bg-slate-950 border border-slate-800 flex items-center justify-center text-lg">
                     🧠
                   </div>
@@ -343,7 +343,7 @@ export default function LocalLLMRunner() {
                 value={inputPrompt}
                 onChange={(e) => setInputPrompt(e.target.value)}
                 placeholder="Ask local model anything (runs 100% in your browser VRAM)..."
-                className="flex-1 bg-slate-900 border border-slate-800 rounded-xl px-4 py-3 text-xs text-slate-100 placeholder:text-slate-500 focus:outline-none focus:border-cyan-500/60 transition-colors font-mono"
+                className="flex-1 bg-slate-900 border border-slate-800 rounded-xl px-4 py-3 text-xs text-slate-100 placeholder:text-slate-400 focus:outline-none focus:border-cyan-500/60 transition-colors font-mono"
               />
               <button
                 type="submit"
@@ -384,13 +384,13 @@ export default function LocalLLMRunner() {
               </div>
             )}
 
-            <div className="rounded-2xl bg-slate-900 border border-slate-800 p-4 font-mono text-[11px] text-cyan-300 overflow-x-auto">
+            <div className="rounded-2xl bg-slate-900 border border-slate-800 p-4 font-mono text-mini text-cyan-300 overflow-x-auto">
               <pre>{WGSL_MATMUL_SHADER}</pre>
             </div>
           </div>
         )}
 
-        <div className="px-4 py-2.5 bg-slate-950 border-t border-slate-900 text-[10px] font-mono text-slate-500 flex items-center justify-between">
+        <div className="px-4 py-2.5 bg-slate-950 border-t border-slate-900 text-micro font-mono text-slate-400 flex items-center justify-between">
           <span>Architected by Sheersh Tiwari • WebAssembly & WebGPU GPGPU Execution Engine</span>
           <span className="hidden sm:inline">Zero Backend Server Load</span>
         </div>
@@ -419,7 +419,7 @@ export default function LocalLLMRunner() {
               {/* Header */}
               <div className="flex items-start justify-between border-b border-slate-800 pb-4">
                 <div>
-                  <span className="px-2.5 py-0.5 rounded-full text-[10px] font-mono text-violet-300 bg-violet-950/60 border border-violet-800/60 inline-block mb-1">
+                  <span className="px-2.5 py-0.5 rounded-full text-micro font-mono text-violet-300 bg-violet-950/60 border border-violet-800/60 inline-block mb-1">
                     Knowledge Base & Feature Guide
                   </span>
                   <h3 className="font-display font-bold text-xl text-slate-100">
@@ -456,19 +456,19 @@ export default function LocalLLMRunner() {
                   <ul className="grid grid-cols-1 sm:grid-cols-3 gap-3 text-xs font-mono">
                     <li className="p-3 rounded-xl bg-slate-900 border border-slate-800 space-y-1">
                       <span className="text-emerald-400 font-bold block">💰 Zero Server Costs</span>
-                      <span className="text-slate-400 text-[11px] leading-normal block">
+                      <span className="text-slate-400 text-mini leading-normal block">
                         Companies save thousands in monthly cloud API fees by shifting work to client devices.
                       </span>
                     </li>
                     <li className="p-3 rounded-xl bg-slate-900 border border-slate-800 space-y-1">
                       <span className="text-cyan-400 font-bold block">🔒 100% Data Privacy</span>
-                      <span className="text-slate-400 text-[11px] leading-normal block">
+                      <span className="text-slate-400 text-mini leading-normal block">
                         Sensitive medical, legal, or financial data never leaves the user's browser.
                       </span>
                     </li>
                     <li className="p-3 rounded-xl bg-slate-900 border border-slate-800 space-y-1">
                       <span className="text-orange-400 font-bold block">⚡ Low-Level Mastery</span>
-                      <span className="text-slate-400 text-[11px] leading-normal block">
+                      <span className="text-slate-400 text-mini leading-normal block">
                         Proves Sheersh understands low-level GPU acceleration, WebAssembly, and systems engineering.
                       </span>
                     </li>

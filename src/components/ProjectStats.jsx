@@ -29,7 +29,7 @@ export default function ProjectStats() {
                 <span className="text-3xl group-hover:scale-110 transition-transform">
                   {stat.icon}
                 </span>
-                <span className="chip px-2.5 py-1 rounded-full text-[10px] text-cyan font-mono">
+                <span className="chip px-2.5 py-1 rounded-full text-micro text-cyan font-mono">
                   {stat.tag}
                 </span>
               </div>
@@ -47,7 +47,7 @@ export default function ProjectStats() {
               </p>
             </div>
 
-            <div className="mt-6 pt-4 border-t border-line/60 flex items-center justify-between font-mono text-[11px] text-violet">
+            <div className="mt-6 pt-4 border-t border-line/60 flex items-center justify-between font-mono text-mini text-violet-400">
               <span>Verified Metric</span>
               <span>❯ active</span>
             </div>

@@ -1,4 +1,5 @@
 import { useEffect, useRef, useState, useCallback } from 'react';
+import { color } from '../styles/tokens';
 
 // --- SYNTHESIZED RETRO AUDIO ENGINE (Zero External Assets) ---
 const playSound = (type) => {
@@ -106,7 +107,7 @@ export default function Playground() {
       if (gameState === 'PLAYING') {
         player.velocity = gameRef.current.jumpPower;
         if (soundEnabled) playSound('flap');
-        createParticles(player.x, player.y + player.size, '#38bdf8', 5);
+        createParticles(player.x, player.y + player.size, color('--c-sky-400'), 5);
       }
     };
 
@@ -159,7 +160,7 @@ export default function Playground() {
 
     const triggerGameOver = () => {
       if (soundEnabled) playSound('crash');
-      createParticles(player.x, player.y, '#ef4444', 30);
+      createParticles(player.x, player.y, color('--c-red-500'), 30);
       
       setDeathMsg(DEATH_MESSAGES[Math.floor(Math.random() * DEATH_MESSAGES.length)]);
       setGameState('GAMEOVER');
@@ -230,11 +231,11 @@ export default function Playground() {
 
       // --- RENDER ---
       // Background
-      ctx.fillStyle = '#0f172a';
+      ctx.fillStyle = color('--c-ink-900');
       ctx.fillRect(0, 0, W, H);
 
       // Scrolling Grid (Cyberpunk feel)
-      ctx.strokeStyle = '#1e293b';
+      ctx.strokeStyle = color('--c-ink-800');
       ctx.lineWidth = 1;
       const offset = gameRef.current.frames * 2 % 40;
       for (let i = 0; i < W; i += 40) {
@@ -245,22 +246,22 @@ export default function Playground() {
       pipes.forEach(p => {
         // Gradient for pipes
         const grad = ctx.createLinearGradient(p.x, 0, p.x + p.w, 0);
-        grad.addColorStop(0, '#ef4444');
-        grad.addColorStop(1, '#991b1b');
+        grad.addColorStop(0, color('--c-red-500'));
+        grad.addColorStop(1, color('--c-red-800'));
         
         ctx.fillStyle = grad;
-        ctx.shadowColor = '#ef4444';
+        ctx.shadowColor = color('--c-red-500');
         ctx.shadowBlur = 10;
         
         // Top Pipe
         ctx.fillRect(p.x, 0, p.w, p.top);
-        ctx.fillStyle = '#f87171'; // Pipe lip
+        ctx.fillStyle = color('--c-red-400'); // Pipe lip
         ctx.fillRect(p.x - 2, p.top - 15, p.w + 4, 15);
         
         // Bottom Pipe
         ctx.fillStyle = grad;
         ctx.fillRect(p.x, p.bottom, p.w, H - p.bottom);
-        ctx.fillStyle = '#f87171'; // Pipe lip
+        ctx.fillStyle = color('--c-red-400'); // Pipe lip
         ctx.fillRect(p.x - 2, p.bottom, p.w + 4, 15);
         
         ctx.shadowBlur = 0; // reset
@@ -279,13 +280,13 @@ export default function Playground() {
       ctx.translate(player.x + player.size / 2, player.y + player.size / 2);
       ctx.rotate(player.rotation);
       
-      ctx.fillStyle = '#22d3ee'; // Cyan body
-      ctx.shadowColor = '#06b6d4';
+      ctx.fillStyle = color('--c-cyan-400'); // Cyan body
+      ctx.shadowColor = color('--c-cyan-500');
       ctx.shadowBlur = 15;
       ctx.fillRect(-player.size / 2, -player.size / 2, player.size, player.size);
       
       // "Eye" or Data Core
-      ctx.fillStyle = '#ffffff';
+      ctx.fillStyle = color('--c-white');
       ctx.shadowBlur = 0;
       ctx.fillRect(-player.size / 2 + 12, -player.size / 2 + 4, 6, 6);
       
@@ -338,7 +339,7 @@ export default function Playground() {
             <div>RECORD: <span className="text-emerald-400 font-bold">{highScore}</span></div>
             <button
               onClick={() => setSoundEnabled(!soundEnabled)}
-              className="px-2 py-1.5 rounded bg-slate-900 hover:bg-slate-800 border border-slate-800 text-[10px] text-slate-400 cursor-pointer"
+              className="px-2 py-1.5 rounded bg-slate-900 hover:bg-slate-800 border border-slate-800 text-micro text-slate-400 cursor-pointer"
             >
               {soundEnabled ? '🔊 ON' : '🔇 OFF'}
             </button>
@@ -364,7 +365,7 @@ export default function Playground() {
               <p className="text-cyan-400 text-xs font-mono mt-2 mb-8 bg-cyan-950/50 px-4 py-1.5 rounded-full border border-cyan-900">
                 Press SPACE or TAP to flap
               </p>
-              <button className="px-8 py-3.5 rounded-xl font-mono text-xs font-bold text-white bg-gradient-to-r from-cyan-600 to-blue-600 shadow-[0_0_20px_rgba(8,145,178,0.4)] transition-transform active:scale-95">
+              <button className="px-8 py-3.5 rounded-xl font-mono text-xs font-bold text-white bg-gradient-to-r from-cyan-600 to-blue-600 shadow-hud transition-transform active:scale-95">
                 START DEPLOYMENT
               </button>
             </div>
@@ -381,12 +382,12 @@ export default function Playground() {
               </p>
 
               <div className="flex gap-4">
-                <div className="bg-slate-900 p-3 rounded-xl border border-slate-800 text-center min-w-[100px]">
-                  <div className="text-[10px] text-slate-500 font-mono mb-1">SCORE</div>
+                <div className="bg-slate-900 p-3 rounded-xl border border-slate-800 text-center min-w-hud">
+                  <div className="text-micro text-slate-400 font-mono mb-1">SCORE</div>
                   <div className="text-2xl font-bold text-cyan-400">{score}</div>
                 </div>
-                <div className="bg-slate-900 p-3 rounded-xl border border-slate-800 text-center min-w-[100px]">
-                  <div className="text-[10px] text-slate-500 font-mono mb-1">BEST</div>
+                <div className="bg-slate-900 p-3 rounded-xl border border-slate-800 text-center min-w-hud">
+                  <div className="text-micro text-slate-400 font-mono mb-1">BEST</div>
                   <div className="text-2xl font-bold text-emerald-400">{highScore}</div>
                 </div>
               </div>

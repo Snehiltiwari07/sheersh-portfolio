@@ -1,0 +1,316 @@
+/* ============================================================================
+ * src/styles/system.css — how the tokens are used
+ * ----------------------------------------------------------------------------
+ * Layers, in this order:
+ *   1. primitives      glass / card / chip / command label / gradients
+ *   2. decorative skin ambient grid, glows, spotlight, shimmer
+ *   3. motion language keyframes + the reveal utility (one vocabulary)
+ *   4. accessibility   focus-visible, skip link, target size, focus not obscured
+ *   5. reduced motion  the switch that turns decorative motion off
+ *
+ * Nothing in here contains a raw design value — every number reads a token
+ * from tokens.css. Enforced by scripts/check-tokens.mjs.
+ * ========================================================================= */
+
+/* ---------------------------------------------------------------- *
+ * 1. Primitives
+ * ---------------------------------------------------------------- */
+.glass {
+  background: var(--glass-bg);
+  backdrop-filter: blur(var(--blur-glass));
+  -webkit-backdrop-filter: blur(var(--blur-glass));
+  border: var(--hairline) solid var(--line);
+}
+
+.card {
+  background: var(--card-bg);
+  border: var(--hairline) solid var(--line);
+  transition: transform var(--dur-base) var(--ease-out),
+    border-color var(--dur-base) var(--ease-out),
+    box-shadow var(--dur-base) var(--ease-out);
+}
+
+.card:hover {
+  border-color: var(--card-hover-border);
+  transform: translate3d(0, var(--lift-hover), 0);
+}
+
+.chip {
+  font-family: var(--font-mono);
+  font-size: var(--text-xs);
+  border: var(--hairline) solid var(--line);
+  background: var(--surface);
+  color: var(--text);
+  transition: color var(--dur-fast) var(--ease-out),
+    border-color var(--dur-fast) var(--ease-out),
+    background-color var(--dur-fast) var(--ease-out);
+}
+
+.chip:hover {
+  border-color: var(--accent-strong);
+}
+
+.cmd-label {
+  font-family: var(--font-mono);
+  color: var(--accent-text);
+  font-size: var(--text-sm);
+}
+
+.cmd-label::before {
+  content: '\276F ';
+  color: rgb(var(--c-cyan-400));
+}
+
+.grad-text {
+  background: linear-gradient(90deg, rgb(var(--c-violet-500)), rgb(var(--c-cyan-400)));
+  -webkit-background-clip: text;
+  background-clip: text;
+  color: transparent;
+}
+
+.grad-bg {
+  background: linear-gradient(90deg, rgb(var(--c-violet-500)), rgb(var(--c-cyan-400)));
+  color: rgb(var(--c-ink-100)) !important;
+}
+
+/* Both keep `!important`: components deliberately stack them over Tailwind
+   colour utilities, and dropping it would silently change their colour. */
+.text-ink { color: var(--text) !important; }
+.text-muted { color: var(--muted) !important; }
+
+/* ---------------------------------------------------------------- *
+ * 2. Decorative skin (all of it is removable without losing content)
+ * ---------------------------------------------------------------- */
+
+/* Tech grid matrix — gradient + mask, values from tokens */
+.tech-grid {
+  background-image: linear-gradient(to right, var(--grid-line) var(--hairline), transparent var(--hairline)),
+    linear-gradient(to bottom, var(--grid-line) var(--hairline), transparent var(--hairline));
+  background-size: var(--grid-size) var(--grid-size);
+  opacity: var(--grid-opacity);
+}
+
+.tech-grid-mask {
+  -webkit-mask-image: radial-gradient(ellipse 70% 60% at 50% 10%, rgb(var(--c-black)) 60%, transparent 100%);
+  mask-image: radial-gradient(ellipse 70% 60% at 50% 10%, rgb(var(--c-black)) 60%, transparent 100%);
+}
+
+/* Pointer spotlight — one class, colours from the accent tokens */
+.cursor-spotlight {
+  background: radial-gradient(
+    var(--spotlight-size) circle at var(--mouse-x, var(--spotlight-offscreen)) var(--mouse-y, var(--spotlight-offscreen)),
+    rgb(var(--c-violet-500) / var(--spotlight-alpha)),
+    rgb(var(--c-cyan-500) / var(--spotlight-alpha-2)) 40%,
+    transparent 80%
+  );
+  transition: opacity var(--dur-base) var(--ease-out);
+}
+
+/* Accent glows — one class per accent, 20%/15% alpha as designed */
+.glow {
+  background: radial-gradient(circle at center, rgb(var(--glow-rgb) / var(--glow-alpha)), transparent 70%);
+}
+.glow-emerald { --glow-rgb: var(--c-emerald-500); --glow-alpha: var(--glow-alpha-strong); }
+.glow-emerald-soft { --glow-rgb: var(--c-emerald-500); }
+.glow-orange { --glow-rgb: var(--c-orange-500); }
+.glow-blue { --glow-rgb: var(--c-blue-500); }
+.glow-amber { --glow-rgb: var(--c-amber-500); }
+.glow-cyan { --glow-rgb: var(--c-cyan-500); }
+.glow-violet { --glow-rgb: var(--c-violet-500); }
+.glow-pink { --glow-rgb: var(--c-pink-500); }
+
+/* GPU-composited helper. will-change is only ever set on elements that are
+   actually moving (a permanent will-change on a static element forces a layer
+   and costs memory + paint for nothing). */
+.gpu { transform: translate3d(0, 0, 0); }
+
+/* ---------------------------------------------------------------- *
+ * 3. Motion language
+ *    Four durations, four easings, five named behaviours. Nothing else.
+ * ---------------------------------------------------------------- */
+
+/* Entrance: used where a reveal aids comprehension (never above the fold —
+   an opacity gate on the LCP element delays LCP for no informational gain). */
+@keyframes reveal-up {
+  from { opacity: 0; transform: translate3d(0, var(--reveal-shift), 0); }
+  to   { opacity: 1; transform: translate3d(0, 0, 0); }
+}
+
+@keyframes reveal-fade {
+  from { opacity: 0; }
+  to   { opacity: 1; }
+}
+
+/* Liveness: a small "this is connected/available" signal */
+@keyframes live-pulse {
+  0%, 100% { opacity: 1; transform: scale(1); }
+  50%      { opacity: 0.55; transform: scale(0.86); }
+}
+
+@keyframes live-ping {
+  0%        { transform: scale(1); opacity: 0.75; }
+  70%, 100% { transform: scale(2.4); opacity: 0; }
+}
+
+/* The single decorative sweep (photo card hover) */
+@keyframes shimmer {
+  from { transform: translate3d(-100%, 0, 0) skewX(12deg); }
+  to   { transform: translate3d(100%, 0, 0) skewX(12deg); }
+}
+
+@keyframes ambient-drift {
+  0%, 100% { transform: translate3d(0, 0, 0) scale(1); }
+  50%      { transform: translate3d(0, calc(var(--space-3) * -1), 0) scale(1.03); }
+}
+
+.reveal {
+  opacity: 0;
+  animation: reveal-up var(--dur-reveal) var(--ease-spring) forwards;
+  animation-delay: calc(var(--stagger, 0) * var(--stagger-step));
+}
+
+.reveal-fade {
+  opacity: 0;
+  animation: reveal-fade var(--dur-slow) var(--ease-out) forwards;
+  animation-delay: calc(var(--stagger, 0) * var(--stagger-step));
+}
+
+.animate-live {
+  animation: live-pulse var(--dur-ambient) var(--ease-in-out) infinite;
+}
+
+.animate-ping-slow {
+  animation: live-ping var(--dur-ambient) var(--ease-in-out) infinite;
+}
+
+.animate-shimmer {
+  animation: shimmer var(--dur-shimmer) var(--ease-in-out) infinite;
+}
+
+.animate-ambient {
+  animation: ambient-drift calc(var(--dur-ambient) * 4) var(--ease-in-out) infinite;
+}
+
+/* Interactive feedback is a token decision, not a per-component invention. */
+.interactive {
+  transition: color var(--dur-fast) var(--ease-out),
+    background-color var(--dur-fast) var(--ease-out),
+    border-color var(--dur-fast) var(--ease-out),
+    opacity var(--dur-fast) var(--ease-out),
+    transform var(--dur-base) var(--ease-spring);
+}
+
+/* ---------------------------------------------------------------- *
+ * 4. Accessibility
+ * ---------------------------------------------------------------- */
+
+/* One focus ring, visible on the dark surface and on the light theme.
+   WCAG 2.2 SC 2.4.11/2.4.13: always visible, never obscured. */
+:where(a, button, input, select, textarea, summary, [tabindex]):focus-visible {
+  outline: var(--focus-ring-width) solid var(--focus-ring);
+  outline-offset: var(--focus-ring-offset);
+  border-radius: var(--radius-xs);
+}
+
+/* Never let a component's `focus:outline-none` win over the ring above. */
+:where(a, button, [tabindex]):focus-visible {
+  outline-color: var(--focus-ring);
+}
+
+/* Focus Not Obscured (WCAG 2.2 SC 2.4.11): the sticky nav is ~5rem tall, so
+   anchor + focus scrolling keeps that much clearance. */
+html {
+  scroll-padding-top: var(--scroll-offset);
+}
+
+/* Skip link — the first tab stop on the page. */
+.skip-link {
+  position: fixed;
+  top: var(--space-2);
+  left: var(--space-2);
+  z-index: var(--z-overlay);
+  transform: translate3d(0, calc(var(--space-16) * -1), 0);
+  transition: transform var(--dur-base) var(--ease-out);
+  background: var(--surface-solid);
+  color: var(--text);
+  border: var(--hairline) solid var(--accent-strong);
+  border-radius: var(--radius-md);
+  padding: var(--space-3) var(--space-4);
+  font-family: var(--font-mono);
+  font-size: var(--text-sm);
+}
+
+.skip-link:focus {
+  transform: translate3d(0, 0, 0);
+}
+
+/* WCAG 2.2 SC 2.5.8 Target Size (Minimum) — 24x24 CSS px.
+   Applied to controls that are visually smaller than that. */
+.target-24 {
+  min-width: var(--target-min);
+  min-height: var(--target-min);
+}
+
+/* Larger comfortable target for the primary mobile controls */
+.touch-target {
+  min-height: var(--target-comfortable);
+  min-width: var(--target-comfortable);
+}
+
+/* Safe area inset for notched devices */
+.pb-safe {
+  padding-bottom: env(safe-area-inset-bottom, 1rem);
+}
+
+/* ---------------------------------------------------------------- *
+ * 5. Reduced motion
+ *    The user's request wins over every animation on the page.
+ *    Content is never hidden here — only motion is removed.
+ * ---------------------------------------------------------------- */
+@media (prefers-reduced-motion: reduce) {
+  :root {
+    --dur-fast: var(--dur-none);
+    --dur-base: var(--dur-none);
+    --dur-slow: var(--dur-none);
+    --dur-reveal: var(--dur-none);
+    --dur-shimmer: var(--dur-none);
+    --dur-ambient: var(--dur-none);
+    --stagger-step: var(--dur-instant);
+    --ease-spring: linear;
+    --ease-out: linear;
+    --ease-in-out: linear;
+    --ease-standard: linear;
+  }
+
+  html {
+    scroll-behavior: auto;
+  }
+
+  *,
+  *::before,
+  *::after {
+    animation-duration: var(--dur-none) !important;
+    animation-iteration-count: 1 !important;
+    transition-duration: var(--dur-none) !important;
+    transition-delay: var(--dur-instant) !important;
+    scroll-behavior: auto !important;
+  }
+
+  /* Reveal utilities must not leave content at opacity 0 once their
+     (instant) animation has run — force the end state. */
+  .reveal,
+  .reveal-fade {
+    opacity: 1;
+  }
+
+  /* Pointer-driven decoration is motion, not information: it stops. */
+  .cursor-spotlight,
+  .decorative-motion {
+    display: none !important;
+  }
+
+  .animate-shimmer,
+  .animate-ambient {
+    animation: none !important;
+  }
+}

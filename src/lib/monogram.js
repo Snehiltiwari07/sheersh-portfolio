@@ -7,10 +7,17 @@
  * credibility problem, so the fallback is now his own monogram.
  */
 
+import { color } from '../styles/tokens';
+
+/**
+ * Tones are TOKEN NAMES, not literals: the SVG below is delivered as a
+ * data: URI (a separate document), so it cannot read CSS custom properties —
+ * the values are resolved from tokens.css at call time instead.
+ */
 const TONES = {
-  brand: { from: '#7c3aed', to: '#0891b2', ink: '#f8fafc' },
-  amber: { from: '#b45309', to: '#7c3aed', ink: '#fffbeb' },
-  slate: { from: '#1e293b', to: '#334155', ink: '#cbd5e1' },
+  brand: { from: '--c-violet-600', to: '--c-cyan-600', ink: '--c-ink-50' },
+  amber: { from: '--c-amber-700', to: '--c-violet-600', ink: '--c-amber-50' },
+  slate: { from: '--c-ink-800', to: '--c-ink-700', ink: '--c-ink-300' },
 };
 
 /**
@@ -28,11 +35,11 @@ export function monogramDataUri({ initials = 'ST', tone = 'brand', size = 96 } =
     `<svg xmlns="http://www.w3.org/2000/svg" width="${size}" height="${size}" viewBox="0 0 ${size} ${size}" role="img">`,
     '<defs>',
     `<linearGradient id="g" x1="0" y1="0" x2="1" y2="1">`,
-    `<stop offset="0" stop-color="${from}"/><stop offset="1" stop-color="${to}"/>`,
+    `<stop offset="0" stop-color="${color(from)}"/><stop offset="1" stop-color="${color(to)}"/>`,
     '</linearGradient>',
     '</defs>',
     `<rect width="${size}" height="${size}" rx="${size * 0.22}" fill="url(#g)"/>`,
-    `<text x="50%" y="50%" dy="${fontSize * 0.35}" text-anchor="middle" fill="${ink}"`,
+    `<text x="50%" y="50%" dy="${fontSize * 0.35}" text-anchor="middle" fill="${color(ink)}"`,
     ` font-family="Inter,Segoe UI,Arial,sans-serif" font-size="${fontSize}" font-weight="700">${label}</text>`,
     '</svg>',
   ].join('');

@@ -5,7 +5,7 @@ import { motion, AnimatePresence } from 'framer-motion';
 const TECH_BANNERS = {
   leadHunter: (
     <div className="w-full h-full bg-gradient-to-tr from-emerald-950 via-slate-950 to-cyan-950 flex items-center justify-center relative overflow-hidden">
-      <div className="absolute inset-0 bg-[radial-gradient(circle_at_center,rgba(16,185,129,0.2)_0,transparent_70%)]" />
+      <div className="absolute inset-0 glow glow-emerald" />
       <svg className="w-16 h-16 text-emerald-400/50 animate-pulse" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.5">
         <circle cx="12" cy="12" r="10" />
         <circle cx="12" cy="12" r="6" />
@@ -17,7 +17,7 @@ const TECH_BANNERS = {
   ),
   groq: (
     <div className="w-full h-full bg-gradient-to-tr from-orange-950 via-slate-950 to-amber-950 flex items-center justify-center relative overflow-hidden">
-      <div className="absolute inset-0 bg-[radial-gradient(circle_at_center,rgba(249,115,22,0.15)_0,transparent_70%)]" />
+      <div className="absolute inset-0 glow glow-orange" />
       <svg className="w-16 h-16 text-orange-500/40 animate-pulse" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.5">
         <path d="M13 2L3 14h9l-1 8 10-12h-9l1-8z" />
       </svg>
@@ -25,7 +25,7 @@ const TECH_BANNERS = {
   ),
   sheets: (
     <div className="w-full h-full bg-gradient-to-tr from-emerald-950 via-slate-950 to-teal-950 flex items-center justify-center relative overflow-hidden">
-      <div className="absolute inset-0 bg-[radial-gradient(circle_at_center,rgba(16,185,129,0.15)_0,transparent_70%)]" />
+      <div className="absolute inset-0 glow glow-emerald-soft" />
       <svg className="w-16 h-16 text-emerald-500/40" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.5">
         <path d="M3 3h18v18H3V3zm3 3v4h12V6H6zm0 6v6h5v-6H6zm7 0v6h5v-6h-5z" />
       </svg>
@@ -33,7 +33,7 @@ const TECH_BANNERS = {
   ),
   amex: (
     <div className="w-full h-full bg-gradient-to-tr from-blue-950 via-slate-950 to-indigo-950 flex items-center justify-center relative overflow-hidden">
-      <div className="absolute inset-0 bg-[radial-gradient(circle_at_center,rgba(59,130,246,0.15)_0,transparent_70%)]" />
+      <div className="absolute inset-0 glow glow-blue" />
       <svg className="w-16 h-16 text-blue-500/40" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.5">
         <rect x="2" y="5" width="20" height="14" rx="2" />
         <line x1="2" y1="10" x2="22" y2="10" />
@@ -42,7 +42,7 @@ const TECH_BANNERS = {
   ),
   sql: (
     <div className="w-full h-full bg-gradient-to-tr from-amber-950 via-slate-950 to-yellow-950 flex items-center justify-center relative overflow-hidden">
-      <div className="absolute inset-0 bg-[radial-gradient(circle_at_center,rgba(245,158,11,0.15)_0,transparent_70%)]" />
+      <div className="absolute inset-0 glow glow-amber" />
       <svg className="w-16 h-16 text-amber-500/40" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.5">
         <ellipse cx="12" cy="5" rx="9" ry="3" />
         <path d="M21 12c0 1.66-4 3-9 3s-9-1.34-9-3" />
@@ -52,7 +52,7 @@ const TECH_BANNERS = {
   ),
   webgpu: (
     <div className="w-full h-full bg-gradient-to-tr from-cyan-950 via-slate-950 to-sky-950 flex items-center justify-center relative overflow-hidden">
-      <div className="absolute inset-0 bg-[radial-gradient(circle_at_center,rgba(6,182,212,0.15)_0,transparent_70%)]" />
+      <div className="absolute inset-0 glow glow-cyan" />
       <svg className="w-16 h-16 text-cyan-500/40" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.5">
         <rect x="4" y="4" width="16" height="16" rx="2" />
         <rect x="9" y="9" width="6" height="6" />
@@ -62,15 +62,15 @@ const TECH_BANNERS = {
   ),
   kafka: (
     <div className="w-full h-full bg-gradient-to-tr from-violet-950 via-slate-950 to-purple-950 flex items-center justify-center relative overflow-hidden">
-      <div className="absolute inset-0 bg-[radial-gradient(circle_at_center,rgba(139,92,246,0.15)_0,transparent_70%)]" />
-      <svg className="w-16 h-16 text-violet-500/40" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.5">
+      <div className="absolute inset-0 glow glow-violet" />
+      <svg className="w-16 h-16 text-violet-400/40" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.5">
         <path d="M22 12h-4l-3 9L9 3l-3 9H2" />
       </svg>
     </div>
   ),
   gateway: (
     <div className="w-full h-full bg-gradient-to-tr from-pink-950 via-slate-950 to-rose-950 flex items-center justify-center relative overflow-hidden">
-      <div className="absolute inset-0 bg-[radial-gradient(circle_at_center,rgba(236,72,153,0.15)_0,transparent_70%)]" />
+      <div className="absolute inset-0 glow glow-pink" />
       <svg className="w-16 h-16 text-pink-500/40" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.5">
         <path d="M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10z" />
       </svg>
@@ -371,7 +371,7 @@ export default function Projects({ onOpenHireDrawer }) {
 
   return (
     <section id="projects" className="max-w-7xl mx-auto px-4 sm:px-6 py-20 relative">
-      <div className="absolute top-1/3 left-1/2 -translate-x-1/2 w-96 h-96 bg-violet-600/10 rounded-full blur-[140px] pointer-events-none -z-10" />
+      <div className="absolute top-1/3 left-1/2 -translate-x-1/2 w-96 h-96 bg-violet-600/10 rounded-full blur-ambient-lg pointer-events-none -z-10" />
 
       {/* Section Header */}
       <div className="flex flex-col md:flex-row md:items-end justify-between mb-12 gap-6">
@@ -424,7 +424,7 @@ export default function Projects({ onOpenHireDrawer }) {
             whileInView={{ opacity: 1, y: 0 }}
             viewport={{ once: true }}
             transition={{ duration: 0.4, delay: index * 0.05 }}
-            className="snap-start shrink-0 w-[88vw] sm:w-[380px] md:w-[410px] rounded-3xl bg-slate-950/90 border border-slate-800/90 hover:border-violet-500/50 flex flex-col justify-between transition-all duration-300 shadow-2xl backdrop-blur-xl relative group overflow-hidden"
+            className="snap-start shrink-0 w-[88vw] sm:w-panel-sm md:w-panel-md rounded-3xl bg-slate-950/90 border border-slate-800/90 hover:border-violet-500/50 flex flex-col justify-between transition-all duration-300 shadow-2xl backdrop-blur-xl relative group overflow-hidden"
           >
             {/* Top Project Vector Banner */}
             <div className="relative h-40 sm:h-44 w-full overflow-hidden border-b border-slate-900">
@@ -432,10 +432,10 @@ export default function Projects({ onOpenHireDrawer }) {
 
               {/* Badge Overlay */}
               <div className="absolute top-3 left-3 right-3 flex items-center justify-between gap-2">
-                <span className="text-[10px] font-mono text-slate-200 uppercase tracking-wider bg-slate-950/80 px-2.5 py-1 rounded-lg border border-slate-800/80 backdrop-blur-md">
+                <span className="text-micro font-mono text-slate-200 uppercase tracking-wider bg-slate-950/80 px-2.5 py-1 rounded-lg border border-slate-800/80 backdrop-blur-md">
                   {project.type}
                 </span>
-                <span className={`px-2.5 py-0.5 rounded-full border text-[10px] font-mono font-semibold backdrop-blur-md ${project.badgeColor}`}>
+                <span className={`px-2.5 py-0.5 rounded-full border text-micro font-mono font-semibold backdrop-blur-md ${project.badgeColor}`}>
                   {project.badge}
                 </span>
               </div>
@@ -461,7 +461,7 @@ export default function Projects({ onOpenHireDrawer }) {
                 <div className="grid grid-cols-3 gap-2 p-3 rounded-2xl bg-slate-900/80 border border-slate-800/80 font-mono">
                   {project.metrics.map((m) => (
                     <div key={m.label} className="text-center">
-                      <div className="text-[9px] text-slate-400">{m.label}</div>
+                      <div className="text-tiny text-slate-400">{m.label}</div>
                       <div className="text-xs font-bold text-slate-100 mt-0.5">{m.value}</div>
                     </div>
                   ))}
@@ -474,7 +474,7 @@ export default function Projects({ onOpenHireDrawer }) {
                   {project.techStack.map((tech) => (
                     <span
                       key={tech}
-                      className="px-2 py-0.5 rounded-md bg-slate-900 border border-slate-800 text-[10px] font-mono text-slate-300"
+                      className="px-2 py-0.5 rounded-md bg-slate-900 border border-slate-800 text-micro font-mono text-slate-300"
                     >
                       {tech}
                     </span>
@@ -539,7 +539,7 @@ function DetailedArchitectureModal({ project, onClose, onOpenHireDrawer }) {
           </div>
 
           <div className="absolute bottom-4 left-6 right-6">
-            <span className="font-mono text-[10px] text-cyan-400 uppercase tracking-wider block">
+            <span className="font-mono text-micro text-cyan-400 uppercase tracking-wider block">
               {project.type} Specification
             </span>
             <h3 className="font-display font-bold text-xl sm:text-2xl text-slate-100">
@@ -553,7 +553,7 @@ function DetailedArchitectureModal({ project, onClose, onOpenHireDrawer }) {
 
           {/* Pipeline Data Flow */}
           <div className="space-y-1.5">
-            <h4 className="font-mono text-[11px] font-bold text-slate-400 uppercase tracking-wider">
+            <h4 className="font-mono text-mini font-bold text-slate-400 uppercase tracking-wider">
               Pipeline Data Flow
             </h4>
             <div className="p-3.5 rounded-2xl bg-slate-900 border border-slate-800 font-mono text-xs text-cyan-300 leading-relaxed">
@@ -563,7 +563,7 @@ function DetailedArchitectureModal({ project, onClose, onOpenHireDrawer }) {
 
           {/* Deep Architectural Explanation */}
           <div className="space-y-1.5">
-            <h4 className="font-mono text-[11px] font-bold text-slate-400 uppercase tracking-wider">
+            <h4 className="font-mono text-mini font-bold text-slate-400 uppercase tracking-wider">
               Deep Architectural Specification
             </h4>
             <p className="text-slate-300 text-xs sm:text-sm leading-relaxed font-sans bg-slate-900/60 p-4 rounded-2xl border border-slate-800/80">
@@ -573,9 +573,9 @@ function DetailedArchitectureModal({ project, onClose, onOpenHireDrawer }) {
 
           {/* Implementation Code Snippet */}
           <div className="space-y-1.5">
-            <div className="flex items-center justify-between font-mono text-[11px]">
+            <div className="flex items-center justify-between font-mono text-mini">
               <span className="font-bold text-slate-400 uppercase">Production Snippet</span>
-              <span className="text-slate-500">Source Code</span>
+              <span className="text-slate-400">Source Code</span>
             </div>
             <div className="p-4 rounded-2xl bg-slate-900 border border-slate-800 font-mono text-xs text-slate-200 overflow-x-auto leading-relaxed">
               <pre><code>{project.codeSnippet}</code></pre>
@@ -586,7 +586,7 @@ function DetailedArchitectureModal({ project, onClose, onOpenHireDrawer }) {
           <div className="grid grid-cols-3 gap-3 font-mono">
             {project.metrics.map((m) => (
               <div key={m.label} className="p-3 rounded-2xl bg-slate-900/80 border border-slate-800 text-center">
-                <span className="text-[10px] text-slate-400 block">{m.label}</span>
+                <span className="text-micro text-slate-400 block">{m.label}</span>
                 <span className="text-sm font-bold text-emerald-400 block mt-0.5">{m.value}</span>
               </div>
             ))}

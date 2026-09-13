@@ -1,29 +1,58 @@
 import { useEffect, useRef } from 'react';
+import { prefersReducedMotion } from '../styles/tokens';
+import { GLOW_ORB_LAYERS } from '../styles/decorative';
 
+/**
+ * Ambient background: a static grid, an accent glow field and a pointer
+ * spotlight.
+ *
+ * Motion contract
+ *  · the pointer spotlight is DECORATIVE MOTION. It is skipped entirely for
+ *    anyone with `prefers-reduced-motion: reduce` (no listener, no rAF, no
+ *    paint) and the CSS layer hides the layer as well — belt and braces,
+ *    because the media query can change while the page is open.
+ *  · pointer writes are rAF-throttled to one style write per frame.
+ *  · nothing here is `will-change`-ed: both orbs are static, so a permanent
+ *    layer promotion costs memory and paint for no benefit.
+ */
 export default function InteractiveField() {
   const containerRef = useRef(null);
 
   useEffect(() => {
     const container = containerRef.current;
-    if (!container) return;
+    if (!container) return undefined;
+    if (prefersReducedMotion()) return undefined;
 
     let frameId = null;
+    let x = 0;
+    let y = 0;
 
-    const onPointerMove = (e) => {
-      // Throttle DOM style updates using requestAnimationFrame
-      if (!frameId) {
-        frameId = requestAnimationFrame(() => {
-          container.style.setProperty('--mouse-x', `${e.clientX}px`);
-          container.style.setProperty('--mouse-y', `${e.clientY}px`);
-          frameId = null;
-        });
+    const onPointerMove = (event) => {
+      x = event.clientX;
+      y = event.clientY;
+      if (frameId) return;
+      frameId = requestAnimationFrame(() => {
+        container.style.setProperty('--mouse-x', `${x}px`);
+        container.style.setProperty('--mouse-y', `${y}px`);
+        frameId = null;
+      });
+    };
+
+    const media = window.matchMedia('(prefers-reduced-motion: reduce)');
+    const onMediaChange = (event) => {
+      if (event.matches) {
+        window.removeEventListener('pointermove', onPointerMove);
+        if (frameId) cancelAnimationFrame(frameId);
+        frameId = null;
       }
     };
 
     window.addEventListener('pointermove', onPointerMove, { passive: true });
+    media.addEventListener('change', onMediaChange);
 
     return () => {
       window.removeEventListener('pointermove', onPointerMove);
+      media.removeEventListener('change', onMediaChange);
       if (frameId) cancelAnimationFrame(frameId);
     };
   }, []);
@@ -32,27 +61,21 @@ export default function InteractiveField() {
     <div
       ref={containerRef}
       className="fixed inset-0 pointer-events-none z-0 overflow-hidden bg-slate-950"
-      style={{
-        '--mouse-x': '-1000px',
-        '--mouse-y': '-1000px',
-      }}
+      data-decorative="ambient-field"
     >
-      {/* Modern Sub-Pixel Tech Grid Matrix */}
-      <div 
-        className="absolute inset-0 opacity-[0.14] bg-[linear-gradient(to_right,#334155_1px,transparent_1px),linear-gradient(to_bottom,#334155_1px,transparent_1px)] bg-[size:4rem_4rem] [mask-image:radial-gradient(ellipse_70%_60%_at_50%_10%,#000_60%,transparent_100%)]"
-      />
+      {/* Modern Sub-Pixel Tech Grid Matrix (static) */}
+      <div className="absolute inset-0 tech-grid tech-grid-mask" />
 
-      {/* Dynamic Cursor Spotlight (GPU Composited) */}
-      <div
-        className="absolute inset-0 transition-opacity duration-300 pointer-events-none"
-        style={{
-          background: `radial-gradient(600px circle at var(--mouse-x) var(--mouse-y), rgba(168, 85, 247, 0.14), rgba(6, 182, 212, 0.05) 40%, transparent 80%)`,
-        }}
-      />
+      {/* Dynamic Cursor Spotlight (GPU composited) */}
+      <div className="absolute inset-0 pointer-events-none cursor-spotlight" />
 
-      {/* GPU Ambient Glow Orbs */}
-      <div className="absolute -top-40 -left-40 w-96 h-96 rounded-full bg-violet-600/15 blur-[120px] will-change-transform pointer-events-none" />
-      <div className="absolute top-1/2 -right-40 w-96 h-96 rounded-full bg-cyan-500/10 blur-[120px] will-change-transform pointer-events-none" />
+      {/* GPU Ambient Glow Orbs (static) */}
+      {GLOW_ORB_LAYERS.map((layer) => (
+        <div
+          key={layer.id}
+          className={`absolute ${layer.position} w-96 h-96 rounded-full ${layer.tone} blur-ambient-sm pointer-events-none`}
+        />
+      ))}
     </div>
   );
 }

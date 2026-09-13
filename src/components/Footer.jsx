@@ -4,7 +4,7 @@ export default function Footer({ onOpenHireDrawer }) {
   return (
     <footer className="relative z-10 bg-slate-950/90 border-t border-slate-800/80 pt-16 pb-28 sm:pb-20 overflow-hidden">
       {/* Background Ambient Glow */}
-      <div className="absolute bottom-0 left-1/2 -translate-x-1/2 w-[500px] h-64 bg-gradient-to-tr from-violet-600/10 via-cyan-500/10 to-orange-500/10 rounded-full blur-[120px] pointer-events-none -z-10" />
+      <div className="absolute bottom-0 left-1/2 -translate-x-1/2 w-glow-footer h-64 bg-gradient-to-tr from-violet-600/10 via-cyan-500/10 to-orange-500/10 rounded-full blur-ambient-sm pointer-events-none -z-10" />
 
       <div className="max-w-6xl mx-auto px-4 sm:px-6">
         <div className="grid grid-cols-1 md:grid-cols-12 gap-10">
@@ -15,7 +15,7 @@ export default function Footer({ onOpenHireDrawer }) {
               <span className="font-display font-black text-xl text-slate-100 tracking-wider">
                 SHEERSH<span className="text-transparent bg-clip-text bg-gradient-to-r from-violet-400 to-orange-400">.dev</span>
               </span>
-              <span className="px-2 py-0.5 rounded-full text-[10px] font-mono font-bold text-cyan-300 bg-cyan-950/60 border border-cyan-800/60 shadow-sm">
+              <span className="px-2 py-0.5 rounded-full text-micro font-mono font-bold text-cyan-300 bg-cyan-950/60 border border-cyan-800/60 shadow-sm">
                 v3.2 • AI & WebGPU
               </span>
             </div>
@@ -29,39 +29,39 @@ export default function Footer({ onOpenHireDrawer }) {
                 <span className="w-2 h-2 rounded-full bg-emerald-400 animate-pulse" />
                 Available for Contract & Remote Engagement
               </div>
-              <span className="text-xs font-mono text-slate-500">• Indore, India</span>
+              <span className="text-xs font-mono text-slate-400">• Indore, India</span>
             </div>
           </div>
 
           {/* Quick Navigation Links */}
           <div className="md:col-span-3 space-y-3 font-mono text-xs">
-            <p className="text-violet-400 font-bold uppercase tracking-widest text-[11px]">
+            <p className="text-violet-400 font-bold uppercase tracking-widest text-mini">
               System Navigation
             </p>
             <ul className="space-y-2 text-slate-400">
               <li>
                 <a href="#projects" className="hover:text-cyan-400 transition-colors flex items-center gap-1.5">
-                  <span className="text-violet-500">❯</span> Key Engineering Projects
+                  <span className="text-violet-400">❯</span> Key Engineering Projects
                 </a>
               </li>
               <li>
                 <a href="#tech-stack" className="hover:text-cyan-400 transition-colors flex items-center gap-1.5">
-                  <span className="text-violet-500">❯</span> Roadmap & Tech Stack
+                  <span className="text-violet-400">❯</span> Roadmap & Tech Stack
                 </a>
               </li>
               <li>
                 <a href="#skill-matrix" className="hover:text-cyan-400 transition-colors flex items-center gap-1.5">
-                  <span className="text-violet-500">❯</span> Interactive Skill Matrix
+                  <span className="text-violet-400">❯</span> Interactive Skill Matrix
                 </a>
               </li>
               <li>
                 <a href="#local-llm" className="hover:text-cyan-400 transition-colors flex items-center gap-1.5">
-                  <span className="text-violet-500">❯</span> In-Browser AI Engine
+                  <span className="text-violet-400">❯</span> In-Browser AI Engine
                 </a>
               </li>
               <li>
                 <a href="#reviews" className="hover:text-cyan-400 transition-colors flex items-center gap-1.5">
-                  <span className="text-violet-500">❯</span> Client Recommendations
+                  <span className="text-violet-400">❯</span> Client Recommendations
                 </a>
               </li>
             </ul>
@@ -69,7 +69,7 @@ export default function Footer({ onOpenHireDrawer }) {
 
           {/* Direct Actions & Contact Hub */}
           <div className="md:col-span-4 space-y-4">
-            <p className="font-mono text-xs text-violet-400 font-bold uppercase tracking-widest text-[11px]">
+            <p className="font-mono text-xs text-violet-400 font-bold uppercase tracking-widest text-mini">
               Direct Engagement
             </p>
 
@@ -131,9 +131,9 @@ export default function Footer({ onOpenHireDrawer }) {
         </div>
 
         {/* Bottom Bar & Copyright Notice */}
-        <div className="mt-12 pt-6 border-t border-slate-900 flex flex-col sm:flex-row items-center justify-between font-mono text-xs text-slate-500 gap-4">
+        <div className="mt-12 pt-6 border-t border-slate-900 flex flex-col sm:flex-row items-center justify-between font-mono text-xs text-slate-400 gap-4">
           <p>© 2026 Sheersh Tiwari. All rights reserved.</p>
-          <div className="flex items-center gap-3 text-[11px]">
+          <div className="flex items-center gap-3 text-mini">
             <span>Crafted with React, Tailwind CSS & Framer Motion</span>
             <span>•</span>
             <span className="text-emerald-400 flex items-center gap-1">

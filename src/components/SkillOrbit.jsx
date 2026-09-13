@@ -28,7 +28,7 @@ export default function SkillOrbit() {
   return (
     <section id="skill-matrix" className="max-w-6xl mx-auto px-4 sm:px-6 py-16 relative">
       {/* Background Ambient Glow */}
-      <div className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-96 h-96 bg-violet-600/10 rounded-full blur-[140px] pointer-events-none -z-10" />
+      <div className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-96 h-96 bg-violet-600/10 rounded-full blur-ambient-lg pointer-events-none -z-10" />
 
       {/* Header */}
       <div className="text-center space-y-3 mb-10">
@@ -115,7 +115,7 @@ export default function SkillOrbit() {
                   <h3 className="font-display font-bold text-xs sm:text-sm text-slate-100 mb-0.5 truncate w-full">
                     {skill.name}
                   </h3>
-                  <span className="font-mono text-[10px] text-slate-400">{skill.category}</span>
+                  <span className="font-mono text-micro text-slate-400">{skill.category}</span>
                 </motion.button>
               );
             })}
@@ -153,7 +153,7 @@ export default function SkillOrbit() {
                   </div>
 
                   <div>
-                    <span className="px-2.5 py-0.5 rounded-full text-[10px] font-mono text-cyan-300 bg-cyan-950/60 border border-cyan-800/60 mb-1 inline-block">
+                    <span className="px-2.5 py-0.5 rounded-full text-micro font-mono text-cyan-300 bg-cyan-950/60 border border-cyan-800/60 mb-1 inline-block">
                       {activeSkill.highlight}
                     </span>
                     <h3 className="font-display font-bold text-xl text-slate-100">{activeSkill.name}</h3>

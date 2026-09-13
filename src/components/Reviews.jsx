@@ -106,7 +106,7 @@ export default function Reviews() {
 
       {/* Main Glassmorphic Carousel Card */}
       <div 
-        className="relative glass rounded-3xl p-6 sm:p-10 border border-line shadow-2xl overflow-hidden min-h-[300px] flex flex-col justify-between"
+        className="relative glass rounded-3xl p-6 sm:p-10 border border-line shadow-2xl overflow-hidden min-h-card flex flex-col justify-between"
         onMouseEnter={() => setIsAutoPlaying(false)}
         onMouseLeave={() => setIsAutoPlaying(true)}
       >
@@ -117,7 +117,7 @@ export default function Reviews() {
 
         {/* Slide Content */}
         {filteredReviews.length > 0 ? (
-          <div className="relative min-h-[170px] flex flex-col justify-between">
+          <div className="relative min-h-quote flex flex-col justify-between">
             <AnimatePresence mode="wait" custom={direction}>
               <motion.div
                 key={currentRev.id}
@@ -149,7 +149,7 @@ export default function Reviews() {
                   <span className="chip px-3 py-1 rounded-md text-xs font-mono text-cyan bg-cyan/10 border border-cyan/20">
                     {currentRev.service}
                   </span>
-                  <span className="font-mono text-xs text-violet font-semibold">
+                  <span className="font-mono text-xs text-violet-400 font-semibold">
                     {currentRev.year}
                   </span>
                 </div>
@@ -163,9 +163,11 @@ export default function Reviews() {
         )}
 
         {/* Carousel Navigation Footer */}
-        <div className="flex items-center justify-between pt-6 mt-6 border-t border-line/60">
-          {/* Progress Dots */}
-          <div className="flex items-center gap-1.5">
+        <div className="flex flex-wrap items-center justify-between gap-y-3 pt-6 mt-6 border-t border-line/60">
+          {/* Progress Dots — WCAG 2.2 SC 2.5.8: the visible bar stays 6px tall,
+              the tap target is 24x24 (and the row wraps rather than overflowing
+              at 390px). */}
+          <div className="flex items-center gap-0.5 flex-wrap">
             {filteredReviews.map((_, idx) => (
               <button
                 key={idx}
@@ -173,19 +175,24 @@ export default function Reviews() {
                   setDirection(idx > currentIndex ? 1 : -1);
                   setCurrentIndex(idx);
                 }}
-                className={`h-1.5 rounded-full transition-all cursor-pointer ${
-                  idx === currentIndex
-                    ? 'w-6 grad-bg shadow-sm'
-                    : 'w-2 bg-slate-800 hover:bg-slate-700'
-                }`}
-                title={`Slide ${idx + 1}`}
-              />
+                className="target-24 min-w-6 flex items-center justify-center cursor-pointer group"
+                aria-label={`Show review ${idx + 1} of ${filteredReviews.length}`}
+                aria-current={idx === currentIndex}
+              >
+                <span
+                  className={`h-1.5 rounded-full interactive ${
+                    idx === currentIndex
+                      ? 'w-6 grad-bg shadow-sm'
+                      : 'w-2 bg-slate-800 group-hover:bg-slate-700'
+                  }`}
+                />
+              </button>
             ))}
           </div>
 
           {/* Slide Count & Arrows */}
           <div className="flex items-center gap-3 font-mono text-xs">
-            <span className="text-muted text-[11px]">
+            <span className="text-muted text-mini">
               <strong className="text-white">
                 {String(currentIndex + 1).padStart(2, '0')}
               </strong> / {String(filteredReviews.length).padStart(2, '0')}
@@ -194,17 +201,19 @@ export default function Reviews() {
             <div className="flex gap-1">
               <button
                 onClick={handlePrev}
-                className="w-8 h-8 rounded-xl glass border border-line flex items-center justify-center text-white hover:border-violet/50 active:scale-95 transition-all cursor-pointer"
+                className="w-8 h-8 rounded-xl glass border border-line flex items-center justify-center text-white hover:border-violet/50 active:scale-95 interactive cursor-pointer"
+                aria-label="Previous review"
                 title="Previous review"
               >
-                ←
+                <span aria-hidden="true">←</span>
               </button>
               <button
                 onClick={handleNext}
-                className="w-8 h-8 rounded-xl glass border border-line flex items-center justify-center text-white hover:border-violet/50 active:scale-95 transition-all cursor-pointer"
+                className="w-8 h-8 rounded-xl glass border border-line flex items-center justify-center text-white hover:border-violet/50 active:scale-95 interactive cursor-pointer"
+                aria-label="Next review"
                 title="Next review"
               >
-                →
+                <span aria-hidden="true">→</span>
               </button>
             </div>
           </div>

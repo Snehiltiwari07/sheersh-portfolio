@@ -35,7 +35,7 @@ export default function PhotoCard3D() {
     <div className="tilt-wrap w-full max-w-md mx-auto animate-float" onMouseMove={handleMouseMove} onMouseLeave={handleMouseLeave}>
       <div
         ref={cardRef}
-        className={`card rounded-3xl w-full min-h-[460px] p-6 relative overflow-hidden flex flex-col items-center justify-between border border-line ${
+        className={`card rounded-3xl w-full min-h-photo p-6 relative overflow-hidden flex flex-col items-center justify-between border border-line ${
           holoOn ? 'holo-on' : ''
         } ${glitch ? 'glitch-on' : ''}`}
         style={{ transformStyle: 'preserve-3d', transition: 'transform .2s cubic-bezier(0.2, 0, 0.2, 1)' }}
@@ -58,8 +58,8 @@ export default function PhotoCard3D() {
         {/* Info */}
         <div className="text-center mt-4 space-y-1 z-10">
           <h3 className="font-display font-bold text-xl text-ink">{profile.name}</h3>
-          <p className="font-mono text-xs text-violet font-semibold">Full-Stack & Systems Engineer</p>
-          <p className="font-mono text-[11px] text-muted">{profile.location}</p>
+          <p className="font-mono text-xs text-violet-400 font-semibold">Full-Stack & Systems Engineer</p>
+          <p className="font-mono text-mini text-muted">{profile.location}</p>
         </div>
 
         {/* Action Button Strip */}

@@ -34,11 +34,11 @@ export default function Achievements() {
                 }`}
               >
                 <div className="flex items-center justify-between mb-1">
-                  <span className="font-mono text-[11px] text-cyan uppercase font-semibold">{item.category}</span>
-                  <span className="font-mono text-xs font-bold text-violet">{item.metric}</span>
+                  <span className="font-mono text-mini text-cyan uppercase font-semibold">{item.category}</span>
+                  <span className="font-mono text-xs font-bold text-violet-300">{item.metric}</span>
                 </div>
                 <h3 className="font-display font-bold text-sm sm:text-base text-ink">{item.title}</h3>
-                <p className="font-mono text-[11px] text-muted mt-0.5">{item.subtext}</p>
+                <p className="font-mono text-mini text-muted mt-0.5">{item.subtext}</p>
               </button>
             );
           })}
@@ -74,7 +74,7 @@ export default function Achievements() {
                 </div>
 
                 <div className="space-y-2 mb-8">
-                  <p className="font-mono text-xs text-violet font-semibold uppercase tracking-wider">
+                  <p className="font-mono text-xs text-violet-400 font-semibold uppercase tracking-wider">
                     ❯ Plain English Summary & Technical Execution
                   </p>
                   <p className="text-ink/90 text-sm sm:text-base leading-relaxed">
@@ -84,7 +84,7 @@ export default function Achievements() {
               </div>
 
               <div>
-                <p className="font-mono text-xs text-violet mb-3 font-semibold">Technical Stack & Protocol Specs:</p>
+                <p className="font-mono text-xs text-violet-400 mb-3 font-semibold">Technical Stack & Protocol Specs:</p>
                 <div className="flex flex-wrap gap-2">
                   {activeItem.techs.map((tech) => (
                     <span key={tech} className="chip px-3 py-1 rounded-lg text-xs">

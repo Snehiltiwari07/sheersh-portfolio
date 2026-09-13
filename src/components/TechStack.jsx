@@ -6,7 +6,7 @@ export default function TechStack() {
   return (
     <section id="tech-stack" className="max-w-5xl mx-auto px-4 sm:px-6 py-20 relative">
       {/* Background Ambient Glow */}
-      <div className="absolute top-1/3 left-1/2 -translate-x-1/2 w-96 h-96 bg-violet-600/10 rounded-full blur-[140px] pointer-events-none -z-10" />
+      <div className="absolute top-1/3 left-1/2 -translate-x-1/2 w-96 h-96 bg-violet-600/10 rounded-full blur-ambient-lg pointer-events-none -z-10" />
 
       {/* Section Header */}
       <div className="text-center space-y-3 mb-16">
@@ -36,7 +36,7 @@ export default function TechStack() {
             className="relative z-10"
           >
             {/* Timeline Node Dot */}
-            <div className="absolute -left-[31px] sm:-left-[39px] top-2 w-5 h-5 rounded-full bg-slate-950 border-4 border-slate-700 shadow-md flex items-center justify-center">
+            <div className="absolute -left-node sm:-left-node-lg top-2 w-5 h-5 rounded-full bg-slate-950 border-4 border-slate-700 shadow-md flex items-center justify-center">
               <span className="w-1.5 h-1.5 rounded-full bg-orange-400" />
             </div>
 
@@ -90,10 +90,10 @@ export default function TechStack() {
                         e.target.src = monogramFor(tech.name);
                       }}
                     />
-                    <span className="font-sans text-[11px] font-bold text-slate-100 leading-tight truncate w-full">
+                    <span className="font-sans text-mini font-bold text-slate-100 leading-tight truncate w-full">
                       {tech.name}
                     </span>
-                    <span className="text-[9px] font-mono text-slate-400 mt-0.5">
+                    <span className="text-tiny font-mono text-slate-400 mt-0.5">
                       {tech.level}
                     </span>
                   </div>

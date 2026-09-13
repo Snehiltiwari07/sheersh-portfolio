@@ -1,0 +1,6 @@
+{
+  "src/components/ChatEngine.jsx": {
+    "reason": "Out of scope for T-005 by explicit card directive ('Do not touch ... src/components/ChatEngine.jsx'); the file carries another card's work. Remaining literals: one SVG brand-mark fill (#F05223) and the chat panel's own panel geometry ([2px], [14px], [90px], [420px], [540px], calc(100vh-110px)). Re-run this gate without the exception once that card lands.",
+    "rules": ["hex", "px"]
+  }
+}
