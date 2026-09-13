@@ -1,5 +1,6 @@
 import { motion } from 'framer-motion';
 import { careerRoadmap } from '../data/profile';
+import { monogramFor } from '../lib/monogram';
 
 export default function TechStack() {
   return (
@@ -78,11 +79,15 @@ export default function TechStack() {
                   >
                     <img
                       src={tech.icon}
-                      alt={tech.name}
+                      alt={`${tech.name} icon`}
+                      width={24}
+                      height={24}
+                      loading="lazy"
+                      decoding="async"
                       className="w-6 h-6 object-contain mb-1.5 group-hover:scale-110 transition-transform"
                       onError={(e) => {
                         e.target.onerror = null;
-                        e.target.src = `https://api.dicebear.com/7.x/bottts/svg?seed=${tech.name}`;
+                        e.target.src = monogramFor(tech.name);
                       }}
                     />
                     <span className="font-sans text-[11px] font-bold text-slate-100 leading-tight truncate w-full">

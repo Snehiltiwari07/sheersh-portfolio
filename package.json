@@ -7,6 +7,7 @@
     "dev": "vite",
     "build": "vite build",
     "preview": "vite preview",
+    "build:images": "node scripts/build-images.mjs",
     "test:lead": "node scripts/lead-endpoint-test.mjs",
     "test:sheet": "node scripts/apps-script-sheet-test.mjs",
     "test:hunter": "node scripts/lead-hunter-sheet-test.mjs",

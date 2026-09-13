@@ -47,7 +47,8 @@ export default function PhotoCard3D() {
         {/* Headshot Display */}
         <div className="relative w-48 h-48 sm:w-56 sm:h-56 mt-2 z-10">
           <ThemeAdaptiveImage
-            src={profile.avatarHeadshot || "/profile-headshot.png"}
+            photo="headshot"
+            sizes="(min-width: 640px) 224px, 192px"
             alt={profile.name}
             className="w-full h-full"
           />

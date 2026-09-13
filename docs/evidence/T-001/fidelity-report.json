@@ -1,0 +1,205 @@
+{
+ "checkedAt": "2026-09-13T16:36:07.327Z",
+ "minPsnrDb": 35,
+ "failed": false,
+ "findings": [
+  {
+   "photo": "headshot",
+   "format": "avif",
+   "width": 480,
+   "bytes": 11429,
+   "psnrDb": 42.84,
+   "maxAbsDiff": 24,
+   "pctPixelsOver8": 0.312
+  },
+  {
+   "photo": "headshot",
+   "format": "webp",
+   "width": 480,
+   "bytes": 12188,
+   "psnrDb": 41.11,
+   "maxAbsDiff": 27,
+   "pctPixelsOver8": 0.783
+  },
+  {
+   "photo": "headshot",
+   "format": "avif",
+   "width": 640,
+   "bytes": 18739,
+   "psnrDb": 42.76,
+   "maxAbsDiff": 31,
+   "pctPixelsOver8": 0.27
+  },
+  {
+   "photo": "headshot",
+   "format": "webp",
+   "width": 640,
+   "bytes": 20494,
+   "psnrDb": 41.29,
+   "maxAbsDiff": 26,
+   "pctPixelsOver8": 0.642
+  },
+  {
+   "photo": "headshot",
+   "format": "avif",
+   "width": 1024,
+   "bytes": 49790,
+   "psnrDb": 42.28,
+   "maxAbsDiff": 21,
+   "pctPixelsOver8": 0.253
+  },
+  {
+   "photo": "headshot",
+   "format": "webp",
+   "width": 1024,
+   "bytes": 41200,
+   "psnrDb": 40.22,
+   "maxAbsDiff": 25,
+   "pctPixelsOver8": 1.051
+  },
+  {
+   "photo": "headshot",
+   "format": "avif",
+   "width": 1280,
+   "bytes": 86541,
+   "psnrDb": 41.88,
+   "maxAbsDiff": 21,
+   "pctPixelsOver8": 0.309
+  },
+  {
+   "photo": "headshot",
+   "format": "webp",
+   "width": 1280,
+   "bytes": 75564,
+   "psnrDb": 39.88,
+   "maxAbsDiff": 27,
+   "pctPixelsOver8": 1.196
+  },
+  {
+   "photo": "headshot",
+   "format": "avif",
+   "width": 1600,
+   "bytes": 96272,
+   "psnrDb": 39.84,
+   "maxAbsDiff": 40,
+   "pctPixelsOver8": 1.356
+  },
+  {
+   "photo": "headshot",
+   "format": "webp",
+   "width": 1600,
+   "bytes": 76232,
+   "psnrDb": 37.48,
+   "maxAbsDiff": 41,
+   "pctPixelsOver8": 3.718
+  },
+  {
+   "photo": "headshot",
+   "format": "avif",
+   "width": 2048,
+   "bytes": 167729,
+   "psnrDb": 39.37,
+   "maxAbsDiff": 34,
+   "pctPixelsOver8": 1.577
+  },
+  {
+   "photo": "headshot",
+   "format": "webp",
+   "width": 2048,
+   "bytes": 145976,
+   "psnrDb": 37.05,
+   "maxAbsDiff": 41,
+   "pctPixelsOver8": 4.202
+  },
+  {
+   "photo": "lifestyle",
+   "format": "avif",
+   "width": 480,
+   "bytes": 34923,
+   "psnrDb": 35.57,
+   "maxAbsDiff": 47,
+   "pctPixelsOver8": 5.371
+  },
+  {
+   "photo": "lifestyle",
+   "format": "webp",
+   "width": 480,
+   "bytes": 42050,
+   "psnrDb": 36.13,
+   "maxAbsDiff": 49,
+   "pctPixelsOver8": 4.181
+  },
+  {
+   "photo": "lifestyle",
+   "format": "avif",
+   "width": 640,
+   "bytes": 58737,
+   "psnrDb": 36.13,
+   "maxAbsDiff": 45,
+   "pctPixelsOver8": 4.537
+  },
+  {
+   "photo": "lifestyle",
+   "format": "webp",
+   "width": 640,
+   "bytes": 69358,
+   "psnrDb": 36.61,
+   "maxAbsDiff": 51,
+   "pctPixelsOver8": 3.562
+  },
+  {
+   "photo": "lifestyle",
+   "format": "avif",
+   "width": 1024,
+   "bytes": 130215,
+   "psnrDb": 37.09,
+   "maxAbsDiff": 36,
+   "pctPixelsOver8": 3.145
+  },
+  {
+   "photo": "lifestyle",
+   "format": "webp",
+   "width": 1024,
+   "bytes": 135602,
+   "psnrDb": 36.25,
+   "maxAbsDiff": 39,
+   "pctPixelsOver8": 4.47
+  },
+  {
+   "photo": "lifestyle",
+   "format": "avif",
+   "width": 1280,
+   "bytes": 177832,
+   "psnrDb": 37.72,
+   "maxAbsDiff": 38,
+   "pctPixelsOver8": 2.353
+  },
+  {
+   "photo": "lifestyle",
+   "format": "webp",
+   "width": 1280,
+   "bytes": 185726,
+   "psnrDb": 36.6,
+   "maxAbsDiff": 29,
+   "pctPixelsOver8": 3.915
+  },
+  {
+   "photo": "lifestyle",
+   "format": "avif",
+   "width": 1600,
+   "bytes": 187764,
+   "psnrDb": 35.95,
+   "maxAbsDiff": 41,
+   "pctPixelsOver8": 5.638
+  },
+  {
+   "photo": "lifestyle",
+   "format": "webp",
+   "width": 1600,
+   "bytes": 204780,
+   "psnrDb": 35.89,
+   "maxAbsDiff": 42,
+   "pctPixelsOver8": 5.43
+  }
+ ]
+}

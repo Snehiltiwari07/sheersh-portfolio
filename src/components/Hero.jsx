@@ -1,7 +1,11 @@
+import { useState } from 'react';
 import { motion } from 'framer-motion';
 import { profile } from '../data/profile';
+import ResponsivePhoto from './ResponsivePhoto';
+import { MONOGRAM_OWNER } from '../lib/monogram';
 
 export default function Hero({ onOpenHireDrawer }) {
+  const [headshotUnavailable, setHeadshotUnavailable] = useState(false);
   const techPills = [
     { label: 'Java Spring Boot', color: 'border-emerald-500/40 text-emerald-300 bg-emerald-950/30' },
     { label: 'Full-Stack Development', color: 'border-violet-500/40 text-violet-300 bg-violet-950/30' },
@@ -138,15 +142,27 @@ export default function Hero({ onOpenHireDrawer }) {
 
             {/* Image Container */}
             <div className="relative w-full h-full rounded-2xl overflow-hidden bg-slate-900 border border-slate-800">
-              <img
-                src="/profile-headshot.png"
-                alt="Sheersh Tiwari"
-                className="w-full h-full object-cover object-center filter brightness-[0.92] contrast-[1.08] group-hover:scale-105 transition-transform duration-500"
-                onError={(e) => {
-                  e.target.onerror = null;
-                  e.target.src = "https://images.unsplash.com/photo-1534528741775-53994a69daeb?auto=format&fit=crop&w=800&q=80";
-                }}
-              />
+              {/* Above-the-fold LCP image: eager + high priority, never lazy */}
+              {headshotUnavailable ? (
+                <img
+                  src={MONOGRAM_OWNER}
+                  alt="Sheersh Tiwari monogram"
+                  width={96}
+                  height={96}
+                  loading="eager"
+                  decoding="async"
+                  className="w-full h-full object-cover object-center"
+                />
+              ) : (
+                <ResponsivePhoto
+                  photo="headshot"
+                  sizes="320px"
+                  priority
+                  alt="Sheersh Tiwari — Senior Software Engineer, full-stack and AI systems"
+                  className="w-full h-full object-cover object-center filter brightness-[0.92] contrast-[1.08] group-hover:scale-105 transition-transform duration-500"
+                  onError={() => setHeadshotUnavailable(true)}
+                />
+              )}
 
               {/* Dark Overlay Gradient */}
               <div className="absolute inset-0 bg-gradient-to-t from-slate-950 via-slate-950/30 to-transparent opacity-90" />

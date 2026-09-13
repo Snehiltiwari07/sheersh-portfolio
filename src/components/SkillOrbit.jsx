@@ -1,6 +1,7 @@
 import { useState, useMemo } from 'react';
 import { motion, AnimatePresence } from 'framer-motion';
 import { skillNodes, skillCategories } from '../data/profile';
+import { monogramFor } from '../lib/monogram';
 
 const LEVEL_COLORS = {
   Expert: 'bg-emerald-950/80 text-emerald-300 border-emerald-700/60',
@@ -98,11 +99,15 @@ export default function SkillOrbit() {
                   <div className="w-12 h-12 rounded-xl bg-slate-900 border border-slate-800 p-2.5 flex items-center justify-center mb-2.5 shadow-sm">
                     <img
                       src={skill.icon}
-                      alt={skill.name}
+                      alt={`${skill.name} icon`}
+                      width={28}
+                      height={28}
+                      loading="lazy"
+                      decoding="async"
                       className="w-full h-full object-contain"
                       onError={(e) => {
                         e.target.onerror = null;
-                        e.target.src = `https://api.dicebear.com/7.x/bottts/svg?seed=${skill.name}&backgroundColor=0f172a`;
+                        e.target.src = monogramFor(skill.name);
                       }}
                     />
                   </div>
@@ -134,11 +139,15 @@ export default function SkillOrbit() {
                   <div className="w-14 h-14 rounded-2xl bg-slate-900 border border-slate-700 p-2.5 shrink-0 shadow-md">
                     <img
                       src={activeSkill.icon}
-                      alt={activeSkill.name}
+                      alt={`${activeSkill.name} icon`}
+                      width={36}
+                      height={36}
+                      loading="lazy"
+                      decoding="async"
                       className="w-full h-full object-contain"
                       onError={(e) => {
                         e.target.onerror = null;
-                        e.target.src = `https://api.dicebear.com/7.x/bottts/svg?seed=${activeSkill.name}&backgroundColor=0f172a`;
+                        e.target.src = monogramFor(activeSkill.name);
                       }}
                     />
                   </div>

@@ -1,6 +1,5 @@
 import { motion } from 'framer-motion';
 import ThemeAdaptiveImage from './ThemeAdaptiveImage';
-import { profile } from '../data/profile';
 
 export default function BeyondTheCode() {
   return (
@@ -27,8 +26,9 @@ export default function BeyondTheCode() {
             <div className="relative rounded-2xl overflow-hidden border border-slate-800/80 bg-slate-900/60 shadow-xl">
               {/* Image Component */}
               <ThemeAdaptiveImage
-                src={profile?.avatarLifestyle || "/profile-lifestyle.png"}
-                alt="Sheersh Tiwari - Beyond the Code"
+                photo="lifestyle"
+                sizes="(min-width: 1024px) 552px, 92vw"
+                alt="Sheersh Tiwari on the highway with his motorcycle — life beyond the code"
                 className="w-full h-[360px] sm:h-[420px] object-cover group-hover:scale-105 transition-transform duration-700"
               />
 

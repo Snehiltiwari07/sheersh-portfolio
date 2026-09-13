@@ -1,10 +1,12 @@
 import { useEffect, useRef, useState } from 'react';
 import { AnimatePresence, motion } from 'framer-motion';
 import { profile } from '../data/profile';
+import { MONOGRAM_BOT, MONOGRAM_GUEST } from '../lib/monogram';
 
 const BOT_NAME = "Ask Jiya";
-const BOT_AVATAR = "https://images.unsplash.com/photo-1589941013453-ec89f33b5e95?auto=format&fit=crop&w=256&q=80";
-const USER_AVATAR = "https://api.dicebear.com/7.x/avataaars/svg?seed=UserGuest&backgroundColor=334155";
+// Branded local monograms — no third-party avatar/stock-photo dependency.
+const BOT_AVATAR = MONOGRAM_BOT;
+const USER_AVATAR = MONOGRAM_GUEST;
 
 const QUICK_SUGGESTIONS = [
   "Why are you named Jiya? 🐾",
@@ -263,7 +265,7 @@ export default function ChatEngine({ onSelectProject, onOpenHireDrawer }) {
               className="flex items-center gap-3 px-4 py-3 rounded-2xl bg-slate-900/95 border border-amber-500/50 text-slate-100 text-xs shadow-2xl backdrop-blur-xl cursor-pointer hover:border-amber-400 transition-all group max-w-xs"
             >
               <div className="relative shrink-0">
-                <img src={BOT_AVATAR} alt={BOT_NAME} className="w-9 h-9 rounded-xl object-cover border border-amber-500/40" />
+                <img src={BOT_AVATAR} alt={BOT_NAME} width={36} height={36} loading="eager" decoding="async" className="w-9 h-9 rounded-xl object-cover border border-amber-500/40" />
                 <span className="w-2.5 h-2.5 rounded-full bg-emerald-400 animate-pulse absolute -bottom-0.5 -right-0.5 border-2 border-slate-950" />
               </div>
               <div className="flex-1 min-w-0">
@@ -306,7 +308,7 @@ export default function ChatEngine({ onSelectProject, onOpenHireDrawer }) {
               </svg>
             ) : (
               <div className="relative flex items-center justify-center">
-                <img src={BOT_AVATAR} alt={BOT_NAME} className="w-10 h-10 rounded-xl object-cover" />
+                <img src={BOT_AVATAR} alt={BOT_NAME} width={40} height={40} loading="eager" decoding="async" className="w-10 h-10 rounded-xl object-cover" />
                 {hasUnread && (
                   <span className="absolute -top-1 -right-1 w-3.5 h-3.5 bg-amber-400 rounded-full border-2 border-slate-950 animate-pulse" />
                 )}
@@ -334,7 +336,7 @@ export default function ChatEngine({ onSelectProject, onOpenHireDrawer }) {
             <div className="flex items-center justify-between px-4 py-3.5 border-b border-slate-800/90 bg-gradient-to-r from-slate-900/90 via-slate-900/60 to-slate-950 shrink-0">
               <div className="flex items-center gap-3">
                 <div className="relative">
-                  <img src={BOT_AVATAR} alt={BOT_NAME} className="w-10 h-10 rounded-xl bg-slate-900 border border-amber-500/40 p-0.5 shadow-md object-cover" />
+                  <img src={BOT_AVATAR} alt={BOT_NAME} width={40} height={40} loading="lazy" decoding="async" className="w-10 h-10 rounded-xl bg-slate-900 border border-amber-500/40 p-0.5 shadow-md object-cover" />
                   <span className="w-2.5 h-2.5 rounded-full bg-emerald-400 border-2 border-slate-950 absolute -bottom-0.5 -right-0.5 animate-pulse" />
                 </div>
 
@@ -398,7 +400,7 @@ export default function ChatEngine({ onSelectProject, onOpenHireDrawer }) {
                     className={`flex gap-2.5 ${m.from === 'user' ? 'justify-end' : 'justify-start'}`}
                   >
                     {m.from === 'bot' && (
-                      <img src={BOT_AVATAR} alt="Jiya" className="w-7 h-7 rounded-lg border border-amber-500/30 bg-slate-900 shrink-0 self-end mb-1 object-cover" />
+                      <img src={BOT_AVATAR} alt="Jiya, the Ask Jiya concierge avatar" width={28} height={28} loading="lazy" decoding="async" className="w-7 h-7 rounded-lg border border-amber-500/30 bg-slate-900 shrink-0 self-end mb-1 object-cover" />
                     )}
 
                     <div className="max-w-[85%] space-y-2">
@@ -456,14 +458,14 @@ export default function ChatEngine({ onSelectProject, onOpenHireDrawer }) {
                     </div>
 
                     {m.from === 'user' && (
-                      <img src={USER_AVATAR} alt="User" className="w-7 h-7 rounded-lg border border-slate-700 bg-slate-800 shrink-0 self-end mb-1" />
+                      <img src={USER_AVATAR} alt="You (visitor)" width={28} height={28} loading="lazy" decoding="async" className="w-7 h-7 rounded-lg border border-slate-700 bg-slate-800 shrink-0 self-end mb-1" />
                     )}
                   </motion.div>
                 ))}
 
                 {loading && (
                   <motion.div initial={{ opacity: 0 }} animate={{ opacity: 1 }} className="flex gap-2 items-center">
-                    <img src={BOT_AVATAR} alt="Thinking" className="w-7 h-7 rounded-lg border border-amber-500/30 bg-slate-900 shrink-0 object-cover" />
+                    <img src={BOT_AVATAR} alt="Jiya is typing" width={28} height={28} loading="lazy" decoding="async" className="w-7 h-7 rounded-lg border border-amber-500/30 bg-slate-900 shrink-0 object-cover" />
                     <div className="rounded-xl px-3 py-1.5 text-xs text-slate-400 bg-slate-900/90 border border-slate-800 flex items-center gap-2">
                       <GroqLogo />
                       <span className="font-mono text-[10px] text-slate-300">Jiya is inferring...</span>

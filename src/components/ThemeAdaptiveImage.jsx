@@ -1,4 +1,17 @@
-export default function ThemeAdaptiveImage({ src, alt, className = "" }) {
+import ResponsivePhoto from './ResponsivePhoto';
+
+/**
+ * Theme-aware photo frame. `photo` is a key from src/data/image-manifest.js —
+ * the frame renders the full AVIF/WebP srcset instead of one oversized raster.
+ */
+export default function ThemeAdaptiveImage({
+  photo,
+  alt,
+  sizes = '100vw',
+  priority = false,
+  className = "",
+  imgClassName = "",
+}) {
   return (
     <div className={`relative overflow-hidden group ${className}`}>
       {/* Dynamic Ambient Theme Backlight Glow */}
@@ -6,10 +19,12 @@ export default function ThemeAdaptiveImage({ src, alt, className = "" }) {
 
       {/* Image Container with Dynamic Contrast Filters */}
       <div className="relative w-full h-full rounded-2xl overflow-hidden glass border border-line">
-        <img
-          src={src}
+        <ResponsivePhoto
+          photo={photo}
           alt={alt}
-          className="w-full h-full object-cover transition-all duration-500 group-hover:scale-105 filter contrast-[1.05] brightness-[0.95] dark:brightness-[0.90] saturate-[1.10]"
+          sizes={sizes}
+          priority={priority}
+          className={`w-full h-full object-cover transition-all duration-500 group-hover:scale-105 filter contrast-[1.05] brightness-[0.95] dark:brightness-[0.90] saturate-[1.10] ${imgClassName}`}
         />
 
         {/* Theme Contrast Blend Layers */}

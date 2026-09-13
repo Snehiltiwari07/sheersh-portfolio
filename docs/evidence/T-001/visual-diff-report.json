@@ -1,0 +1,95 @@
+{
+ "method": "integer-offset registration on the cropped image region",
+ "pairs": {
+  "1440x900-dsf2/lifestyle": {
+   "boxCssPx": [
+    192,
+    241,
+    475,
+    418
+   ],
+   "registrationOffsetDevicePx": [
+    28,
+    0
+   ],
+   "raw": {
+    "meanAbsDiff": 24.3894,
+    "maxAbsDiff": 236,
+    "pctPixelsOver8": 51.894,
+    "pctPixelsOver2": 68.2284,
+    "identical": false,
+    "pixels": 794200
+   },
+   "registered": {
+    "meanAbsDiff": 2.2438,
+    "maxAbsDiff": 116,
+    "pctPixelsOver8": 7.6539,
+    "pctPixelsOver2": 30.1364,
+    "identical": false,
+    "pixels": 794200
+   },
+   "sideBySide": "C:\\VS_CODE\\Portfolio\\sheersh-portfolio\\docs\\evidence\\T-001\\side-by-side-1440x900-dsf2-lifestyle.png",
+   "zoom2x": "C:\\VS_CODE\\Portfolio\\sheersh-portfolio\\docs\\evidence\\T-001\\zoom2x-side-by-side-1440x900-dsf2-lifestyle.png"
+  },
+  "390x844-dsf2/lifestyle": {
+   "boxCssPx": [
+    23,
+    243,
+    304,
+    358
+   ],
+   "registrationOffsetDevicePx": [
+    0,
+    0
+   ],
+   "raw": {
+    "meanAbsDiff": 1.9387,
+    "maxAbsDiff": 220,
+    "pctPixelsOver8": 6.1021,
+    "pctPixelsOver2": 26.9863,
+    "identical": false,
+    "pixels": 435328
+   },
+   "registered": {
+    "meanAbsDiff": 1.9387,
+    "maxAbsDiff": 220,
+    "pctPixelsOver8": 6.1021,
+    "pctPixelsOver2": 26.9863,
+    "identical": false,
+    "pixels": 435328
+   },
+   "sideBySide": "C:\\VS_CODE\\Portfolio\\sheersh-portfolio\\docs\\evidence\\T-001\\side-by-side-390x844-dsf2-lifestyle.png",
+   "zoom2x": "C:\\VS_CODE\\Portfolio\\sheersh-portfolio\\docs\\evidence\\T-001\\zoom2x-side-by-side-390x844-dsf2-lifestyle.png"
+  }
+ },
+ "fullViewportPairs": {
+  "1440x900-dsf2": {
+   "viewport": {
+    "meanAbsDiff": 1.255,
+    "pctPixelsOver8": 4.8237,
+    "identical": false,
+    "size": [
+     2880,
+     1800
+    ]
+   },
+   "sideBySide": "C:\\VS_CODE\\Portfolio\\sheersh-portfolio\\docs\\evidence\\T-001\\side-by-side-1440x900-dsf2-fullpage-viewport.png",
+   "leftIs": "BEFORE (f2b4d2c)",
+   "rightIs": "AFTER (this task)"
+  },
+  "390x844-dsf2": {
+   "viewport": {
+    "meanAbsDiff": 0.4341,
+    "pctPixelsOver8": 0.7232,
+    "identical": false,
+    "size": [
+     780,
+     1688
+    ]
+   },
+   "sideBySide": "C:\\VS_CODE\\Portfolio\\sheersh-portfolio\\docs\\evidence\\T-001\\side-by-side-390x844-dsf2-fullpage-viewport.png",
+   "leftIs": "BEFORE (f2b4d2c)",
+   "rightIs": "AFTER (this task)"
+  }
+ }
+}
