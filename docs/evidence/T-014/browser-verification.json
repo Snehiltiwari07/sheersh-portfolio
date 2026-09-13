@@ -1,0 +1,51 @@
+{
+  "task": "T-014 t_2f2cd795 — gate FAIL #7 (positioning) + #10 (OG/social layer)",
+  "capturedAt": "2026-09-14T01:12+05:30",
+  "target": "http://localhost:4173/ (npm run build && npm run preview, dist/ served statically)",
+  "browser": "CDP / headless Chrome via browser_exec session 't014'",
+  "note": "Captured against the shared working tree, which at 01:12 contained BOTH this card's changes and the concurrent edits of live card t_3de3c78e (run 58). See the card comment for the collision record.",
+  "viewports": {
+    "desktop": {
+      "metricsOverride": "1440x1000, dsf=1",
+      "url": "http://localhost:4173/",
+      "title": "\ud83d\udc34 Sheersh Tiwari — Full-Stack Engineer & Database Performance Specialist",
+      "staticHtmlTitle": "Sheersh Tiwari — Full-Stack Engineer & Database Performance Specialist (dist/index.html; React rewrites document.title at runtime with the emoji prefix — pre-existing)",
+      "h1Count": 1,
+      "navSubline": "Full-Stack Engineer \u00b7 Database Performance Specialist",
+      "navSublineRect": { "x": 196, "y": 45, "w": 298, "h": 14, "right": 494 },
+      "navSublineLineCount": 1,
+      "navSublineOverflowPx": 0,
+      "logoRect": { "x": 154, "y": 26, "w": 340, "h": 32, "right": 494 },
+      "navRect": { "x": 548, "y": 23, "w": 430, "h": 39, "right": 978 },
+      "heroRoleLines": ["Full-Stack Engineer \u00b7 Database Performance Specialist"],
+      "availabilitySpans": ["Available for Full-Stack & Database Performance Contracts"],
+      "footerBrand": "Full-stack engineer who makes slow enterprise systems fast — 200M+ record performance tuning, Spring Boot microservices, and client-side AI.",
+      "overflowPx": -15,
+      "imagesMissingAlt": 0,
+      "brokenImages": 0,
+      "consoleOrPageErrors": []
+    },
+    "mobile": {
+      "metricsOverride": "390x844, dsf=1, mobile=true",
+      "url": "http://localhost:4173/",
+      "h1Count": 1,
+      "navSubline": "Full-Stack Engineer \u00b7 Database Performance Specialist",
+      "navSublineRect": { "x": 66, "y": 37, "w": 253, "h": 27, "right": 319 },
+      "navSublineLineCount": 1,
+      "navSublineOverflowPx": 0,
+      "logoRect": { "x": 29, "y": 23, "w": 290, "h": 41, "right": 319 },
+      "observedChange": "The single role line wraps to two rendered lines at 390px (sub-line box 14px -> 27px tall; logo block 32px -> 41px). No overflow, no collision with the hamburger; flagged as a cosmetic consequence of the longer copy, not redesigned (out of this card's scope).",
+      "overflowPx": 0,
+      "imagesMissingAlt": 0,
+      "brokenImages": 0,
+      "consoleOrPageErrors": []
+    }
+  },
+  "screenshots": [
+    "docs/screenshots/t014-desktop-top-run59.png",
+    "docs/screenshots/t014-desktop-hero-run59.png",
+    "docs/screenshots/t014-desktop-footer-run59.png",
+    "docs/screenshots/t014-mobile-top-run59.png"
+  ],
+  "screenshotNamingNote": "Files carry the -run59 suffix because the concurrent run 58 (card t_3de3c78e) is capturing into the same docs/screenshots/ directory under the same t014-* prefix; an unattributed docs/screenshots/t014-desktop.png (01:11:26) was left uncommitted."
+}
