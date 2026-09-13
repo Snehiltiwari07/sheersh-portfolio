@@ -71,3 +71,17 @@ credentials.json
 service-account.json
 *.pem
 *.key
+
+# ── Test / QA evidence ─────────────────────────────────────────────
+# Regenerable output, not source. Lighthouse + perf JSON, DOM dumps,
+# screenshots. Kept on disk (scripts read them), never committed.
+docs/evidence/
+docs/screenshots/
+
+# Scratch / one-off probes used while building
+scripts/_*probe*.mjs
+scripts/_scratch*
+dist-probe/
+*.bak
+*.orig
+*.rej
