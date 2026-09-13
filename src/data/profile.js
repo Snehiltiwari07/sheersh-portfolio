@@ -221,7 +221,7 @@ export const keyAchievements = [
   {
     id: "awards",
     category: "Recognition & Leadership",
-    title: "The Beacon — Employee of the Year 2024",
+    title: "Employee of the Year 2024 — Executive Award",
     metric: "Executive Award",
     subtext: "US Life-Sciences Lab Platform",
     techs: ["Leadership", "Full-Stack Engineering", "System Architecture"],
@@ -363,7 +363,7 @@ export const careerRoadmap = [
     highlight: "Reduced 200M+ SQL Record Latency from 15m to 6s",
     paragraphs: [
       "Focused heavily on database refactoring, SQL query tuning, and distributed backend scaling. Redesigned legacy execution plans across a 200M+ record dataset, slashing execution times from 15 minutes to 6 seconds and lowering CPU load by 92%.",
-      "Recognized with 'The Beacon — Employee of the Year 2024' executive award at a US life-sciences lab-informatics platform for high-impact backend optimizations, automated Python ETL pipelines, and AWS RDS database maintenance."
+      "Recognized with the 'Employee of the Year 2024' company-wide executive award at a US life-sciences lab-informatics platform for high-impact backend optimizations, automated Python ETL pipelines, and AWS RDS database maintenance."
     ],
     techs: [
       { name: "200M+ SQL Tuning", level: "Expert", icon: "https://cdn.jsdelivr.net/gh/devicons/devicon/icons/mysql/mysql-original.svg" },

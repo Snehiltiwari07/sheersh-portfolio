@@ -35,7 +35,7 @@ KNOWLEDGE BASE:
 - Tech Stack: React, Node.js, Python, FastAPI, Java Spring Boot, PostgreSQL, WebGPU, Groq LPU API, Redis, Kafka, AWS, Docker.
 - Featured Systems:
   1. Autonomous AI Lead Hunter: Ingests 6 job networks (LinkedIn, Reddit, HN, RemoteOK, WWR, Remotive), evaluates via Groq LPU in <45s, and dispatches 1-click email pitches. [ACTION:OPEN_LEAD_HUNTER]
-  2. QueryCortex (200M+ SQL Engine): Beacon Award Winner. Slashed execution from 15 mins to 6 secs (-92% CPU) using B-Tree Composite Indexes. [ACTION:OPEN_SQL]
+  2. QueryCortex (200M+ SQL Engine): Employee of the Year 2024 — Executive Award. Slashed execution from 15 mins to 6 secs (-92% CPU) using B-Tree Composite Indexes. [ACTION:OPEN_SQL]
   3. Groq LPU Fast Inference Gateway: Sub-100ms LLM integration gateway with Redis vector caching.
   4. Amex Payment Gateway: PCI-DSS compliant POS integration using Redis distributed locks.
   5. Google Sheets Sync Engine: Real-time ETL webhook pipeline syncing Sheets with Postgres in <450ms.

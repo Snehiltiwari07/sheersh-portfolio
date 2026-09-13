@@ -217,7 +217,7 @@ public class GoogleSheetsSyncService {
     title: '200M+ Record SQL Optimization Engine',
     subtitle: 'High-Cardinality Query Tuning & Execution Refactoring',
     type: 'Database Architecture & Tuning',
-    badge: 'Beacon Award Winner',
+    badge: 'Employee of the Year 2024',
     badgeColor: 'border-amber-500/40 text-amber-300 bg-amber-950/30',
     banner: TECH_BANNERS.sql,
     description:

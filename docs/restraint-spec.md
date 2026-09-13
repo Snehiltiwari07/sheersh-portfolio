@@ -93,12 +93,35 @@ The pitch above the fold is: headline + proof line + one named testimonial + one
 
 ---
 
-## 5. Open item for BOSS (not a blocker)
+## 5. De-identification of the award (BOSS decided) + Amex/Resy metric (BOSS decided)
 
-- **"The Beacon — Employee of the Year 2024" award name** (profile.js:224, and the
-  `Beacon Award Winner` badge in Projects.jsx:220, ChatEngine.jsx:38). "The Beacon" is the
-  anonymised client's internal award brand and can re-identify the client the same way the
-  company name does. **Recommendation:** rename to "Employee of the Year 2024 — Executive Award"
-  and drop the "Beacon Award Winner" badges. BOSS to confirm; the literal `CloudLIMS` string has
-  already been removed from `src/data/profile.js` (the achievements `subtext` and the career-roadmap
-  paragraph).
+**Award de-identification — RESOLVED.** The anonymised client's internal award brand
+**"The Beacon"** was a re-identification risk (googling it with the lab-informatics sector led
+straight back to the company BOSS asked us to hide). BOSS's decision:
+
+> *"and for the award dont have the cloudlims name jus present that in the quality manner so it
+> should reflect my quality"*
+
+Resolution — keep the prestige, drop the brand. The award is now presented as
+**"Employee of the Year 2024 — Executive Award"**, which preserves the concrete credential
+(company-wide executive recognition, a specific year) without any identifying name:
+
+- `src/data/profile.js` — award `title` and the 2022–2024 career-roadmap paragraph (both read
+  "Employee of the Year 2024 … executive award" at "a US life-sciences lab-informatics platform").
+- `src/components/Projects.jsx` — badge is now `Employee of the Year 2024` (was "Beacon Award Winner").
+- `src/components/ChatEngine.jsx` — persona line now reads "Employee of the Year 2024 — Executive Award".
+
+No new award name, date, or scope was invented; nothing beyond the brand string was removed.
+`SkillOrbit.jsx:94` `{/* Selection Beacon */}` is a visual SVG-orbit comment, unrelated to the
+award — intentionally left untouched.
+
+**Amex/Resy case-study metric — RESOLVED (no fabricated figure, ever).** BOSS was asked for a hard
+number on the Amex/Resy case study and replied verbatim:
+
+> *"i dont have the Amex/Resy number no. you can present in the real manner"*
+
+So the case ships **without** a quantified metric and **without** a testimonial:
+`outcomeMetricPending: true` and `testimonial: null` stay exactly as they are. The internal
+`outcomeNote` / `testimonialNote` strings are internal-only and must never reach a visitor.
+No invented figure, no invented quote — the flag-and-null pattern IS the honest presentation.
+
