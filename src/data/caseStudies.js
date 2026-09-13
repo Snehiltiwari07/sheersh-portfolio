@@ -19,9 +19,13 @@
 //   - Every other client may be named (Amex, Resy — BOSS confirmed).
 //
 // NOTE FOR REVIEW: testimonial quotes are real, pulled from src/data/profile.js
-// `clientReviews` and mapped to the closest matching engagement. The Amex/Resy
-// quote is the closest existing real review (backend/REST API work) but is not
-// payment-specific — BOSS should obtain a direct client quote or confirm reuse.
+// `clientReviews` and mapped to the matching engagement. Three of four are
+// verbatim + correctly matched (sql-200m, sheets-sync, reliability). The
+// Amex/Resy case carries NO testimonial (testimonial: null) because no
+// Amex/Resy quote exists in source material — it is marked `testimonialPending`
+// and must be supplied by BOSS/client before GA. Its outcome metric is likewise
+// marked `outcomeMetricPending` (source records only "Real-Time Booking", no
+// hard figure).
 // =============================================================================
 
 export const caseStudies = [
@@ -53,15 +57,16 @@ export const caseStudies = [
     problem:
       'Cardholders were promised instant VIP dining perks, but booking one meant manual steps and delays between the card network and the reservation platform. A friction-filled perk isn\'t a perk — it quietly erodes trust in a premium card product.',
     whatWeDid:
-      'Connected the card-benefits system to the reservation system so a qualifying cardholder\'s perk and booking sync automatically — no manual handoffs, no double-bookings.',
+      'Linked the American Express cardholder-benefits system to Resy\'s reservation system so a qualifying cardholder\'s perk and booking sync automatically, with secure tokenized authentication.',
     outcome:
-      'VIP dining perks now activate and book in real time, with tokenized handling so cardholder data is never exposed. The premium experience runs end-to-end without a human in the loop.',
-    testimonial: {
-      quote:
-        'Strong backend skills in Java Spring Boot and REST API architectures. He identified indexing issues quickly and documented the whole deployment clearly.',
-      author: 'Madhukar Reddy',
-      role: 'Engineering Director',
-    },
+      'VIP dining perks now activate and book in real time — instantly, with no manual steps between the card network and the reservation platform.',
+    outcomeMetricPending: true,
+    outcomeNote:
+      'Numeric metric pending — source material (profile.js keyAchievements) records only "Real-Time Booking", no hard figure. Obtain from BOSS or the client before GA.',
+    testimonial: null,
+    testimonialPending: true,
+    testimonialNote:
+      'Direct client quote required — no Amex/Resy testimonial exists in source material (profile.js clientReviews). Obtain from BOSS or the client.',
     whatIdDoDifferently:
       'I\'d stand up a shared sandbox with a test card and a test reservation earlier, so the full perk flow could be demonstrated to stakeholders before the first real booking.',
   },

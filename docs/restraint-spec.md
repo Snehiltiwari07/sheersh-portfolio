@@ -25,8 +25,9 @@ Instantly fast, ruthlessly efficient, restrained — because that is the service
 | — | Hero glow ring / shimmer / `animate-pulse` accents | `Hero.jsx` | Rendered | **REDUCE** (see §2) |
 
 Note: 3 of the 7 named effects (tilt, hologram, glitch) are already dead code — they render
-nothing and only exist as a future landmine. The remaining four competing effects are the
-background field, the custom cursor, the skill orbit, and the two "engineering flex" sections.
+nothing and only exist as a future landmine. The remaining five competing elements are the
+background field, the custom cursor, the skill orbit, and the two "engineering flex" sections
+(the Flappy game and the Local LLM demo).
 
 ---
 
@@ -64,8 +65,9 @@ The **Flappy Deploy game** and the **in-browser Local LLM demo** move behind a s
 BOSS's decision: keep both, but behind one affordance. Rules:
 
 1. **One nav item.** Remove `Local AI` (`#local-llm`) and `Playground` (`#playground`) from the
-   navbar (both desktop and mobile link arrays in `Navbar.jsx`). Add a single **`Lab`** link
-   (`#lab`). Footer quick-links (Footer.jsx:57-60) update the same way.
+   navbar — there is a single `navLinks` array (Navbar.jsx:65) consumed by both the desktop nav
+   (Navbar.jsx:87) and the mobile drawer (Navbar.jsx:167). Add a single **`Lab`** link (`#lab`).
+   Footer quick-links (Footer.jsx:57-60) update the same way.
 2. **One section, two panels.** `#lab` renders a single section with two tabs (or stacked panels):
    *Flappy Deploy* and *Local LLM Engine*. Reuse the existing `Playground.jsx` and
    `LocalLLMRunner.jsx` internals; do not rewrite them.
@@ -98,4 +100,5 @@ The pitch above the fold is: headline + proof line + one named testimonial + one
   anonymised client's internal award brand and can re-identify the client the same way the
   company name does. **Recommendation:** rename to "Employee of the Year 2024 — Executive Award"
   and drop the "Beacon Award Winner" badges. BOSS to confirm; the literal `CloudLIMS` string has
-  already been removed (§6 below).
+  already been removed from `src/data/profile.js` (the achievements `subtext` and the career-roadmap
+  paragraph).

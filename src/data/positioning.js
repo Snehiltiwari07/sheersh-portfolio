@@ -13,28 +13,43 @@
 // hardcoded in components.
 // =============================================================================
 
+// Strings are hoisted to module-level consts so the `filesToChange` list below
+// can reference them without hitting the temporal dead zone (a `const` is
+// unreadable inside its own object literal's initializer). This module must
+// evaluate cleanly on import — T-004 consumes it as its first importer.
+// =============================================================================
+
+export const CONCEPT = 'The site performs the way he makes systems perform.';
+
+// Hero H1 value proposition — the single idea made literal.
+export const HEADLINE = 'I make slow systems fast.';
+
+// The proof line rendered directly under the headline (PRD §4.3 UVP).
+export const PROOF_LINE = '200M records: 15 minutes → 6 seconds, 92% less CPU.';
+
+// The ONE role descriptor used everywhere a title/tagline appears.
+export const TAGLINE = 'Full-Stack Engineer · Database Performance Specialist';
+
+// <title> and OG/social title.
+export const TITLE_TAG =
+  'Sheersh Tiwari — Full-Stack Engineer & Database Performance Specialist';
+
+// <meta name="description"> — answer-first, ~155 chars, keyword-rich for SEO.
+export const META_DESCRIPTION =
+  'Sheersh Tiwari — full-stack engineer who makes slow enterprise databases fast: 200M records from 15 min to 6 sec, 92% less CPU. 18+ contracts, 4.85★.';
+
+// Availability badge (Hero + Footer share one line).
+export const AVAILABILITY =
+  'Available for Full-Stack & Database Performance Contracts';
+
 export const positioning = {
-  // The one-sentence concept everything must support.
-  concept: 'The site performs the way he makes systems perform.',
-
-  // Hero H1 value proposition — the single idea made literal.
-  headline: 'I make slow systems fast.',
-
-  // The proof line rendered directly under the headline (PRD §4.3 UVP).
-  proofLine: '200M records: 15 minutes → 6 seconds, 92% less CPU.',
-
-  // The ONE role descriptor used everywhere a title/tagline appears.
-  tagline: 'Full-Stack Engineer · Database Performance Specialist',
-
-  // <title> and OG/social title.
-  titleTag: 'Sheersh Tiwari — Full-Stack Engineer & Database Performance Specialist',
-
-  // <meta name="description"> — answer-first, ~155 chars, keyword-rich for SEO.
-  metaDescription:
-    'Sheersh Tiwari — full-stack engineer who makes slow enterprise databases fast: 200M records from 15 min to 6 sec, 92% less CPU. 18+ contracts, 4.85★.',
-
-  // Availability badge (Hero + Footer share one line).
-  availability: 'Available for Full-Stack & Database Performance Contracts',
+  concept: CONCEPT,
+  headline: HEADLINE,
+  proofLine: PROOF_LINE,
+  tagline: TAGLINE,
+  titleTag: TITLE_TAG,
+  metaDescription: META_DESCRIPTION,
+  availability: AVAILABILITY,
 
   // ===========================================================================
   // Consistency change list — every file that currently ships a divergent (or
@@ -47,7 +62,7 @@ export const positioning = {
       file: 'src/data/profile.js',
       location: 'profile.title (line 3)',
       current: 'Full-Stack Developer & SQL Optimization Specialist',
-      replace: positioning.tagline,
+      replace: TAGLINE,
       note: 'Primary source of truth for the tagline.',
     },
     {
@@ -63,28 +78,28 @@ export const positioning = {
       file: 'src/components/Hero.jsx',
       location: 'role sub-line (line 49)',
       current: 'Senior Software Engineer • Full-Stack & AI Specialist',
-      replace: positioning.tagline,
+      replace: TAGLINE,
       note: 'The Hero is one of the four conflicting statements.',
     },
     {
       file: 'src/components/Hero.jsx',
       location: 'availability badge (line 35)',
       current: 'Available for Full-Stack & AI Systems Contracts',
-      replace: positioning.availability,
+      replace: AVAILABILITY,
       note: 'Keep the badge, align the words.',
     },
     {
       file: 'src/components/Navbar.jsx',
       location: 'logo sub-line (line 40)',
       current: 'SQL & AI Architect',
-      replace: positioning.tagline,
+      replace: TAGLINE,
       note: 'One of the four conflicting statements.',
     },
     {
       file: 'index.html',
       location: '<title> (line 44)',
       current: 'Portfolio | Sheersh.dev',
-      replace: positioning.titleTag,
+      replace: TITLE_TAG,
       note: 'Currently states nothing about who he is or what he does.',
     },
     {
@@ -92,7 +107,7 @@ export const positioning = {
       location: 'meta description (line 56)',
       current:
         'Official portfolio of Sheersh Tiwari — Full-Stack Architect & SQL Performance Engineer.',
-      replace: positioning.metaDescription,
+      replace: META_DESCRIPTION,
       note: 'One of the four conflicting statements.',
     },
     {
