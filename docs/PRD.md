@@ -3,7 +3,7 @@
 **Version**: 5.0-draft
 **Date**: 13 September 2026
 **Status**: ⏸️ AWAITING APPROVAL
-**Repo**: `C:\VS_CODE\Portfolio\sheersh-portfolio` · live: https://sheershtiwari.vercel.app
+**Repo**: the `sheersh-portfolio` folder of this workspace · live: https://sheershtiwari.vercel.app
 **Supersedes**: v4 "Conversion Edition"
 
 > **Change from v4:** priority moves from conversion plumbing to **UI excellence + enterprise-grade

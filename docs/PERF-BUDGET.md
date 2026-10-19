@@ -10,7 +10,7 @@ Nothing in this document was estimated. Where a number could not be measured, it
 ## 1. How to run it
 
 ```bash
-cd C:/VS_CODE/Portfolio/sheersh-portfolio
+cd <repo>
 
 node scripts/measure-perf.mjs                     # GATE: build → preview → measure → PASS/FAIL
 node scripts/measure-perf.mjs --no-build          # reuse the existing dist/ (no rebuild)
