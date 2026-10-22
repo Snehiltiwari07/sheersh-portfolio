@@ -545,7 +545,7 @@ export default async function handler(req, res) {
   if (!notified.ok) log('WARN', 'lead.notify.degraded', { requestId: lead.id, email: notified.detail });
   if (!store.attempted) log('INFO', 'lead.store.skipped', { requestId: lead.id, store: store.detail });
   // Loud on purpose: a lead that only reached the inbox (or only the sheet) must be visible in the
-  // logs, never a silent half-failure. docs/GOOGLE-SHEET-SETUP.md §8 maps these to fixes.
+  // logs, never a silent half-failure. docs/GOOGLE-SHEET-SETUP.md troubleshooting maps these to fixes.
   else if (!store.ok) log('WARN', 'lead.store.failed', { requestId: lead.id, store: store.detail });
 
   recentSubmissions.set(fingerprint, { id: lead.id, at: now });

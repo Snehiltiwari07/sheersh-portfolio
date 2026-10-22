@@ -8,16 +8,10 @@ import { applyMetadata, escapeHtml } from './scripts/page-html.mjs';
 import { searchRouting } from './scripts/search-routing.mjs';
 
 /**
- * T-014 — index.html ships the crawler-facing metadata (`<title>`, meta
- * description, canonical, OG/Twitter card, JSON-LD) and gate FAIL #7 said this
- * repo already shipped six different positioning statements. Retyping the title
- * into the OG tags would have created a seventh, so index.html carries
- * `%TOKENS%` that are resolved from the data layer here, at the single point
- * where both `vite` (dev) and `vite build` produce the document: what you check
- * in dev is byte-for-byte what ships.
- *
- * An unresolved `%TOKEN%` fails the build rather than shipping a placeholder to
- * a crawler (a silent placeholder is exactly how #10 stayed invisible).
+ * Resolve shared HTML tokens, then apply metadata for the requested route.
+ * Production prerendering writes route-specific HTML after Vite's asset build.
+ * GOOGLE_SITE_VERIFICATION is read from the build process environment.
+ * See docs/ARCHITECTURE.md; dev chat configuration is in docs/DEVELOPMENT.md.
  */
 const HTML_TOKENS = {
   '%POSITIONING_TITLE%': TITLE_TAG,

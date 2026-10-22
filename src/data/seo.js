@@ -1,15 +1,8 @@
 /**
- * src/data/seo.js — everything a crawler/scraper reads, derived from the
- * positioning layer rather than retyped (T-014, closes gate FAIL #10).
- *
- * The two failures T-007 found were "the site ships six statements" (#7) and
- * "there is nothing for a crawler" (#10). Re-typing the title into the OG tags
- * would have re-created #7 in the `<head>`, so the OG/JSON-LD block is built
- * from src/data/positioning.js and injected into index.html at build time by
- * the `positioningHtml` plugin in vite.config.js.
- *
- * Facts asserted here are copied from src/data/profile.js (name, locality,
- * profile URLs) — nothing on this page is invented.
+ * Route-aware metadata and structured data. Homepage wording comes from
+ * positioning/profile; content routes come from searchPages. Vite applies head
+ * metadata and the prerenderer writes the actual React page HTML for each URL.
+ * See docs/ARCHITECTURE.md and docs/SEO-AEO-PLAN.md.
  */
 import { TITLE_TAG, TAGLINE, META_DESCRIPTION } from './positioning.js';
 import { profile } from './profile.js';

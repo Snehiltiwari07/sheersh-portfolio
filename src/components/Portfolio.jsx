@@ -7,7 +7,7 @@ import BrandMark from './BrandMark';
 import EngineeringJourney from './EngineeringJourney';
 import WhatsAppButton from './WhatsAppButton';
 import { profile, clientReviews, keyAchievements, projectStats, careerRoadmap, techCategories } from '../data/profile';
-import { PROJECT_CAROUSEL } from './Projects';
+import { PROJECT_CAROUSEL } from '../data/projects';
 import { brand, crew, services, process, explorations } from '../data/portfolio';
 import { searchPages } from '../data/searchPages';
 import '../styles/editorial.css';

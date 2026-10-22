@@ -1,5 +1,7 @@
 # Jiya avatar
 
+Maintained 2026-10-23. Used by ChatEngine; provider configuration is documented in [the chat API contract](api-chat-contract.md).
+
 Generated with the built-in ImageGen tool. This is an illustrative German Shepherd mascot, not a photograph of Sheersh's actual pet.
 
 Source: `assets-src/jiya-avatar.png`

@@ -1,67 +1,35 @@
-# Search visibility plan for Sheersh Tiwari
+# SEO and answer-engine visibility
 
-Implemented locally on 2026-10-23. Live indexing, Search Console ownership, rankings, and deployed response headers have not been verified; no deployment was performed.
+Updated 2026-10-23. Implemented locally; public deployment, Search Console ownership, rankings and indexing are not established by these changes.
 
 ## Implemented
 
-- The three service URLs and two case-study URLs below, with crawlable links from the homepage.
-- Initial HTML containing the actual homepage, services, case studies, and buyer answers, produced by React prerendering. The client hydrates the same components for theme, enquiry, and motion controls.
-- Unique page titles, descriptions, canonicals, and social metadata; Person identity, Service/Article, WebPage/WebSite, and BreadcrumbList structured data matching the page content.
-- Generated production robots.txt and sitemap.xml containing the six canonical public URLs.
-- Clean URL hosting, a noindex 404 document, and removal of the blanket rewrite that could return the homepage for missing URLs.
-- An optional `GOOGLE_SITE_VERIFICATION` environment variable for the Google HTML-tag ownership method.
-- Checks for raw HTML content, internal links, metadata, schema, compression, HTTP status, and redirects.
+- Six canonical HTML pages: homepage; /services/ai-workflow-automation; /services/custom-software; /services/database-optimization; /work/kaamcrew; /work/sql-performance.
+- Build-time React rendering of actual page content and visible buyer answers, followed by client hydration.
+- Unique titles, descriptions, canonicals and social tags; Person identity and appropriate Service/Article, WebPage/WebSite and BreadcrumbList schema.
+- Homepage/related links to discover pages, descriptive images and existing LinkedIn/GitHub identity links.
+- Generated sitemap.xml and robots.txt using SITE_URL and the route data, rather than manually maintained public copies.
+- Clean URLs, alias redirects and a real noindex 404 without a blanket homepage fallback.
+- Optional GOOGLE_SITE_VERIFICATION build variable and checks for HTML, schema, internal links, compression and HTTP responses.
 
-## Publishing and Google account steps still required
+## Publishing and Google steps
 
-1. Confirm the canonical production domain in `src/data/site.js`; it currently uses `https://sheershtiwari.vercel.app`.
-2. Deploy the full `npm run build` output. These local changes do not affect public search results until published.
-3. In Google Search Console, add the URL-prefix property for that origin. Copy the HTML-tag verification content value into the deployment's `GOOGLE_SITE_VERIFICATION` environment variable, rebuild/deploy, and complete verification in the Google account. Use an existing ownership method instead if already verified.
-4. Submit `/sitemap.xml`; inspect the homepage and each service/case-study URL and request indexing where appropriate.
-5. Monitor indexing, queries, clicks, and actual enquiries. Continue improving the original case studies as more shareable evidence becomes available.
+1. Confirm SITE_URL in src/data/site.js; current origin is https://sheershtiwari.vercel.app. Update it before a domain change and plan redirects from the old origin.
+2. Deploy the full npm run build output and functions. Confirm all six pages return useful HTML/200, robots/sitemap are public, and missing pages return 404.
+3. Add/verify the matching property in [Google Search Console](https://search.google.com/search-console). For HTML-tag verification, set only the supplied content value as GOOGLE_SITE_VERIFICATION in the build environment and rebuild/deploy. Existing verified ownership can be reused. A .env.local entry alone is not loaded for this build variable.
+4. Submit sitemap.xml once for that property. The build automatically regenerates it when route data changes; there is no need to recreate it or submit it on every build. Check processing after publishing.
+5. Inspect important URLs and request indexing when appropriate. Monitor indexing, search queries, clicks and actual enquiries.
 
-No Google account access or verification token was available, so verification and sitemap submission were not attempted.
+No Google account token/access was supplied, and no account submission was performed. A sitemap helps discovery; it does not guarantee indexing, ranking or AI citations.
 
-## What is already present
+## Content maintenance
 
-- Build-time title, description, canonical, social cards, and Person JSON-LD.
-- LinkedIn and GitHub identity links, readable service descriptions, original project material, and descriptive image text.
-- The configured production origin is https://sheershtiwari.vercel.app.
+Use the same full name and portfolio URL across professional profiles. Explain original work with concrete contribution, architecture, limitations and attributable results. Link project explanations to their case URLs. Add useful answers to genuine buyer questions, not keyword-stuffed duplicates.
 
-## Scope used for this implementation and continued content work
+Keep explorations distinct from shipped work. The timeline's individual early years are editorial subdivisions of broader experience. Avoid fabricated ratings, client logos or guaranteed percentage improvements. Structured data must match visible facts; buyer FAQs are not a promise of FAQ rich results or answer-engine placement. No special AEO file or schema can guarantee visibility.
 
-1. **Real service URLs.** Added `/services/ai-workflow-automation`, `/services/custom-software`, and `/services/database-optimization`. Each has a distinct title, scope, examples, delivery approach, and enquiry link. Homepage fragments such as `#projects` remain sections of one document.
-2. **Content in initial HTML.** The former empty React root is now populated at build time for the homepage, services, and case studies. Google can render JavaScript; prerendering also serves crawlers that do not.
-3. **Publish evidence-rich case studies.** Start with कामCREW and the SQL optimization work. Include the problem, personal contribution, architecture, limitations, and demonstrable outcomes. Use screenshots or code that may be shared. Keep experiments explicitly separate from completed work; substantiate quantitative claims.
-4. **Discovery files for the production origin.** The build now generates robots.txt and a sitemap containing the actual canonical pages. A sitemap is a discovery aid, not a ranking guarantee. Search Console submission remains an account step after deployment.
-5. **Verify the production site in Search Console.** Check URL Inspection, Page Indexing, sitemap processing, and search queries. Confirm the production pages return useful HTML with 200 status and no unintended noindex or blocked assets. Localhost changes have no public search impact until deployed.
-6. **Strengthen identity and discovery.** Use the same name, service focus, and canonical portfolio link on LinkedIn and GitHub. Share original project explanations that link to the relevant case study. A personal domain can help brand ownership; it is not a ranking shortcut. If changing domains, update the canonical source and use redirects.
+## Sources and checks
 
-## Content targets
+Official references: [Google sitemap guidance](https://developers.google.com/search/docs/crawling-indexing/sitemaps/overview), [helpful content guidance](https://developers.google.com/search/docs/fundamentals/creating-helpful-content), [AI features and websites](https://developers.google.com/search/docs/appearance/ai-features).
 
-| Audience intent | Relevant content |
-| --- | --- |
-| Find Sheersh Tiwari | Clear personal profile, consistent identity links, contact |
-| Hire an AI workflow developer | AI workflow service page, a working-system case study, defined deliverables |
-| Find a SQL optimization consultant | Database service page, measured optimization case study |
-| Understand कामCREW | Dedicated architecture and product walkthrough with Hermes attribution |
-| Assess approach and scope | Concise answers about integrations, data handling, engagement process, maintenance |
-
-Treat these as query hypotheses. Use actual Search Console impressions and enquiries to decide what to improve; no search-volume claims were researched.
-
-## AEO / AI search
-
-Use clear, self-contained explanations and original evidence that help a buyer understand the work. Keep material available as readable page text rather than only inside a chatbot or animation. Make any structured data match the visible content. Do not add unsupported review stars or claim expertise with tools that are still explorations.
-
-Google says its generative AI features use the same SEO foundations. It does not require special AI markup or llms.txt. These recommendations improve clarity and accessibility; they do not guarantee AI citations or rankings.
-
-## Measure results
-
-Track indexed pages, branded versus service-query impressions, relevant clicks, and enquiry conversions. Prioritize qualified enquiries over raw traffic. Compare after deployment and allow time for recrawling; avoid promises of a fixed ranking or timeline.
-
-## Primary guidance
-
-- Google, generative AI search: https://developers.google.com/search/docs/fundamentals/ai-optimization-guide
-- Google, JavaScript SEO: https://developers.google.com/search/docs/crawling-indexing/javascript/javascript-seo-basics
-- Google, helpful content: https://developers.google.com/search/docs/fundamentals/creating-helpful-content
-- Google, sitemaps: https://developers.google.com/search/docs/crawling-indexing/sitemaps/overview
+Run npm run build, npm run check:seo and npm run check:search -- --http. Check source-of-truth fields in searchPages.js, seo.js and site.js together. Google account verification and deployed response checks remain separate from these local gates.
