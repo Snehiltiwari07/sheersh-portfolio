@@ -1,0 +1,23 @@
+/* Header action hands off to a small floating shortcut once it leaves the viewport. */
+.editorial .header-whatsapp { display: inline-flex; align-items: center; justify-content: center; gap: .65rem; flex-shrink: 0; min-height: 2.8rem; padding: .65rem 1rem; background: var(--whatsapp-bg); color: var(--whatsapp-text); border: var(--hairline) solid var(--whatsapp-bg); border-radius: 3rem; font-size: .8rem; font-weight: 600; line-height: 1; transition: transform var(--dur-base) var(--ease-out), box-shadow var(--dur-base); }
+.header-whatsapp svg { width: 1.3rem; height: 1.3rem; flex-shrink: 0; }
+.header-whatsapp:hover { transform: translateY(-.15rem); box-shadow: var(--editorial-shadow); }
+.whatsapp-arrow { margin-left: .25rem; }
+.whatsapp-contact.whatsapp-orb { display: flex; align-items: center; justify-content: center; width: 3.7rem; height: 3.7rem; padding: 0; border: .22rem solid var(--paper-white); background: var(--whatsapp-bg); color: var(--whatsapp-text); border-radius: 50%; box-shadow: var(--editorial-shadow); opacity: 0; visibility: hidden; pointer-events: none; transform: translateY(1rem) scale(.85); transition: opacity var(--dur-base), transform var(--dur-slow) var(--ease-out), visibility var(--dur-base); }
+.whatsapp-contact.whatsapp-orb.is-visible { opacity: 1; visibility: visible; pointer-events: auto; transform: none; }
+.whatsapp-contact.whatsapp-orb > svg { width: 1.8rem; height: 1.8rem; }
+.whatsapp-orb .whatsapp-tooltip { display: block; position: absolute; left: calc(100% + .85rem); top: 50%; transform: translate(-.4rem, -50%); padding: .7rem 1rem; border: var(--hairline) solid var(--rule); border-radius: 3rem; background: var(--paper-white); color: var(--ink); font-size: .75rem; line-height: 1.2; font-weight: 500; white-space: nowrap; opacity: 0; visibility: hidden; pointer-events: none; transition: opacity var(--dur-base), transform var(--dur-base), visibility var(--dur-base); }
+.whatsapp-tooltip > span { margin-left: .7rem; color: var(--accent-ink); }
+.whatsapp-orb.is-visible:hover, .whatsapp-orb.is-visible:focus-visible { transform: translateY(-.15rem); }
+.whatsapp-orb:hover .whatsapp-tooltip, .whatsapp-orb:focus-visible .whatsapp-tooltip { opacity: 1; visibility: visible; transform: translate(0, -50%); }
+@media (max-width: 43.75em) {
+  .editorial .header-whatsapp { width: 2.5rem; height: 2.5rem; min-height: 2.5rem; padding: 0; }
+  .header-whatsapp > span { display: none; }
+  .editorial .site-header .theme-switch { margin-left: auto; }
+  .whatsapp-contact.whatsapp-orb { width: 3.4rem; height: 3.4rem; }
+  .whatsapp-orb .whatsapp-tooltip { display: none; }
+}
+@media (prefers-reduced-motion: reduce) {
+  .editorial .header-whatsapp, .whatsapp-contact.whatsapp-orb, .whatsapp-orb .whatsapp-tooltip { transition: none; }
+  .whatsapp-orb.is-visible:hover, .whatsapp-orb.is-visible:focus-visible, .header-whatsapp:hover { transform: none; }
+}

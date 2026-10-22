@@ -114,8 +114,8 @@ export const SELECT_PLACEHOLDER = { projectType: 'Select a project type', budget
  * server is the authority.
  */
 export const HIRE_COPY = {
-  chip: 'Interactive Scope & Estimator',
-  title: 'Scope Your Project',
+  chip: 'Let’s find a useful first step',
+  title: 'Tell me about your project',
 
   servicesLabel: '1. Select Required Services (Multi-Select):',
   expressTitle: 'Express Speed Priority',

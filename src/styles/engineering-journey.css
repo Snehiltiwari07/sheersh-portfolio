@@ -1,0 +1,90 @@
+.editorial main > section.engineering-journey:not(.hero-chapter):not(.stellar-story) { position: relative; padding-inline: 0; background: var(--paper-white); color: var(--ink); }
+.engineering-journey.is-pinned { height: 540svh; }
+.engineering-stage { padding: 3rem var(--scene-inset) 5rem; }
+.is-pinned .engineering-stage { position: sticky; top: 0; height: 100svh; min-height: 0; display: flex; flex-direction: column; justify-content: space-between; gap: 1rem; overflow: clip; }
+.journey-heading { display: flex; justify-content: space-between; gap: 2rem; align-items: end; }
+.journey-heading .eyebrow { margin-bottom: .8rem; }
+.editorial .journey-heading h2 { font-size: clamp(2rem, 3.5vw, 3.4rem); }
+.journey-heading > p { font-size: .8rem; color: var(--ink-soft); }
+.year-scene { display: grid; grid-template-columns: 1fr 1fr; gap: 7vw; align-items: center; margin-block: 2rem; }
+.is-pinned .year-scene { margin-block: 0; flex: 1; }
+.year-art { position: relative; min-width: 0; isolation: isolate; }
+.year-art > svg { position: absolute; width: 110%; left: -10%; top: -15%; z-index: -1; overflow: visible; }
+.year-path-base, .year-path-fill { stroke-width: 1; }
+.year-path-base { stroke: var(--rule); }
+.year-path-fill { stroke: var(--accent-ink); stroke-dasharray: 1; stroke-dashoffset: calc(1 - var(--year-progress, 0)); stroke-width: 2; }
+.year-numeral { display: block; font-size: clamp(7rem, 17vw, 19rem); font-weight: 500; font-variant-numeric: tabular-nums; line-height: 1; letter-spacing: -.095em; color: var(--accent-ink); animation: year-arrive var(--dur-slow) var(--ease-out); }
+.year-layers { display: flex; flex-wrap: wrap; gap: .7rem 1.2rem; margin-top: 1rem; font-size: .6rem; color: var(--ink-soft); }
+.year-layers > span { border-top: var(--hairline) solid var(--rule); padding-top: .5rem; opacity: .4; }
+.year-layers > .is-built { border-color: var(--accent-ink); opacity: 1; }
+.year-layers > .is-current { color: var(--accent-ink); font-weight: 700; border-top-width: .15rem; }
+.year-stories { min-width: 0; }
+.is-pinned .year-stories { display: grid; align-items: center; }
+.year-story { padding-block: 2rem; }
+.is-pinned .year-story { grid-area: 1/1; padding-block: 0; opacity: 0; visibility: hidden; transform: translateY(1.6rem); transition: opacity var(--dur-base) var(--ease-out), transform var(--dur-slow) var(--ease-out), visibility var(--dur-base); pointer-events: none; }
+.is-pinned .year-story.is-active { opacity: 1; visibility: visible; transform: none; pointer-events: auto; }
+.year-mobile-label { display: none; }
+.editorial .year-story h3 { font-size: clamp(1.8rem, 3vw, 3.2rem); line-height: 1.1; letter-spacing: -.045em; margin-block: 1rem; }
+.year-description { color: var(--ink-soft); max-width: 32rem; font-size: .95rem; }
+.year-techs { display: flex; flex-wrap: wrap; gap: .55rem; padding: 0; margin: 1.4rem 0; list-style: none; }
+.year-techs li { display: inline-flex; align-items: center; gap: .55rem; font-family: var(--editorial-sans); font-size: .72rem; font-weight: 500; padding: .4rem .7rem .4rem .4rem; border: var(--hairline) solid var(--rule); border-radius: .5rem; background: var(--paper); color: var(--ink); transition: border-color var(--dur-base), transform var(--dur-base); }
+.year-techs li:hover { border-color: var(--accent-ink); transform: translateY(-.15rem); }
+.year-techs li.is-exploration { border-style: dashed; }
+.year-tool-legend { font-family: var(--editorial-mono); font-size: .55rem; color: var(--ink-soft); margin-block: -.7rem .7rem !important; }
+.year-tool-legend > span { margin-inline: .4rem; }
+.journey-tech-icon { display: inline-flex; align-items: center; justify-content: center; width: 1.9rem; height: 1.9rem; border-radius: .3rem; background: var(--accent-paper); color: var(--accent-ink); flex-shrink: 0; }
+.journey-tech-icon.is-brand { background: var(--cta-text); }
+.journey-tech-icon img, .journey-tech-icon svg { display: block; width: 1.3rem; height: 1.3rem; object-fit: contain; }
+.is-pinned .year-story.is-active .year-techs li { animation: tech-arrive var(--dur-slow) var(--ease-out) both; animation-delay: calc(var(--tech-order, 0) * var(--dur-fast)); }
+.year-outcome { display: flex; gap: .7rem; align-items: baseline; font-size: .8rem; color: var(--accent-ink); }
+.year-navigation { display: grid; grid-template-columns: repeat(9, minmax(0, 1fr)); position: relative; margin-top: 1rem; }
+.year-navigation button { position: relative; min-height: 3.3rem; background: transparent; border: 0; padding: .4rem; font-family: var(--editorial-mono); font-size: .8rem; color: var(--ink-soft); display: flex; flex-direction: column; align-items: center; gap: .7rem; }
+.year-navigation button[aria-current] { color: var(--accent-ink); font-weight: 700; }
+.year-navigation button::after { content: ''; position: absolute; inset: 1.4rem 22% .1rem; border-radius: 2rem; background: var(--accent-paper); opacity: 0; z-index: -1; transition: opacity var(--dur-base); }
+.year-navigation button[aria-current]::after, .year-navigation button:hover::after { opacity: 1; }
+.year-navigation button { isolation: isolate; }
+.year-navigation button .year-dot { transition: background var(--dur-base), box-shadow var(--dur-base), transform var(--dur-base); }
+.year-navigation button:hover .year-dot { transform: scale(1.3); }
+.year-navigation button.is-reached .year-dot { background: var(--accent-ink); border-color: var(--accent-ink); }
+.year-dot { width: .45rem; height: .45rem; border-radius: 50%; background: var(--paper-white); border: var(--hairline) solid var(--rule); }
+.year-navigation button[aria-current] .year-dot { background: var(--accent-ink); border-color: var(--accent-ink); box-shadow: 0 0 0 .25rem var(--accent-paper); }
+.year-track { position: absolute; height: var(--hairline); background: var(--rule); left: 5.55%; right: 5.55%; top: .6rem; }
+.year-track > span { display: block; height: 100%; background: var(--accent-ink); transform-origin: left; transform: scaleX(var(--year-progress, 0)); }
+.journey-footnote { display: flex; justify-content: space-between; gap: 1rem; font-family: var(--editorial-mono); color: var(--ink-soft); font-size: .53rem; margin-top: .7rem; }
+.journey-footnote a { font-family: var(--editorial-sans); font-size: .75rem; }
+.engineering-journey:not(.is-pinned) .year-art { display: none; }
+.engineering-journey:not(.is-pinned) .year-scene { display: block; }
+.engineering-journey:not(.is-pinned) .year-mobile-label { display: inline; color: var(--accent-ink); }
+.engineering-journey:not(.is-pinned) .year-story + .year-story { border-top: var(--hairline) solid var(--rule); }
+.engineering-journey:not(.is-pinned) .year-navigation { position: sticky; bottom: 5.3rem; background: var(--paper-white); padding-block: 1rem; }
+.engineering-journey:not(.is-pinned) .year-track { display: none; }
+@keyframes year-arrive { from { opacity: .3; transform: translateY(1rem); } to { opacity: 1; transform: none; } }
+@keyframes tech-arrive { from { opacity: 0; transform: translateY(.6rem); } to { opacity: 1; transform: none; } }
+@media (max-width: 53.124em) {
+  .engineering-stage { padding-top: 2rem; }
+  .is-pinned .engineering-stage { padding-bottom: 8rem; gap: .75rem; }
+  .journey-heading { display: block; }
+  .journey-heading > p { margin-top: .8rem; font-size: .7rem; }
+  .editorial .journey-heading h2 { font-size: 2rem; }
+  .journey-heading h2 br { display: none; }
+  .year-scene { grid-template-columns: 1fr; gap: 1.1rem; align-content: center; }
+  .year-art { display: flex; align-items: center; gap: 2rem; }
+  .year-numeral { font-size: 5.5rem; }
+  .year-art > svg { width: 100%; height: 10rem; top: -2rem; opacity: .5; }
+  .year-layers { max-width: 10rem; gap: .3rem .6rem; margin-top: 0; font-size: .5rem; }
+  .editorial .year-story h3 { font-size: 1.7rem; margin-block: .7rem; }
+  .year-story .eyebrow { font-size: .55rem; }
+  .year-description { font-size: .85rem; }
+  .year-techs { margin-block: 1rem; gap: .35rem; }
+  .year-techs li { font-size: .65rem; padding: .25rem .5rem .25rem .25rem; gap: .35rem; }
+  .journey-tech-icon { width: 1.5rem; height: 1.5rem; }
+  .journey-tech-icon img, .journey-tech-icon svg { width: 1.1rem; height: 1.1rem; }
+  .year-outcome { font-size: .7rem; }
+  .year-navigation { grid-template-columns: repeat(5, minmax(0, 1fr)); gap: .2rem; margin-top: 0; }
+  .year-navigation button { flex-direction: row; justify-content: center; gap: .4rem; font-size: .7rem; min-height: 2.75rem; }
+  .year-navigation button::after { inset: .15rem .25rem; }
+  .year-track { display: none; }
+  .journey-footnote > span { display: none; }
+  .journey-footnote { justify-content: flex-end; }
+}
+@media (prefers-reduced-motion: reduce) { .year-numeral, .is-pinned .year-story.is-active .year-techs li { animation: none; } .year-story { transition: none; transform: none; } .year-techs li, .year-navigation button .year-dot { transition: none; } }

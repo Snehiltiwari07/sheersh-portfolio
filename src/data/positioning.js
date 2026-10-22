@@ -1,54 +1,37 @@
-// =============================================================================
-// Positioning — the single source of truth for who Sheersh is and what he does.
-//
-// The concept (already decided — do not re-litigate):
-//   "The site performs the way he makes systems perform."
-// Instantly fast, ruthlessly efficient, restrained — because that is the service
-// being sold. Every user-facing statement must support this one idea.
-//
-// The site previously shipped FOUR different statements (profile.js, Hero,
-// navbar logo, meta description). This file locks ONE headline, ONE tagline,
-// ONE meta description, and lists every file that must change to make the site
-// consistent. Components import these fields — no positioning copy is
-// hardcoded in components.
-// =============================================================================
-
-// Strings are hoisted to module-level consts so the `filesToChange` list below
-// can reference them without hitting the temporal dead zone (a `const` is
-// unreadable inside its own object literal's initializer). This module must
-// evaluate cleanly on import — T-004 consumes it as its first importer.
-// =============================================================================
+// Shared profile/metadata wording. Current homepage copy also lives in
+// portfolio.js and Portfolio.jsx; the retired-copy list below is historical.
+// See docs/ARCHITECTURE.md for content ownership.
 
 export const CONCEPT = 'The site performs the way he makes systems perform.';
 
 // Hero H1 value proposition — the single idea made literal.
-export const HEADLINE = 'I make slow systems fast.';
+export const HEADLINE = 'Less busywork. More possibility.';
 
 // The proof line rendered directly under the headline (PRD §4.3 UVP).
 export const PROOF_LINE = '200M records: 15 minutes → 6 seconds, 92% less CPU.';
 
 // The ONE role descriptor used everywhere a title/tagline appears.
-export const TAGLINE = 'Full-Stack Engineer · Database Performance Specialist';
+export const TAGLINE = 'Independent Engineer · AI Workflows & Custom Software';
 
 // <title> and OG/social title.
 export const TITLE_TAG =
-  'Sheersh Tiwari — Full-Stack Engineer & Database Performance Specialist';
+  'Sheersh Tiwari — AI Workflows, Custom Software & Database Performance';
 
 // <meta name="description"> — answer-first, ~155 chars, keyword-rich for SEO.
 export const META_DESCRIPTION =
-  'Sheersh Tiwari — full-stack engineer who makes slow enterprise databases fast: 200M records from 15 min to 6 sec, 92% less CPU. 18+ contracts, 4.85★.';
+  'Independent engineer building AI workflows, internal tools, and dependable software. Explore कामCREW and database performance work. Discuss your project with Sheersh.';
 
 // Availability badge (Hero + Footer share one line).
 export const AVAILABILITY =
-  'Available for Full-Stack & Database Performance Contracts';
+  'Available for select remote projects';
 
 // Footer brand paragraph — outcome-led, same voice as the summary.
 export const FOOTER_BRAND =
-  'Full-stack engineer who makes slow enterprise systems fast — 200M+ record performance tuning, Spring Boot microservices, and client-side AI.';
+  'Independent engineering for useful AI workflows, custom software, and faster databases.';
 
 // profile.summary — the long-form bio in src/data/profile.js.
 export const SUMMARY =
-  'Full-stack engineer who makes slow enterprise systems fast — 200M+ record datasets from 15 minutes to 6 seconds, 92% less CPU, across high-throughput backend services and React frontends.';
+  'Independent engineer building AI workflows, internal tools, and dependable backend systems. Creator of कामCREW, with database performance work across 200M+ records.';
 
 // Alt text for the portrait photographs (Hero + src/data/image-manifest.js).
 // Name plus the ONE role line — so a screen reader or an image search does not
@@ -67,19 +50,8 @@ export const positioning = {
   summary: SUMMARY,
   photoAlt: PHOTO_ALT,
 
-  // ===========================================================================
-  // Consistency change list — every file that currently ships a divergent (or
-  // missing) statement. `current` is the exact string on disk today; `replace`
-  // is what it must become. This is the grep-verifiable target for the
-  // "1 statement sitewide" acceptance criterion.
-  //
-  // T-014 executed this list. The `current:` values are kept as the audit trail
-  // of what the site used to say — and this file is the ONLY place the retired
-  // strings are allowed to appear: nothing imports it, so none of it reaches a
-  // component or the bundle. `npm run check:seo` enforces exactly that rule
-  // (it scans src/, index.html and dist/ and excludes this file), which is what
-  // makes the grep in the acceptance criterion meaningful.
-  // ===========================================================================
+  // Historical audit inputs used by check:seo to detect retired wording.
+  // File paths/locations below describe the old implementation, not a TODO list.
   filesToChange: [
     {
       file: 'src/data/profile.js',

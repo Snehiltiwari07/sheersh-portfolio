@@ -22,6 +22,89 @@
  * Documented in docs/DESIGN-SYSTEM.md.
  * ========================================================================= */
 
+:root {
+  --paper: #ede8f5;
+  --paper-alt: #e0e4f2;
+  --paper-white: #f8f6fc;
+  --ink: #27345e;
+  --ink-soft: #3d52a0;
+  --rule: #adbbda;
+  --accent-ink: #3d52a0;
+  --accent-paper: #dce3f7;
+  --hero-blue: #3d52a0;
+  --hero-surface: #dce2fa;
+  --hero-foreground: #27345e;
+  --hero-secondary: #3d52a0;
+  --hero-emphasis: #3d52a0;
+  --cta-bg: #3d52a0;
+  --cta-text: #ffffff;
+  --warm-accent: #7091e6;
+  --sun-surface: #ede8f5;
+  --sky-surface: #adbbda;
+  --apricot-surface: #d9d8ed;
+  --sky-ink: #3d52a0;
+  --portrait-orbit: #8697c4;
+  --portrait-back: #7091e6;
+  --hero-text: #ffffff;
+  --hero-muted: #d9e2ff;
+  --lime: #ede8f5;
+  --coral: #adbbda;
+  --card-blue: #adbbda;
+  --card-peach: #d9d8ed;
+  --card-green: #dce3f7;
+  --deep-surface: #17223b;
+  --scene-bg: #e0e4f2;
+  --scene-text: #27345e;
+  --scene-muted: #3d52a0;
+  --particle-near: #3d52a0;
+  --particle-far: #7091e6;
+  --whatsapp-bg: #177b4c;
+  --whatsapp-text: #ffffff;
+  --editorial-serif: Georgia, 'Times New Roman', serif;
+  --editorial-sans: 'Segoe UI', Arial, sans-serif;
+  --editorial-mono: 'Courier New', monospace;
+  --editorial-shadow: 0 12px 50px #25292320;
+  --editorial-focus: 3px solid #3d52a0;
+  --editorial-backdrop: #25292366;
+  --editorial-error: #963c28;
+}
+
+:root[data-theme='dark'] {
+  --paper: #141414;
+  --paper-alt: #1e1d25;
+  --paper-white: #24232d;
+  --ink: #f7f2fa;
+  --ink-soft: #c9c0d2;
+  --rule: #49414e;
+  --accent-ink: #ed7845;
+  --accent-paper: #34252f;
+  --hero-blue: #273db4;
+  --hero-surface: #1d1b28;
+  --hero-foreground: #f7f2fa;
+  --hero-secondary: #c9c0d2;
+  --hero-emphasis: #f95ca4;
+  --cta-bg: #273db4;
+  --cta-text: #ffffff;
+  --warm-accent: #ed7845;
+  --sun-surface: #c50900;
+  --sky-surface: #273db4;
+  --apricot-surface: #3b2727;
+  --sky-ink: #ed7845;
+  --portrait-orbit: #f95ca4;
+  --portrait-back: #273db4;
+  --card-blue: #252a4c;
+  --card-peach: #3b2727;
+  --card-green: #34252f;
+  --scene-bg: #141414;
+  --scene-text: #f7f2fa;
+  --scene-muted: #c9c0d2;
+  --particle-near: #f95ca4;
+  --particle-far: #ed7845;
+  --editorial-shadow: 0 12px 50px #00000040;
+  --editorial-focus: 3px solid #f95ca4;
+  --editorial-error: #ffb09d;
+}
+
 :root,
 [data-theme='dark'] {
   /* ------------------------------------------------------------------ *

@@ -1,8 +1,7 @@
 # API contract — `POST /api/lead`
 
 **Status**: implemented `api/lead.js` (Vercel serverless function, Node runtime, zero dependencies)
-**Owner**: `backend-architect` · **Consumer**: `frontend-engineer` (Hire form)
-**Last verified**: 2026-09-13 — `node scripts/lead-endpoint-test.mjs` → 39/39 assertions pass
+**Maintained**: 2026-10-23 documentation refresh. Run `npm run test:lead` for current fixture results; historical counts below are not a fresh live-delivery check.
 
 This document is the single source of truth for the lead form. If the frontend needs to ask a
 question that is not answered here, this document is broken — fix it here first.
@@ -18,7 +17,7 @@ question that is not answered here, this document is broken — fix it here firs
 | Content-Type | `application/json; charset=utf-8` (required) |
 | Auth | none (public endpoint, origin-allowlisted + rate limited) |
 | Max body | 16 KB (`Content-Length` above that → `413`) |
-| Timeout budget | 8 s Resend + 6 s store webhook, run in parallel → < 10 s worst case |
+| Timeout budget | 8 s Resend + 6 s store webhook, run in parallel; hosting overhead also applies |
 | Cache | `Cache-Control: no-store` on every response |
 
 Same-origin only. `Origin` header must be one of:
@@ -296,7 +295,7 @@ reads.
 
 ## 7. What is tested (evidence trail)
 
-`npm run test:lead` — `api/lead.js`, 19 cases, 57 assertions, all passing (exit 0):
+`npm run test:lead` — `api/lead.js`, fixture coverage described below (run the command for current counts/results):
 
 | Case | Proves |
 |---|---|
@@ -317,31 +316,19 @@ reads.
 | 18 | sheet write fails + email succeeds → `200` and a loud `WARN lead.store.failed` (never a silent half-failure) |
 | 19 | the row mapping itself: 11 values, contractual column order, enum **labels** not ids, `""` for absent values, ISO-8601 timestamp |
 
-`npm run test:sheet` — `integrations/google-sheets/Code.gs`, 11 cases, 36 assertions, run outside
+`npm run test:sheet` — `integrations/google-sheets/Code.gs`, fixture cases, run outside
 Google against stubbed Apps Script services (S1 header creation + freeze + format, S2 no duplicate
 header, S3/S4 wrong-width and raw-lead refusal, S5 `null`/`undefined` → `""`, S6 formula-injection
 neutralisation, S7/S8 token enforcement, S9 empty-row no-op, S10 `?demo=1`, S11 `checkSetup`).
 
-Neither harness touches a real Google Sheet — see `docs/DEPLOY-NOTES.md` §7.4.
+Neither harness touches a real Google Sheet. See [deployment](DEPLOY-NOTES.md) for runtime configuration.
 
 ---
 
-## 8. Persistence — exactly what "recorded" means today
+## 8. Delivery and persistence
 
-On success the lead is written to, in order of durability:
+The function attempts the external store and Resend email in parallel. A successful store write or accepted notification yields ok:true; both failing yields 502. Structured log lines contain diagnostic metadata, not the complete visitor message, and are not a full lead backup.
 
-1. **A structured log line** (`lead.received`, `lead.captured`) — always written, survives a
-   downstream failure.
-2. **The external store** via `LEAD_STORE_WEBHOOK_URL` — one **normalised 11-column row**,
-   `{"row":[…]}` (the shared shape the lead hunter writes too; schema in
-   `docs/GOOGLE-SHEET-SETUP.md §The row`, implementation in `toSheetRow()`). Written when that env
-   var is set. Not required for the endpoint to work.
-3. **The notification email to `LEAD_NOTIFY_EMAIL` via Resend** — the durable human-readable record.
-   Same account and request shape already used by `scripts/lead-hunter.js`; `reply_to` is set to the
-   lead's address so a reply goes straight back to the buyer.
+LEAD_STORE_WEBHOOK_URL accepts a normalized eleven-column row, matching the hunter. Store configuration is optional when email succeeds. Generic stores may use LEAD_STORE_WEBHOOK_TOKEN as a Bearer header; Apps Script uses its URL query token. Follow redirects and inspect ok:false JSON even with HTTP 200. See [Sheet setup](GOOGLE-SHEET-SETUP.md).
 
-`ok:true` is returned **only when at least one durable path succeeded**. There is no database yet:
-storage was never decided (PRD §13 item 7 — inbox vs Sheet vs DB) and deployment/infra is out of
-scope for this project. When BOSS picks a DB, only `persistToStore()` in `api/lead.js` changes —
-the HTTP contract in this document does not move. This is stated plainly rather than dressed up as
-"persisted" — the current durable store is Resend + the Sheet webhook.
+Duplicate suppression (email + message for sixty seconds) and IP rate limits are best effort per warm function instance. They do not provide distributed guarantees. The honeypot success is a deliberate decoy and performs no delivery. Tests use mocks/loopback fixtures and do not prove live credentials.

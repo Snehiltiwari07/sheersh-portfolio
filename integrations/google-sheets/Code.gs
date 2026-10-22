@@ -8,8 +8,8 @@
  *   • Hunter leads — scripts/lead-hunter.js (Actions)  → Source: "Hunter (Reddit)" / …
  *
  * Paste-me instructions for the owner:  docs/GOOGLE-SHEET-SETUP.md
- * The 11-column row contract:           docs/GOOGLE-SHEET-SETUP.md §4
- * Client redirect decision:             docs/DEPLOY-NOTES.md §7
+ * The 11-column row contract:           docs/GOOGLE-SHEET-SETUP.md (Eleven-column row)
+ * Client redirect decision:             docs/DEPLOY-NOTES.md (Google Sheets)
  * Verified against a mock web app by:   npm run test:lead  (CASE 15–19)
  *
  * ── This script is deliberately dumb ─────────────────────────────────────────

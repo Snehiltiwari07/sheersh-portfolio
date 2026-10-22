@@ -27,6 +27,7 @@
 import { readFileSync, existsSync, statSync, readdirSync } from 'node:fs';
 import { join } from 'node:path';
 import sharp from 'sharp';
+import { escapeHtml } from './page-html.mjs';
 import {
   TITLE_TAG,
   META_DESCRIPTION,
@@ -184,17 +185,18 @@ if (!existsSync(DIST)) {
   if (ldCount !== 1) fail('dist JSON-LD block', `${ldCount} (need exactly 1)`);
   else ok('dist JSON-LD block', '1');
 
-  const unresolved = [...new Set([...dist.matchAll(/%[A-Z0-9_]+%/g)].map((m) => m[0]))];
+  // Prerendered body links contain normal URL escapes such as %2C%20.
+  const unresolved = [...new Set([...dist.matchAll(/%[A-Z_]{3,}%/g)].map((m) => m[0]))];
   if (unresolved.length) fail('dist unresolved placeholder', unresolved.join(', '));
   else ok('dist has no unresolved placeholder');
 
   const expectations = [
-    ['<title>', `<title>${TITLE_TAG}</title>`],
-    ['meta description', `<meta name="description" content="${META_DESCRIPTION}" />`],
+    ['<title>', `<title>${escapeHtml(TITLE_TAG)}</title>`],
+    ['meta description', `<meta name="description" content="${escapeHtml(META_DESCRIPTION)}" />`],
     ['canonical', `<link rel="canonical" href="${CANONICAL_URL}" />`],
     ['og:url', `<meta property="og:url" content="${CANONICAL_URL}" />`],
     ['og:image', `<meta property="og:image" content="${OG_IMAGE_URL}" />`],
-    ['og:title = <title>', `<meta property="og:title" content="${TITLE_TAG}" />`],
+    ['og:title = <title>', `<meta property="og:title" content="${escapeHtml(TITLE_TAG)}" />`],
     ['twitter:image', `<meta name="twitter:image" content="${OG_IMAGE_URL}" />`],
     ['og:image:alt', `<meta property="og:image:alt" content="${OG_IMAGE_ALT}" />`],
   ];
