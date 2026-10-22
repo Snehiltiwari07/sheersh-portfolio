@@ -1,0 +1,70 @@
+/* The supplied palettes, applied as one visual system across the whole page. */
+.editorial { isolation: isolate; }
+.page-reading-line { position: fixed; inset: 0 0 auto; height: .18rem; background: var(--warm-accent); transform: scaleX(var(--page-progress, 0)); transform-origin: left; z-index: 90; pointer-events: none; }
+.editorial-hero { position: relative; isolation: isolate; background: var(--hero-surface); color: var(--hero-foreground); overflow: clip; border-radius: 1.2rem; }
+.editorial-hero::before { content: ''; position: absolute; width: 70%; height: 150%; top: -35%; right: -15%; background: var(--sky-surface); border-radius: 50%; opacity: .34; transform: translateY(calc(var(--hero-out, 0) * 12rem)) rotate(-28deg); z-index: -1; }
+.editorial-hero .eyebrow, .hero-intro, .editorial-hero .availability { color: var(--hero-secondary); }
+.editorial h1 .serif-line { color: var(--hero-emphasis); }
+.editorial-hero .text-link { color: var(--hero-foreground); border-color: var(--portrait-orbit); }
+.editorial .editorial-hero .ink-button, .editorial .contact-section .ink-button { background: var(--cta-bg); color: var(--cta-text); border-color: var(--cta-bg); }
+.editorial-hero .availability > span { color: var(--hero-emphasis); }
+.hero-copy { position: relative; transform: translate3d(0, calc(var(--hero-out, 0) * -2rem), 0); }
+.editorial .hero-visual { animation: none !important; position: relative; background: var(--paper-white); box-shadow: var(--editorial-shadow); transform: perspective(65rem) translate3d(calc(var(--hero-out, 0) * -2rem), calc(var(--hero-out, 0) * 3rem), 0) rotateY(calc(-7deg + var(--hero-out, 0) * 14deg)) rotateZ(calc(2deg - var(--hero-out, 0) * 6deg)); overflow: visible; }
+.hero-visual::before, .hero-visual::after { content: ''; position: absolute; inset: 0; border-radius: inherit; z-index: -1; pointer-events: none; }
+.hero-visual::before { background: var(--portrait-back); transform: translate(1.5rem, -.8rem) rotate(calc(5deg + var(--hero-out, 0) * 5deg)); }
+.hero-visual::after { background: var(--sun-surface); transform: translate(-1rem, 1rem) rotate(calc(-5deg - var(--hero-out, 0) * 3deg)); }
+.hero-visual img { position: relative; transform: translateY(calc(var(--hero-out, 0) * -.5rem)); }
+.portrait-signature { color: var(--ink); }
+.portrait-orbit { position: absolute; inset: -2rem -3rem; border: var(--hairline) solid var(--portrait-orbit); border-radius: 50%; transform: rotate(calc(-25deg + var(--hero-out, 0) * 50deg)); pointer-events: none; z-index: -2; }
+.portrait-spark { position: absolute; z-index: 3; color: var(--hero-emphasis); pointer-events: none; }
+.spark-one { left: -2.2rem; top: 15%; font-size: 2.6rem; transform: translateY(calc(var(--hero-out, 0) * -4rem)) rotate(calc(var(--hero-out, 0) * 120deg)); }
+.spark-two { right: -1.5rem; bottom: 9%; font-size: 2.5rem; color: var(--warm-accent); transform: translateY(calc(var(--hero-out, 0) * 4rem)) rotate(calc(var(--hero-out, 0) * -90deg)); }
+.crew-feature { background: var(--accent-paper); }
+.crew-diagram { transform-origin: 50% 75%; }
+.review-stage { background: var(--hero-blue); color: var(--hero-text); }
+.review-stars, .quote-mark { color: var(--hero-text); }
+.review-controls { border-color: var(--hero-muted); }
+.review-controls button { border-color: var(--hero-muted); color: var(--hero-text); }
+.review-controls button:hover { background: var(--hero-text); color: var(--hero-blue); }
+.all-reviews-grid .review-stars { color: var(--accent-ink); }
+.contact-section { position: relative; isolation: isolate; background: var(--hero-surface); color: var(--hero-foreground); overflow: clip; }
+.contact-section::before { content: ''; position: absolute; width: 35rem; height: 35rem; right: -15rem; bottom: -24rem; border-radius: 50%; background: var(--warm-accent); transform: translateY(calc((1 - var(--section-enter, 1)) * 8rem)); opacity: .3; z-index: -1; }
+.contact-section .eyebrow, .contact-section p:not(.eyebrow) { color: var(--hero-secondary); }
+.contact-section h2 em { color: var(--hero-emphasis); }
+.contact-email { color: var(--hero-foreground) !important; }
+.process-list > div:nth-child(2) .note-index { color: var(--sky-ink); }
+.enquiry-panel .ink-button { background: var(--cta-bg); color: var(--cta-text); }
+.jiya-header { background: var(--accent-paper); }
+.jiya-form button { background: var(--cta-bg); color: var(--cta-text); }
+.brand-symbol { background: var(--cta-bg); color: var(--cta-text); }
+:root[data-theme='dark'] .editorial-hero .ink-button, :root[data-theme='dark'] .contact-section .ink-button { background: var(--cta-bg); color: var(--cta-text); }
+:root[data-theme='dark'] .review-controls button:hover { background: var(--hero-text); color: var(--hero-blue); }
+.theme-switch:hover { background: var(--accent-paper); }
+.page-motion-enabled [data-choreography] { opacity: 1; transform: none; }
+.page-motion-enabled .section-heading { opacity: clamp(.12, calc(var(--section-enter, 1) * 1.5), 1); transform: translate3d(0, calc((1 - var(--section-enter, 1)) * 2.7rem), 0); transition: none; }
+.page-motion-enabled [data-motion-item] { animation: none !important; opacity: clamp(.08, calc(var(--motion-enter, 1) * 1.6), 1); transform: translate3d(0, calc((1 - var(--motion-enter, 1)) * 2.8rem), 0); transition: border-color var(--dur-base); }
+.page-motion-enabled .work-card[data-motion-item]:nth-child(even) { transform: translate3d(0, calc((1 - var(--motion-enter, 1)) * 4.2rem), 0); }
+.page-motion-enabled .crew-feature { transform: translate3d(0, calc((1 - var(--motion-enter, 1)) * 3rem), 0) scale(calc(.96 + var(--motion-enter, 1) * .04)); }
+.page-motion-enabled .crew-diagram { transform: perspective(55rem) rotateY(calc((1 - var(--section-enter, 1)) * -16deg)) rotateX(calc((1 - var(--section-enter, 1)) * 8deg)); }
+.page-motion-enabled .review-stage { transform: translate3d(0, calc((1 - var(--motion-enter, 1)) * 2rem), 0) scale(calc(.96 + var(--motion-enter, 1) * .04)); }
+.page-motion-enabled .service-row[data-motion-item] { transform: translate3d(calc((1 - var(--motion-enter, 1)) * 1.8rem), calc((1 - var(--motion-enter, 1)) * 1rem), 0); }
+.page-motion-enabled .about-photo img { animation: none !important; transform: perspective(55rem) rotateY(calc((1 - var(--motion-enter, 1)) * 8deg)) scale(calc(1.04 - var(--motion-enter, 1) * .04)); }
+.page-motion-enabled .about-section > div:last-child { transform: translateY(calc((1 - var(--section-enter, 1)) * 3rem)); }
+.page-motion-enabled .contact-section > h2 { transform: translate3d(0, calc((1 - var(--section-enter, 1)) * 3rem), 0); opacity: clamp(.15, calc(var(--section-enter, 1) * 1.4), 1); }
+.page-motion-enabled [data-motion-item]:focus-within { opacity: 1; transform: none; }
+.editorial .work-card h3 { transition: color var(--dur-base); }
+.editorial .work-card:hover h3 { color: var(--accent-ink); }
+@media (max-width: 53.124em) {
+  .portrait-orbit { inset: -1rem -1.5rem; }
+  .spark-one { left: -1rem; font-size: 1.8rem; }
+  .spark-two { right: -.8rem; font-size: 1.8rem; }
+  .page-motion-enabled [data-motion-item], .page-motion-enabled .work-card[data-motion-item]:nth-child(even), .page-motion-enabled .service-row[data-motion-item] { transform: translateY(calc((1 - var(--motion-enter, 1)) * 1.1rem)); }
+  .editorial .hero-visual { transform: translateY(calc(var(--hero-out, 0) * 1.5rem)) rotateZ(calc(1deg - var(--hero-out, 0) * 3deg)); }
+  .hero-visual::before { transform: translate(.8rem, -.6rem) rotate(4deg); }
+  .hero-visual::after { transform: translate(-.6rem, .7rem) rotate(-4deg); }
+}
+@media (prefers-reduced-motion: reduce) {
+  .hero-copy, .editorial .hero-visual, .hero-visual img, .portrait-orbit, .portrait-spark, .hero-visual::before, .hero-visual::after { transform: none; }
+  .portrait-orbit, .portrait-spark, .hero-visual::before, .hero-visual::after { display: none; }
+  .page-motion-enabled [data-motion-item], .page-motion-enabled .section-heading, .page-motion-enabled .about-section > div:last-child, .page-motion-enabled .contact-section > h2 { transform: none; opacity: 1; }
+}

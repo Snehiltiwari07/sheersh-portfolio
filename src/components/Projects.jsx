@@ -78,7 +78,7 @@ const TECH_BANNERS = {
   )
 };
 
-const PROJECT_CAROUSEL = [
+export const PROJECT_CAROUSEL = [
   {
     id: 'ai-lead-hunter-pipeline',
     title: 'Autonomous AI Lead Hunter & Proposal Pipeline',
@@ -239,7 +239,7 @@ WHERE is_deleted IS FALSE;
 
 -- EXPLAIN ANALYZE Summary:
 -- Result: Index Only Scan on idx_sample_records_covering
--- Heap Fetches: 0 | Total Execution Time: 6.012 ms`
+-- Heap Fetches: 0 | Total Execution Time: 6012 ms`
   },
   {
     id: 'local-cortex',

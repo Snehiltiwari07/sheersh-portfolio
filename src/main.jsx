@@ -1,10 +1,14 @@
 import React from 'react';
 import ReactDOM from 'react-dom/client';
 import App from './App.jsx';
+import { ThemeProvider } from './context/ThemeContext';
 import './index.css';
 
-ReactDOM.createRoot(document.getElementById('root')).render(
+const application = (
   <React.StrictMode>
-    <App />
+    <ThemeProvider><App /></ThemeProvider>
   </React.StrictMode>
 );
+const root = document.getElementById('root');
+if (root.hasChildNodes()) ReactDOM.hydrateRoot(root, application);
+else ReactDOM.createRoot(root).render(application);

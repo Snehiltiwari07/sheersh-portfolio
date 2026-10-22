@@ -1,0 +1,5 @@
+Technology marks identify the tools described in this portfolio. They belong to their respective owners.
+
+Devicon SVGs: https://github.com/devicons/devicon (MIT; see DEVICON-LICENSE.txt).
+Ollama and DeepSeek SVGs: https://github.com/simple-icons/simple-icons (CC0-1.0).
+Concept icons (algorithms, APIs, pipelines, agents, AI) are original portfolio UI symbols and do not represent official brand marks.

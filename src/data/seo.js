@@ -14,6 +14,7 @@
 import { TITLE_TAG, TAGLINE, META_DESCRIPTION } from './positioning.js';
 import { profile } from './profile.js';
 import { SITE_URL } from './site.js';
+import { getSearchPage, normalizePath, searchPages } from './searchPages.js';
 
 /** Trailing slash: the canonical form of the single-page site. */
 export const CANONICAL_URL = `${SITE_URL}/`;
@@ -22,7 +23,7 @@ export const CANONICAL_URL = `${SITE_URL}/`;
 export const OG_IMAGE_URL = `${SITE_URL}/og-image.png`;
 export const OG_IMAGE_WIDTH = 1200;
 export const OG_IMAGE_HEIGHT = 630;
-export const OG_IMAGE_ALT = `${TAGLINE} — 200M-record database performance, measured.`;
+export const OG_IMAGE_ALT = 'Sheersh Tiwari — Less busywork. More possibility. AI workflows and custom software.';
 
 /** og:type — a person's profile page, not a generic website. */
 export const OG_TYPE = 'profile';
@@ -34,6 +35,7 @@ export const OG_TYPE = 'profile';
 export const PERSON_JSON_LD = {
   '@context': 'https://schema.org',
   '@type': 'Person',
+  '@id': `${SITE_URL}/#person`,
   name: profile.name,
   jobTitle: TAGLINE,
   description: META_DESCRIPTION,
@@ -47,6 +49,7 @@ export const PERSON_JSON_LD = {
     addressCountry: 'IN',
   },
   sameAs: [profile.linkedin, profile.github].filter(Boolean),
+  knowsAbout: ['AI workflows', 'Custom software', 'API integrations', 'SQL optimization', 'Database performance'],
 };
 
 /** Pretty-printed so a human reading view-source can audit it. */
@@ -54,3 +57,35 @@ export const jsonLd = () => JSON.stringify(PERSON_JSON_LD, null, 2);
 
 /** Guard: the injected values must not silently become an empty string. */
 export const TITLE_FOR_CRAWLER = TITLE_TAG;
+
+export function metadataForPath(path) {
+  const normalized = normalizePath(path);
+  if (normalized === '/') return { title: TITLE_TAG, description: META_DESCRIPTION, canonical: CANONICAL_URL, type: OG_TYPE, schema: PERSON_JSON_LD, robots: 'index,follow,max-image-preview:large' };
+  const page = getSearchPage(normalized);
+  if (!page) return { title: 'Page Not Found | Sheersh Tiwari', description: 'This address does not match a page in Sheersh Tiwari’s portfolio.', canonical: null, type: 'website', schema: null, robots: 'noindex,follow' };
+  const canonical = `${SITE_URL}${page.path}`;
+  const entityId = `${canonical}#${page.kind === 'service' ? 'service' : 'article'}`;
+  const entity = page.kind === 'service' ? {
+    '@type': 'Service', '@id': entityId, name: page.heading, description: page.summary,
+    url: canonical, provider: { '@id': PERSON_JSON_LD['@id'] }, serviceType: page.label,
+  } : {
+    '@type': 'Article', '@id': entityId, headline: page.heading, description: page.summary,
+    url: canonical, mainEntityOfPage: { '@id': `${canonical}#page` }, author: { '@id': PERSON_JSON_LD['@id'] },
+    articleBody: page.sections.flatMap(section => [section.title, ...(section.paragraphs || []), ...(section.items || [])]).join('\n\n'),
+  };
+  return {
+    title: page.title, description: page.description, canonical, type: page.kind === 'service' ? 'website' : 'article', robots: 'index,follow,max-image-preview:large',
+    schema: { '@context': 'https://schema.org', '@graph': [
+      PERSON_JSON_LD,
+      { '@type': 'WebSite', '@id': `${SITE_URL}/#website`, url: CANONICAL_URL, name: profile.name, publisher: { '@id': PERSON_JSON_LD['@id'] } },
+      { '@type': 'WebPage', '@id': `${canonical}#page`, url: canonical, name: page.title, description: page.description, isPartOf: { '@id': `${SITE_URL}/#website` }, mainEntity: { '@id': entityId }, breadcrumb: { '@id': `${canonical}#breadcrumbs` } },
+      entity,
+      { '@type': 'BreadcrumbList', '@id': `${canonical}#breadcrumbs`, itemListElement: [
+        { '@type': 'ListItem', position: 1, name: 'Home', item: CANONICAL_URL },
+        { '@type': 'ListItem', position: 2, name: page.label, item: canonical },
+      ] },
+    ] },
+  };
+}
+
+export const crawlablePaths = ['/', ...searchPages.map(page => page.path)];

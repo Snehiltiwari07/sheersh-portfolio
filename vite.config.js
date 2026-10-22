@@ -1,8 +1,11 @@
-import { defineConfig } from 'vite';
+import { defineConfig, loadEnv } from 'vite';
+import chatHandler from './api/chat.js';
 import react from '@vitejs/plugin-react';
 import compression from 'vite-plugin-compression';
 import { TITLE_TAG, META_DESCRIPTION } from './src/data/positioning.js';
 import { CANONICAL_URL, OG_TYPE, OG_IMAGE_URL, OG_IMAGE_WIDTH, OG_IMAGE_HEIGHT, OG_IMAGE_ALT, jsonLd } from './src/data/seo.js';
+import { applyMetadata, escapeHtml } from './scripts/page-html.mjs';
+import { searchRouting } from './scripts/search-routing.mjs';
 
 /**
  * T-014 — index.html ships the crawler-facing metadata (`<title>`, meta
@@ -33,7 +36,7 @@ function positioningHtml() {
     name: 'positioning-html',
     transformIndexHtml: {
       order: 'pre',
-      handler(html) {
+      handler(html, context) {
         let out = html;
         for (const [token, value] of Object.entries(HTML_TOKENS)) {
           // replacer function, not a string: a '$&' inside a value would be
@@ -46,8 +49,32 @@ function positioningHtml() {
             `index.html: unresolved placeholder ${leftover[0]} — add it to HTML_TOKENS in vite.config.js`
           );
         }
+        const path = new URL(context?.originalUrl || context?.path || '/', 'http://vite.local').pathname;
+        out = applyMetadata(out, path === '/index.html' ? '/' : path);
+        if (process.env.GOOGLE_SITE_VERIFICATION) out = out.replace('</head>', `<meta name="google-site-verification" content="${escapeHtml(process.env.GOOGLE_SITE_VERIFICATION)}" /></head>`);
         return out;
       },
+    },
+  };
+}
+
+function localChat() {
+  return {
+    name: 'local-chat-api',
+    configureServer(server) {
+      const env = loadEnv(server.config.mode, process.cwd(), 'GROQ_');
+      for (const name of ['GROQ_API_KEY', 'GROQ_MODEL']) if (!process.env[name] && env[name]) process.env[name] = env[name];
+      server.middlewares.use('/api/chat', async (req, res) => {
+        let raw = '';
+        for await (const chunk of req) {
+          raw += chunk;
+          if (Buffer.byteLength(raw) > 16_384) { res.statusCode = 413; res.end('Request too large'); return; }
+        }
+        req.body = raw;
+        res.status = code => { res.statusCode = code; return res; };
+        res.json = data => { res.setHeader('Content-Type', 'application/json'); res.end(JSON.stringify(data)); };
+        await chatHandler(req, res);
+      });
     },
   };
 }
@@ -55,6 +82,8 @@ function positioningHtml() {
 export default defineConfig({
   plugins: [
     positioningHtml(),
+    searchRouting(),
+    localChat(),
     react(),
     // Pre-compress build assets into Brotli (.br) and Gzip (.gz)
     compression({ algorithm: 'brotliCompress', ext: '.br' }),

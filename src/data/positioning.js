@@ -22,33 +22,33 @@
 export const CONCEPT = 'The site performs the way he makes systems perform.';
 
 // Hero H1 value proposition — the single idea made literal.
-export const HEADLINE = 'I make slow systems fast.';
+export const HEADLINE = 'Less busywork. More possibility.';
 
 // The proof line rendered directly under the headline (PRD §4.3 UVP).
 export const PROOF_LINE = '200M records: 15 minutes → 6 seconds, 92% less CPU.';
 
 // The ONE role descriptor used everywhere a title/tagline appears.
-export const TAGLINE = 'Full-Stack Engineer · Database Performance Specialist';
+export const TAGLINE = 'Independent Engineer · AI Workflows & Custom Software';
 
 // <title> and OG/social title.
 export const TITLE_TAG =
-  'Sheersh Tiwari — Full-Stack Engineer & Database Performance Specialist';
+  'Sheersh Tiwari — AI Workflows, Custom Software & Database Performance';
 
 // <meta name="description"> — answer-first, ~155 chars, keyword-rich for SEO.
 export const META_DESCRIPTION =
-  'Sheersh Tiwari — full-stack engineer who makes slow enterprise databases fast: 200M records from 15 min to 6 sec, 92% less CPU. 18+ contracts, 4.85★.';
+  'Independent engineer building AI workflows, internal tools, and dependable software. Explore कामCREW and database performance work. Discuss your project with Sheersh.';
 
 // Availability badge (Hero + Footer share one line).
 export const AVAILABILITY =
-  'Available for Full-Stack & Database Performance Contracts';
+  'Available for select remote projects';
 
 // Footer brand paragraph — outcome-led, same voice as the summary.
 export const FOOTER_BRAND =
-  'Full-stack engineer who makes slow enterprise systems fast — 200M+ record performance tuning, Spring Boot microservices, and client-side AI.';
+  'Independent engineering for useful AI workflows, custom software, and faster databases.';
 
 // profile.summary — the long-form bio in src/data/profile.js.
 export const SUMMARY =
-  'Full-stack engineer who makes slow enterprise systems fast — 200M+ record datasets from 15 minutes to 6 seconds, 92% less CPU, across high-throughput backend services and React frontends.';
+  'Independent engineer building AI workflows, internal tools, and dependable backend systems. Creator of कामCREW, with database performance work across 200M+ records.';
 
 // Alt text for the portrait photographs (Hero + src/data/image-manifest.js).
 // Name plus the ONE role line — so a screen reader or an image search does not

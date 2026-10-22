@@ -1,0 +1,123 @@
+/* Quieter surfaces and fewer competing frames; details remain available on demand. */
+.theme-switch { width: 2.65rem; height: 2.65rem; display: grid; place-items: center; flex-shrink: 0; border: var(--hairline) solid var(--rule); border-radius: 50%; background: var(--paper-white); color: var(--ink); margin-left: .5rem; transition: background var(--dur-base), transform var(--dur-base); }
+.theme-switch svg { width: 1.15rem; height: 1.15rem; }
+.theme-switch:hover { background: var(--accent-paper); transform: rotate(-12deg); }
+.editorial main, .site-header, .editorial-footer { width: 80%; max-width: none; margin-inline: auto; }
+.editorial-hero { padding: clamp(2rem, 4vw, 5rem); min-height: calc(100svh - 8rem); }
+.specialty-strip, .portrait-label, .photo-note { display: none; }
+.portrait-signature { font-family: var(--editorial-sans); font-style: normal; font-size: 1rem; padding-block: .8rem .3rem; }
+.hero-visual { transform: rotate(1deg); border-radius: .8rem; width: 100%; max-width: 29rem; justify-self: end; }
+.hero-visual img { aspect-ratio: 4/4.7; }
+.hero-copy > .eyebrow { letter-spacing: .07em; }
+.track-record { grid-template-columns: repeat(3, minmax(0, 1fr)); padding-block: 2.2rem; margin-top: 2rem; border-top: 0; }
+.track-record > div { align-items: center; padding-left: 0; border-right: var(--hairline) solid var(--rule); }
+.track-record > div:last-child { border-right: 0; }
+.track-record strong { font-size: 2rem; }
+.section-space { padding-top: 5rem; }
+.section-heading { margin-bottom: 2.5rem; }
+.section-heading > p:last-child { max-width: 20rem; font-size: .85rem !important; }
+.crew-feature { border-radius: .7rem; }
+.feature-copy { padding: 2.6rem; }
+.feature-tag { letter-spacing: .025em; }
+.diagram-footnote, .diagram-caption { display: none; }
+.crew-diagram { transform: none; box-shadow: none; background: transparent; }
+.diagram-center { margin-top: 0; }
+.diagram-nodes > div { background: var(--paper-white); }
+.work-toolbar > p > span { display: none; }
+.work-filters button { border: 0; border-radius: .2rem; background: transparent; }
+.work-filters button[aria-pressed='true'] { color: var(--accent-ink); background: var(--accent-paper); }
+.project-grid { gap: 0 2.5rem; }
+.work-card { padding: 1.8rem 0; border: 0; border-bottom: var(--hairline) solid var(--rule); border-radius: 0; background: transparent; box-shadow: none; }
+.work-card:hover { transform: none; box-shadow: none; border-color: var(--accent-ink); }
+.work-card-top, .tone-1 .work-card-top, .tone-2 .work-card-top { margin: 0 0 .8rem; padding: 0; background: transparent; color: var(--accent-ink); border-radius: 0; }
+.work-card-top > span:last-child { display: none; }
+.work-card h3 { font-size: 1.3rem; min-height: 0; }
+.work-card-description { -webkit-line-clamp: 2; }
+.work-stack { display: none; }
+.work-card summary { border-top: 0; padding-top: .2rem; font-size: .8rem; }
+.project-detail pre { background: var(--deep-surface); color: var(--hero-text); }
+.gallery-more { display: flex; justify-content: space-between; gap: 1rem; align-items: center; margin-top: 1.5rem; }
+.gallery-more > span { color: var(--ink-soft); font-size: .75rem; }
+.gallery-more button { border-color: var(--rule); }
+.service-number { background: transparent; border: var(--hairline) solid var(--rule); color: var(--ink-soft); }
+.service-row { gap: 1.5rem; }
+.service-row > div > .eyebrow { font-family: var(--editorial-sans); text-transform: none; font-size: .8rem; letter-spacing: 0; }
+.service-row h3 { font-size: 1.5rem; }
+.service-row .text-link { font-size: .8rem; }
+.review-stage { background: var(--deep-surface); color: var(--hero-text); border-radius: .7rem; }
+.quote-mark { font-size: 4.5rem; }
+.review-content blockquote { font-size: clamp(1.2rem, 2vw, 1.6rem); }
+.review-service { display: none; }
+.archive-group { border-block: var(--hairline) solid var(--rule); }
+.archive-group > summary { cursor: pointer; display: flex; justify-content: space-between; gap: 2rem; align-items: center; padding-block: 1.6rem; font-size: 1.1rem; letter-spacing: -.02em; }
+.archive-group > summary > span:last-child { color: var(--ink-soft); font-size: .75rem; letter-spacing: 0; }
+.archive-group > .section-heading { display: none; }
+.archive-group > .achievement-list, .archive-group > .career-list { padding-top: 1rem; }
+.achievements-section.section-space { padding-top: 3rem; }
+.process-list > div { background: transparent; border: 0; border-top: var(--hairline) solid var(--rule); border-radius: 0; padding: 1.5rem 0 0; }
+.process-list h3 { font-size: 1.05rem; }
+.process-list p { font-size: .85rem; }
+.experience-section.section-space { padding-top: 3rem; }
+.section-space { padding-top: clamp(4rem, 8svh, 7rem); }
+.contact-section { min-height: 70svh; align-content: center; }
+.about-links a { color: var(--accent-ink); }
+.explorations-section { padding: 2rem 0; border-radius: 0; background: transparent; border-block: var(--hairline) solid var(--rule); }
+.explorations-section h2 { font-size: 2rem; }
+.explorations-section h3 { font-size: 1rem; }
+.whatsapp-contact { position: fixed; bottom: 1.4rem; left: 1.4rem; z-index: 60; display: inline-flex; align-items: center; gap: .6rem; padding: .8rem 1rem; border-radius: 3rem; background: var(--whatsapp-bg); color: var(--whatsapp-text); box-shadow: var(--editorial-shadow); font-family: var(--editorial-sans); font-size: .8rem; transition: transform var(--dur-base); }
+.whatsapp-contact svg { width: 1.4rem; height: 1.4rem; }
+.whatsapp-contact:hover { transform: translateY(-.2rem); }
+.whatsapp-contact:focus-visible { outline: var(--editorial-focus); outline-offset: .2rem; }
+.ch2-icon.ch2-visible { bottom: 5.8rem !important; }
+.full-track-record { display: grid; grid-template-columns: repeat(3, minmax(0, 1fr)); gap: 1.5rem; padding-block: 1.5rem; }
+.full-track-record strong { display: block; color: var(--accent-ink); font-size: 1.4rem; font-weight: 500; }
+.full-track-record span { color: var(--ink-soft); font-size: .7rem; }
+.jiya-dog-avatar { width: 2.6rem; height: 2.6rem; border-radius: 50%; object-fit: cover; flex-shrink: 0; }
+.jiya-identity { display: flex; gap: .7rem; align-items: center; }
+.jiya-header h2 { font-size: .95rem; }
+.jiya-header p { font-size: .62rem; }
+.jiya-launcher { padding: .4rem 1rem .4rem .4rem; border-color: var(--rule); }
+.jiya-header .jiya-dog-avatar { width: 2.8rem; height: 2.8rem; }
+:root[data-theme='dark'] .editorial { background: var(--paper); }
+:root[data-theme='dark'] body { background: var(--paper); color: var(--ink); }
+:root[data-theme='dark'] .review-controls button, :root[data-theme='dark'] .review-person strong { color: var(--hero-text); }
+:root[data-theme='dark'] .review-avatar, :root[data-theme='dark'] .brand-symbol { background: var(--hero-blue); color: var(--hero-text); }
+:root[data-theme='dark'] .jiya-form button { background: var(--hero-blue); color: var(--hero-text); }
+:root[data-theme='dark'] .hero-actions .ink-button { color: var(--deep-surface); }
+:root[data-theme='dark'] .contact-section .ink-button { color: var(--deep-surface); }
+:root[data-theme='dark'] .hero-visual { background: var(--paper-white); }
+:root[data-theme='dark'] .editorial .header-contact { color: var(--ink); }
+@media (max-width: 62.5em) { .editorial-hero { padding: 2.5rem; } }
+@media (max-width: 43.75em) {
+  .editorial main, .site-header, .editorial-footer { width: 90%; }
+  .site-header { gap: .5rem; }
+  .site-header .header-contact { display: none; }
+  .theme-switch { margin-left: auto; width: 2.4rem; height: 2.4rem; }
+  .menu-toggle { margin-left: .3rem; }
+  .editorial-hero { padding: 1.7rem; min-height: calc(100svh - 6rem); }
+  .hero-visual { justify-self: center; max-width: 18rem; }
+  .hero-visual img { aspect-ratio: 4/4.2; }
+  .track-record { grid-template-columns: repeat(3, minmax(0, 1fr)); gap: .6rem; padding-block: 1.5rem; margin-top: 1rem; }
+  .track-record > div, .track-record > div:nth-child(odd) { padding-left: 0; border-right: var(--hairline) solid var(--rule); }
+  .track-record > div:last-child { border-right: 0; }
+  .track-record strong { font-size: 1.5rem; }
+  .track-record span { font-size: .52rem; text-align: center; }
+  .section-space { padding-top: 3rem; }
+  .section-heading { margin-bottom: 1.5rem; }
+  .feature-copy { padding: 1.5rem; }
+  .crew-diagram { margin: 0 1.2rem 1.5rem; }
+  .project-grid { grid-template-columns: 1fr; }
+  .work-card { padding: 1.4rem 0; }
+  .work-card-top { margin: 0 0 .6rem; }
+  .work-card h3 { font-size: 1.2rem; }
+  .service-row { gap: .8rem; }
+  .archive-group > summary { font-size: .95rem; gap: 1rem; }
+  .archive-group > summary > span:last-child { font-size: .65rem; }
+  .gallery-more button { font-size: .8rem; }
+  .full-track-record { grid-template-columns: repeat(2, minmax(0, 1fr)); }
+  .whatsapp-contact { left: 1rem; bottom: 1rem; width: 3.3rem; height: 3.3rem; padding: 0; justify-content: center; }
+  .whatsapp-contact > span { display: none; }
+  .whatsapp-contact svg { width: 1.55rem; height: 1.55rem; }
+  .jiya-launcher { bottom: 1rem; }
+}
+@media (prefers-reduced-motion: reduce) { .theme-switch, .whatsapp-contact { transition: none; } }
